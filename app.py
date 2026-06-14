@@ -714,12 +714,30 @@ def tambah_bs():
 
         daftar_bs = request.form["kode_bs"]
 
-        for kode_bs in daftar_bs.splitlines():
+        for baris in daftar_bs.splitlines():
 
-            kode_bs = kode_bs.strip()
+            baris = baris.strip()
 
-            if not kode_bs:
+            if not baris:
                 continue
+
+            try:
+
+                kode_bs, target = baris.split(":")
+
+                kode_bs = kode_bs.strip()
+                target = int(target.strip())
+
+            except ValueError:
+
+                flash(
+                    f"Format salah: {baris}",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("tambah_bs")
+                )
 
             bs = BlokSensus(
                 kegiatan_id=int(
@@ -730,9 +748,7 @@ def tambah_bs():
                 ),
                 kecamatan=request.form["kecamatan"],
                 kode_bs=kode_bs,
-                target=int(
-                    request.form["target"]
-                ),
+                target=target,
                 realisasi=0,
                 diperiksa=0,
                 status="Belum"
@@ -741,15 +757,6 @@ def tambah_bs():
             db.session.add(bs)
 
         db.session.commit()
-
-        flash(
-            "BS berhasil ditambahkan",
-            "success"
-        )
-
-        return redirect(
-            url_for("bs")
-        )
 
     return render_template(
         "bs_form.html",

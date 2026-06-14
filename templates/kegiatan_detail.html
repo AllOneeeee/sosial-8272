@@ -111,25 +111,15 @@
 <h3 class="mb-3">📍 Progress per Kecamatan</h3>
 
 <div class="row mb-4">
-
   {% for kec, item in progress_kecamatan.items() %}
 
   <div class="col-md-4 mb-3">
-
     <div class="card border-0 shadow-sm">
-
       <div class="card-body">
-
         <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">{{ kec }}</h5>
 
-          <h5 class="mb-0">
-            {{ kec }}
-          </h5>
-
-          <span class="badge bg-primary">
-            {{ item.target }} Muatan
-          </span>
-
+          <span class="badge bg-primary"> {{ item.target }} Muatan </span>
         </div>
 
         <div class="mb-2">
@@ -138,7 +128,8 @@
           <div class="progress">
             <div
               class="progress-bar bg-success"
-              style="width: {{ item.progress_ppl }}%">
+              style="width: {{ item.progress_ppl }}%"
+            >
               {{ item.progress_ppl }}%
             </div>
           </div>
@@ -150,56 +141,42 @@
           <div class="progress">
             <div
               class="progress-bar bg-warning"
-              style="width: {{ item.progress_pml }}%">
+              style="width: {{ item.progress_pml }}%"
+            >
               {{ item.progress_pml }}%
             </div>
           </div>
         </div>
 
         <div class="row text-center">
-
           <div class="col">
-            <div class="fw-bold">
-              {{ item.target }}
-            </div>
+            <div class="fw-bold">{{ item.target }}</div>
             <small>Target</small>
           </div>
 
           <div class="col">
-            <div class="fw-bold text-success">
-              {{ item.realisasi }}
-            </div>
+            <div class="fw-bold text-success">{{ item.realisasi }}</div>
             <small>Realisasi</small>
           </div>
 
           <div class="col">
-            <div class="fw-bold text-warning">
-              {{ item.diperiksa }}
-            </div>
+            <div class="fw-bold text-warning">{{ item.diperiksa }}</div>
             <small>Diperiksa</small>
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
 
   {% endfor %}
-
 </div>
 <div class="row mb-3">
-
   <div class="col-12">
     <h2 class="mb-3">📊 Monitoring Progress</h2>
   </div>
 
   <div class="col-md-4">
-    <label class="form-label">
-      Cari PPL / BS
-    </label>
+    <label class="form-label"> Cari PPL / BS </label>
 
     <input
       type="text"
@@ -208,11 +185,20 @@
       placeholder="Ketik nama PPL atau BS..."
     />
   </div>
+  <div class="col-md-2">
+    <label class="form-label"> Filter Kecamatan </label>
+
+    <select id="filterKecamatan" class="form-select">
+      <option value="">Semua</option>
+
+      {% for kec, item in progress_kecamatan.items() %}
+      <option value="{{ kec|lower }}">{{ kec }}</option>
+      {% endfor %}
+    </select>
+  </div>
 
   <div class="col-md-3">
-    <label class="form-label">
-      Filter Progress PPL
-    </label>
+    <label class="form-label"> Filter Progress PPL </label>
 
     <select id="filterPPL" class="form-select">
       <option value="">Semua</option>
@@ -225,9 +211,7 @@
   </div>
 
   <div class="col-md-3">
-    <label class="form-label">
-      Filter Progress PML
-    </label>
+    <label class="form-label"> Filter Progress PML </label>
 
     <select id="filterPML" class="form-select">
       <option value="">Semua</option>
@@ -238,7 +222,6 @@
       <option value="100">100%</option>
     </select>
   </div>
-
 </div>
 
 <table class="table table-bordered table-striped">
@@ -263,8 +246,9 @@
       data-pml="{{ progress_pml }}"
       data-nama="{{ bs.ppl.nama|lower }}"
       data-bs="{{ bs.kode_bs|lower }}"
+      data-kecamatan="{{ bs.kecamatan|lower }}"
     >
-    <td>{{ loop.index }}</td>
+      <td>{{ loop.index }}</td>
       <td>
         <span class="badge bg-primary"> {{ bs.kecamatan }} </span>
       </td>
@@ -328,6 +312,8 @@
 
     const filterPML = document.getElementById("filterPML").value;
 
+    const filterKecamatan = document.getElementById("filterKecamatan");
+
     document.querySelectorAll("tbody tr").forEach((row) => {
       const nama = row.dataset.nama || "";
       const bs = row.dataset.bs || "";
@@ -341,6 +327,15 @@
       const cocokPPL = cocokFilter(ppl, filterPPL);
 
       const cocokPML = cocokFilter(pml, filterPML);
+
+      const kecamatan = row.dataset.kecamatan || "";
+
+      const selectedKecamatan = filterKecamatan.value.toLowerCase();
+
+      if (selectedKecamatan && kecamatan !== selectedKecamatan) {
+        show = false;
+      }
+      filterKecamatan.addEventListener("change", applyFilter);
 
       row.style.display = cocokNama && cocokPPL && cocokPML ? "" : "none";
     });

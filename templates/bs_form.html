@@ -46,31 +46,21 @@
 </div>
 
 <div class="mb-3">
-
-    <label>Daftar BS</label>
+    <label>Daftar BS & Target</label>
 
     <small class="text-muted d-block mb-2">
-        Satu BS per baris
+        Format: Kode BS : Target (1 baris per BS)
     </small>
 
     <textarea
         name="kode_bs"
-        rows="8"
+        rows="10"
         class="form-control"
-        placeholder="Contoh:
-
-SLS 1 Hager
-SLS 3 Tomagoba
-SLS 2 Goto
-SLS 5 Indonesiana"></textarea>
-
+        placeholder="SLS 1 Hager:10
+SLS 1 Goto:16
+SLS 6 Tomagoba:12"></textarea>
 </div>
 
-  <div class="mb-3">
-    <label>Target</label>
-
-    <input name="target" value="10" class="form-control" />
-  </div>
 
   <button class="btn btn-primary">Simpan</button>
       <a href="{{ url_for('bs') }}"
