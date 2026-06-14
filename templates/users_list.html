@@ -15,6 +15,7 @@
 
     <thead>
         <tr>
+            <th width="60">No</th>
             <th>Nama</th>
             <th>Username</th>
             <th>Role</th>
@@ -26,6 +27,7 @@
 
     {% for user in data %}
         <tr>
+            <td>{{ loop.index }}</td>
             <td>{{ user.nama }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.role|upper }}</td>

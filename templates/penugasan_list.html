@@ -17,6 +17,7 @@
 
     <thead>
         <tr>
+            <th width="60">No</th>
             <th>Kegiatan</th>
             <th>PML</th>
             <th>PPL</th>
@@ -28,6 +29,7 @@
 
     {% for p in data %}
         <tr>
+            <td>{{ loop.index }}</td>
 
             <td>
                 {{ p.kegiatan.nama }}

@@ -1,21 +1,16 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h2>{{ kegiatan.nama }}</h2>
 
 <div class="card mb-3">
   <div class="card-body">
-
     <h5>Informasi Kegiatan</h5>
 
     <p>
       <b>Periode :</b>
-      {% if kegiatan.tanggal_mulai and kegiatan.tanggal_selesai %}
-      {{ kegiatan.tanggal_mulai.strftime('%d/%m/%Y') }} -
-      {{ kegiatan.tanggal_selesai.strftime('%d/%m/%Y') }}
-      {% else %}
-      Belum diatur
+      {% if kegiatan.tanggal_mulai and kegiatan.tanggal_selesai %} {{
+      kegiatan.tanggal_mulai.strftime('%d/%m/%Y') }} - {{
+      kegiatan.tanggal_selesai.strftime('%d/%m/%Y') }} {% else %} Belum diatur
       {% endif %}
     </p>
 
@@ -24,7 +19,7 @@
       {{ kegiatan.status }}
     </p>
 
-    <hr>
+    <hr />
 
     <h5>Drive Kegiatan</h5>
 
@@ -38,14 +33,11 @@
       href="{{ url_for('edit_drive', id=kegiatan.id) }}"
       class="btn btn-primary"
     >
-      {% if kegiatan.drive_link %}
-      Ubah Link Drive
-      {% else %}
-      Tambah Link Drive
+      {% if kegiatan.drive_link %} Ubah Link Drive {% else %} Tambah Link Drive
       {% endif %}
     </a>
 
-    <hr>
+    <hr />
 
     <h5>Daftar Anomali</h5>
 
@@ -53,15 +45,12 @@
     <div class="card mb-3">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start">
-
           <div>
             <a href="{{ a.link }}" target="_blank" class="fw-bold">
               {{ a.judul }}
             </a>
-            <br>
-            <small class="text-muted">
-              {{ a.keterangan }}
-            </small>
+            <br />
+            <small class="text-muted"> {{ a.keterangan }} </small>
           </div>
 
           <a
@@ -71,7 +60,6 @@
           >
             Hapus
           </a>
-
         </div>
       </div>
     </div>
@@ -84,7 +72,7 @@
       Tambah Link Anomali
     </a>
 
-    <hr>
+    <hr />
 
     <h5>Link Lainnya</h5>
 
@@ -92,15 +80,12 @@
     <div class="card mb-3">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start">
-
           <div>
             <a href="{{ l.link }}" target="_blank" class="fw-bold">
               {{ l.judul }}
             </a>
-            <br>
-            <small class="text-muted">
-              {{ l.keterangan }}
-            </small>
+            <br />
+            <small class="text-muted"> {{ l.keterangan }} </small>
           </div>
 
           <a
@@ -110,7 +95,6 @@
           >
             Hapus
           </a>
-
         </div>
       </div>
     </div>
@@ -122,12 +106,95 @@
     >
       Tambah Link Lainnya
     </a>
-
   </div>
 </div>
+<h3 class="mb-3">📍 Progress per Kecamatan</h3>
 
+<div class="row mb-4">
+
+  {% for kec, item in progress_kecamatan.items() %}
+
+  <div class="col-md-4 mb-3">
+
+    <div class="card border-0 shadow-sm">
+
+      <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+          <h5 class="mb-0">
+            {{ kec }}
+          </h5>
+
+          <span class="badge bg-primary">
+            {{ item.target }} Muatan
+          </span>
+
+        </div>
+
+        <div class="mb-2">
+          <small>Progress PPL</small>
+
+          <div class="progress">
+            <div
+              class="progress-bar bg-success"
+              style="width: {{ item.progress_ppl }}%">
+              {{ item.progress_ppl }}%
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <small>Progress PML</small>
+
+          <div class="progress">
+            <div
+              class="progress-bar bg-warning"
+              style="width: {{ item.progress_pml }}%">
+              {{ item.progress_pml }}%
+            </div>
+          </div>
+        </div>
+
+        <div class="row text-center">
+
+          <div class="col">
+            <div class="fw-bold">
+              {{ item.target }}
+            </div>
+            <small>Target</small>
+          </div>
+
+          <div class="col">
+            <div class="fw-bold text-success">
+              {{ item.realisasi }}
+            </div>
+            <small>Realisasi</small>
+          </div>
+
+          <div class="col">
+            <div class="fw-bold text-warning">
+              {{ item.diperiksa }}
+            </div>
+            <small>Diperiksa</small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  {% endfor %}
+
+</div>
 <div class="row mb-3">
-  <h2>Monitoring Progress</h2>
+
+  <div class="col-12">
+    <h2 class="mb-3">📊 Monitoring Progress</h2>
+  </div>
 
   <div class="col-md-4">
     <label class="form-label">
@@ -139,7 +206,7 @@
       id="searchNama"
       class="form-control"
       placeholder="Ketik nama PPL atau BS..."
-    >
+    />
   </div>
 
   <div class="col-md-3">
@@ -175,25 +242,21 @@
 </div>
 
 <table class="table table-bordered table-striped">
-
   <thead class="table-dark">
     <tr>
+      <th width="60">No</th>
+      <th>Kecamatan</th>
+      <th>PML</th>
       <th>PPL</th>
       <th>BS</th>
-      <th>Target</th>
-      <th>Realisasi</th>
-      <th>Diperiksa</th>
-      <th>Progress PPL</th>
-      <th>Progress PML</th>
+      <th>Progress</th>
     </tr>
   </thead>
 
   <tbody>
-
-    {% for bs in bs_list %}
-
-    {% set progress_ppl = (bs.realisasi * 100 / bs.target) if bs.target > 0 else 0 %}
-    {% set progress_pml = (bs.diperiksa * 100 / bs.target) if bs.target > 0 else 0 %}
+    {% for bs in bs_list %} {% set progress_ppl = (bs.realisasi * 100 /
+    bs.target) if bs.target > 0 else 0 %} {% set progress_pml = (bs.diperiksa *
+    100 / bs.target) if bs.target > 0 else 0 %}
 
     <tr
       data-ppl="{{ progress_ppl }}"
@@ -201,62 +264,54 @@
       data-nama="{{ bs.ppl.nama|lower }}"
       data-bs="{{ bs.kode_bs|lower }}"
     >
+    <td>{{ loop.index }}</td>
+      <td>
+        <span class="badge bg-primary"> {{ bs.kecamatan }} </span>
+      </td>
+
+      <td>{{ mapping_pml.get(bs.ppl_id, '-') }}</td>
 
       <td>{{ bs.ppl.nama }}</td>
 
-      <td>{{ bs.kode_bs }}</td>
-
-      <td>{{ bs.target }}</td>
-
-      <td>{{ bs.realisasi }}</td>
-
-      <td>{{ bs.diperiksa }}</td>
-
-      <td width="250">
-        <div class="progress">
-          <div
-            class="progress-bar bg-success"
-            role="progressbar"
-            style="width: {{ progress_ppl }}%;"
-          >
-            {{ "%.1f"|format(progress_ppl) }}%
-          </div>
-        </div>
+      <td>
+        <span class="badge bg-secondary"> {{ bs.kode_bs }} </span>
       </td>
 
-      <td width="250">
+      <td width="350">
+        <small> PPL {{ "%.1f"|format(progress_ppl) }}% </small>
+
+        <div class="progress mb-2">
+          <div
+            class="progress-bar bg-success"
+            style="width: {{ progress_ppl }}%"
+          ></div>
+        </div>
+
+        <small> PML {{ "%.1f"|format(progress_pml) }}% </small>
+
         <div class="progress">
           <div
             class="progress-bar bg-warning"
-            role="progressbar"
-            style="width: {{ progress_pml }}%;"
-          >
-            {{ "%.1f"|format(progress_pml) }}%
-          </div>
+            style="width: {{ progress_pml }}%"
+          ></div>
         </div>
       </td>
-
     </tr>
 
     {% endfor %}
-
   </tbody>
-
 </table>
 
-<a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
-  Kembali
-</a>
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary"> Kembali </a>
 
 <script>
-function cocokFilter(nilai, filter) {
-
+  function cocokFilter(nilai, filter) {
     if (!filter) return true;
 
     nilai = parseFloat(nilai);
 
     if (filter === "100") {
-        return nilai >= 100;
+      return nilai >= 100;
     }
 
     const range = filter.split("-");
@@ -264,58 +319,38 @@ function cocokFilter(nilai, filter) {
     const max = parseFloat(range[1]);
 
     return nilai >= min && nilai <= max;
-}
+  }
 
-function applyFilter() {
+  function applyFilter() {
+    const keyword = document.getElementById("searchNama").value.toLowerCase();
 
-    const keyword =
-        document.getElementById("searchNama")
-        .value
-        .toLowerCase();
+    const filterPPL = document.getElementById("filterPPL").value;
 
-    const filterPPL =
-        document.getElementById("filterPPL").value;
+    const filterPML = document.getElementById("filterPML").value;
 
-    const filterPML =
-        document.getElementById("filterPML").value;
+    document.querySelectorAll("tbody tr").forEach((row) => {
+      const nama = row.dataset.nama || "";
+      const bs = row.dataset.bs || "";
 
-    document.querySelectorAll("tbody tr").forEach(row => {
+      const ppl = row.dataset.ppl;
+      const pml = row.dataset.pml;
 
-        const nama = row.dataset.nama || "";
-        const bs = row.dataset.bs || "";
+      const cocokNama =
+        keyword === "" || nama.includes(keyword) || bs.includes(keyword);
 
-        const ppl = row.dataset.ppl;
-        const pml = row.dataset.pml;
+      const cocokPPL = cocokFilter(ppl, filterPPL);
 
-        const cocokNama =
-            keyword === "" ||
-            nama.includes(keyword) ||
-            bs.includes(keyword);
+      const cocokPML = cocokFilter(pml, filterPML);
 
-        const cocokPPL =
-            cocokFilter(ppl, filterPPL);
-
-        const cocokPML =
-            cocokFilter(pml, filterPML);
-
-        row.style.display =
-            (cocokNama && cocokPPL && cocokPML)
-            ? ""
-            : "none";
+      row.style.display = cocokNama && cocokPPL && cocokPML ? "" : "none";
     });
-}
+  }
 
-document
-    .getElementById("searchNama")
-    .addEventListener("keyup", applyFilter);
+  document.getElementById("searchNama").addEventListener("keyup", applyFilter);
 
-document
-    .getElementById("filterPPL")
-    .addEventListener("change", applyFilter);
+  document.getElementById("filterPPL").addEventListener("change", applyFilter);
 
-document
-    .getElementById("filterPML")
-    .addEventListener("change", applyFilter);
+  document.getElementById("filterPML").addEventListener("change", applyFilter);
 </script>
 
 {% endblock %}

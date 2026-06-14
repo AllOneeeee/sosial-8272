@@ -712,22 +712,34 @@ def tambah_bs():
 
     if request.method == "POST":
 
-        bs = BlokSensus(
-            kegiatan_id=int(
-                request.form["kegiatan_id"]
-            ),
-            ppl_id=int(
-                request.form["ppl_id"]
-            ),
-            kode_bs=request.form["kode_bs"],
-            target=int(
-                request.form["target"]
-            ),
-            realisasi=0,
-            status="Belum"
-        )
+        daftar_bs = request.form["kode_bs"]
 
-        db.session.add(bs)
+        for kode_bs in daftar_bs.splitlines():
+
+            kode_bs = kode_bs.strip()
+
+            if not kode_bs:
+                continue
+
+            bs = BlokSensus(
+                kegiatan_id=int(
+                    request.form["kegiatan_id"]
+                ),
+                ppl_id=int(
+                    request.form["ppl_id"]
+                ),
+                kecamatan=request.form["kecamatan"],
+                kode_bs=kode_bs,
+                target=int(
+                    request.form["target"]
+                ),
+                realisasi=0,
+                diperiksa=0,
+                status="Belum"
+            )
+
+            db.session.add(bs)
+
         db.session.commit()
 
         flash(
@@ -771,6 +783,7 @@ def edit_bs(id):
         data.ppl_id = int(
             request.form["ppl_id"]
         )
+        data.kecamatan = request.form["kecamatan"]
 
         data.kode_bs = request.form["kode_bs"]
 
@@ -892,12 +905,54 @@ def detail_kegiatan(id):
         kegiatan_id=id
     ).all()
 
+    penugasan = Penugasan.query.filter_by(
+        kegiatan_id=id
+    ).all()
+
+    mapping_pml = {
+        p.ppl_id: p.pml.nama
+        for p in penugasan
+    }
+
+    progress_kecamatan = {}
+
+    for bs in bs_list:
+
+        kec = bs.kecamatan
+
+        if kec not in progress_kecamatan:
+            progress_kecamatan[kec] = {
+                "target": 0,
+                "realisasi": 0,
+                "diperiksa": 0
+            }
+
+        progress_kecamatan[kec]["target"] += bs.target
+        progress_kecamatan[kec]["realisasi"] += bs.realisasi
+        progress_kecamatan[kec]["diperiksa"] += bs.diperiksa
+
+    for item in progress_kecamatan.values():
+
+        if item["target"] > 0:
+            item["progress_ppl"] = round(
+                item["realisasi"] * 100 / item["target"], 1
+            )
+
+            item["progress_pml"] = round(
+                item["diperiksa"] * 100 / item["target"], 1
+            )
+        else:
+            item["progress_ppl"] = 0
+            item["progress_pml"] = 0
+
     return render_template(
         "kegiatan_detail.html",
         kegiatan=kegiatan,
-        bs_list=bs_list
+        bs_list=bs_list,
+        mapping_pml=mapping_pml,
+        progress_kecamatan=progress_kecamatan
     )
-    
+        
 @app.route(
     "/kegiatan/<int:kegiatan_id>/anomali/tambah",
     methods=["GET", "POST"]

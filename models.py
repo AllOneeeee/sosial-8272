@@ -197,6 +197,11 @@ class BlokSensus(db.Model):
         nullable=False
     )
 
+    kecamatan = db.Column(
+        db.String(50),
+        nullable=False
+    )
+
     kode_bs = db.Column(
         db.String(50),
         nullable=False
@@ -227,8 +232,11 @@ class BlokSensus(db.Model):
     )
 
     ppl = db.relationship(
-        "User"
+        "User",
+        foreign_keys=[ppl_id]
     )
+
+
 
 
 # ==========================

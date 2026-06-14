@@ -1,15 +1,22 @@
 {% extends 'base.html' %} {% block content %}
+<div class="d-flex justify-content-between mb-3">
 
-<h2>Blok Sensus</h2>
+    <h2>Blok Sensus</h2>
 
-<a href="{{ url_for('tambah_bs') }}" class="btn btn-success mb-3">
-  Tambah BS
-</a>
+    <a href="{{ url_for('tambah_bs') }}" class="btn btn-success">
+      Tambah BS
+    </a>
+
+</div>
+
+
 
 <table class="table table-bordered">
   <tr>
+    <th width="60">No</th>
     <th>Kegiatan</th>
     <th>Kode BS</th>
+    <th>Kecamatan</th>
     <th>PPL</th>
     <th>Target</th>
     <th>Realisasi</th>
@@ -20,9 +27,11 @@
   {% for bs in data %}
 
   <tr>
+    <td>{{ loop.index }}</td>
     <td>{{ bs.kegiatan.nama }}</td>
 
     <td>{{ bs.kode_bs }}</td>
+    <td>{{ bs.kecamatan }}</td>
 
     <td>{{ bs.ppl.nama }}</td>
 

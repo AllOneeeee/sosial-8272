@@ -1,79 +1,84 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h2>Blok Sensus</h2>
 
 <form method="POST">
+  <div class="mb-3">
+    <label>Kegiatan</label>
 
-<div class="mb-3">
+    <select name="kegiatan_id" class="form-select searchable">
+      {% for k in kegiatan %}
 
-<label>Kegiatan</label>
+      <option value="{{k.id}}">{{k.nama}}</option>
 
-<select
-    name="kegiatan_id"
-    class="form-control">
+      {% endfor %}
+    </select>
+  </div>
 
-{% for k in kegiatan %}
+  <div class="mb-3">
+    <label>PPL</label>
 
-<option value="{{k.id}}">
-{{k.nama}}
-</option>
+    <select name="ppl_id" class="form-select searchable">
+      {% for p in ppl_list %}
 
-{% endfor %}
+      <option value="{{p.id}}">{{p.nama}}</option>
 
-</select>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+  <label>Kecamatan</label>
 
+  <select name="kecamatan" class="form-control" required>
+    {% set kec = data.kecamatan if data else '' %}
+
+    <option value="">Pilih Kecamatan</option>
+
+    <option value="Tidore" {% if kec == "Tidore" %}selected{% endif %}>Tidore</option>
+    <option value="Tidore Selatan" {% if kec == "Tidore Selatan" %}selected{% endif %}>Tidore Selatan</option>
+    <option value="Tidore Timur" {% if kec == "Tidore Timur" %}selected{% endif %}>Tidore Timur</option>
+    <option value="Tidore Utara" {% if kec == "Tidore Utara" %}selected{% endif %}>Tidore Utara</option>
+    <option value="Oba" {% if kec == "Oba" %}selected{% endif %}>Oba</option>
+    <option value="Oba Selatan" {% if kec == "Oba Selatan" %}selected{% endif %}>Oba Selatan</option>
+    <option value="Oba Tengah" {% if kec == "Oba Tengah" %}selected{% endif %}>Oba Tengah</option>
+    <option value="Oba Utara" {% if kec == "Oba Utara" %}selected{% endif %}>Oba Utara</option>
+  </select>
 </div>
 
 <div class="mb-3">
 
-<label>PPL</label>
+    <label>Daftar BS</label>
 
-<select
-    name="ppl_id"
-    class="form-control">
+    <small class="text-muted d-block mb-2">
+        Satu BS per baris
+    </small>
 
-{% for p in ppl_list %}
+    <textarea
+        name="kode_bs"
+        rows="8"
+        class="form-control"
+        placeholder="Contoh:
 
-<option value="{{p.id}}">
-{{p.nama}}
-</option>
-
-{% endfor %}
-
-</select>
-
-</div>
-
-<div class="mb-3">
-
-<label>Kode BS</label>
-
-<input
-    name="kode_bs"
-    class="form-control">
+SLS 1 Hager
+SLS 3 Tomagoba
+SLS 2 Goto
+SLS 5 Indonesiana"></textarea>
 
 </div>
 
-<div class="mb-3">
+  <div class="mb-3">
+    <label>Target</label>
 
-<label>Target</label>
+    <input name="target" value="10" class="form-control" />
+  </div>
 
-<input
-    name="target"
-    value="10"
-    class="form-control">
+  <button class="btn btn-primary">Simpan</button>
+      <a href="{{ url_for('bs') }}"
+       class="btn btn-secondary">
 
-</div>
+        Kembali
 
-<button
-    class="btn btn-primary">
-
-Simpan
-
-</button>
-
+    </a>
 </form>
 
 {% endblock %}

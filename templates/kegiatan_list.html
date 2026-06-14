@@ -2,19 +2,25 @@
 
 {% block content %}
 
+<div class="d-flex justify-content-between mb-3">
+
 <h3>Daftar Kegiatan</h3>
 
 <a href="{{ url_for('tambah_kegiatan') }}"
-   class="btn btn-success mb-3">
+   class="btn btn-success">
    Tambah Kegiatan
 </a>
+
+</div>
+
+
 
 <table class="table table-bordered">
 
     <thead>
 
         <tr>
-
+            <th width="60">No</th>
             <th>Nama</th>
             <th>Tahun</th>
             <th>Periode</th>
@@ -30,7 +36,7 @@
     {% for k in data %}
 
     <tr>
-
+        <td>{{ loop.index }}</td>
         <td>{{ k.nama }}</td>
 
         <td>{{ k.tahun }}</td>
