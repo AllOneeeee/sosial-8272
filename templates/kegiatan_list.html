@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Daftar Kegiatan</h3>
+
+<a href="{{ url_for('tambah_kegiatan') }}"
+   class="btn btn-success mb-3">
+   Tambah Kegiatan
+</a>
+
+<table class="table table-bordered">
+
+    <thead>
+
+        <tr>
+
+            <th>Nama</th>
+            <th>Tahun</th>
+            <th>Periode</th>
+            <th>Status</th>
+            <th>Aksi</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for k in data %}
+
+    <tr>
+
+        <td>{{ k.nama }}</td>
+
+        <td>{{ k.tahun }}</td>
+
+        <td>
+
+            {% if k.tanggal_mulai and k.tanggal_selesai %}
+
+                {{ k.tanggal_mulai.strftime('%d/%m/%Y') }}
+                -
+                {{ k.tanggal_selesai.strftime('%d/%m/%Y') }}
+
+            {% else %}
+
+                <span class="text-muted">
+                    Belum diatur
+                </span>
+
+            {% endif %}
+
+        </td>
+
+        <td>{{ k.status }}</td>
+
+        <td>
+
+            <a href="{{ url_for('edit_kegiatan', id=k.id) }}"
+               class="btn btn-warning btn-sm">
+
+                Edit
+
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+<a href="{{ url_for('dashboard') }}"
+   class="btn btn-secondary">
+
+    Kembali
+
+</a>
+
+{% endblock %}

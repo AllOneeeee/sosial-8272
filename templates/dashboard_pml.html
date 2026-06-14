@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Dashboard PML</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+
+        <h5>{{ current_user.nama }}</h5>
+
+        <p>
+            Jumlah BS :
+            {{ bs_list|length }}
+        </p>
+
+    </div>
+</div>
+
+<div class="card">
+
+    <div class="card-body p-0">
+
+        <table class="table table-bordered mb-0">
+
+            <thead>
+
+                <tr>
+                    <th>Kegiatan</th>
+                    <th>BS</th>
+                    <th>PPL</th>
+                    <th>Target</th>
+                    <th>Realisasi</th>
+                    <th>Diperiksa</th>
+                    <th width="250">Progress</th>
+                    <th>Aksi</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for bs in bs_list %}
+
+                {% set progress = 0 %}
+
+                {% if bs.realisasi > 0 %}
+                    {% set progress = ((bs.diperiksa / bs.target) * 100)|round(1) %}
+                {% endif %}
+
+                <tr>
+
+                    <td>
+                        {% if bs.kegiatan %}
+                            {{ bs.kegiatan.nama }}
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ bs.kode_bs }}
+                    </td>
+
+                    <td>
+                        {% if bs.ppl %}
+                            {{ bs.ppl.nama }}
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ bs.target }}
+                    </td>
+
+                    <td>
+                        {{ bs.realisasi }}
+                    </td>
+
+                    <td>
+                        {{ bs.diperiksa }}
+                    </td>
+
+                    <td>
+
+                        <div class="progress"
+                             style="height:28px;">
+
+                            <div class="progress-bar bg-warning"
+                                 role="progressbar"
+                                 style="width: {{ progress }}%;">
+
+                                {{ progress }}%
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <a href="{{ url_for('periksa_bs',
+                                            id=bs.id) }}"
+                           class="btn btn-success">
+
+                            Periksa
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="8"
+                        class="text-center">
+
+                        Belum ada data
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

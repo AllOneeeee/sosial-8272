@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+
+    <h3>Penugasan</h3>
+
+    <a href="{{ url_for('tambah_penugasan') }}"
+       class="btn btn-success">
+        Tambah Penugasan
+    </a>
+
+</div>
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th>Kegiatan</th>
+            <th>PML</th>
+            <th>PPL</th>
+            <th width="120">Aksi</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for p in data %}
+        <tr>
+
+            <td>
+                {{ p.kegiatan.nama }}
+            </td>
+
+            <td>
+                {{ p.pml.nama }}
+            </td>
+
+            <td>
+                {{ p.ppl.nama }}
+            </td>
+
+            <td>
+
+                <a href="{{ url_for('hapus_penugasan', id=p.id) }}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Hapus penugasan?')">
+                    Hapus
+                </a>
+
+            </td>
+
+        </tr>
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+<a href="{{ url_for('dashboard') }}"
+   class="btn btn-secondary">
+
+    Kembali
+
+</a>
+
+
+{% endblock %}

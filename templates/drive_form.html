@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Link Drive Kegiatan</h2>
+
+<form method="POST">
+
+    <div class="mb-3">
+
+        <label>Link Drive</label>
+
+        <input
+            type="url"
+            name="drive_link"
+            class="form-control"
+            value="{{ kegiatan.drive_link or '' }}"
+            required>
+
+    </div>
+
+    <button class="btn btn-primary">
+        Simpan
+    </button>
+
+    <a href="{{ url_for(
+        'detail_kegiatan',
+        id=kegiatan.id
+    ) }}"
+       class="btn btn-secondary">
+
+        Kembali
+
+    </a>
+
+</form>
+
+{% endblock %}

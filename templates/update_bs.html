@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Update Realisasi BS</h2>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+    <p>
+        BS :
+        <b>{{ data.kode_bs }}</b>
+    </p>
+
+    <p>
+        Target :
+        <b>{{ data.target }}</b>
+    </p>
+
+    <form method="POST">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Realisasi
+            </label>
+
+            <input
+                type="number"
+                name="realisasi"
+                class="form-control"
+                value="{{ data.realisasi }}"
+                min="0"
+                max="{{ data.target }}"
+                required>
+
+            <small class="text-muted">
+                Maksimal realisasi: {{ data.target }}
+            </small>
+
+        </div>
+
+        <button
+            type="submit"
+            class="btn btn-primary">
+
+            Simpan
+
+        </button>
+
+        <a href="{{ url_for('dashboard') }}"
+           class="btn btn-secondary">
+
+            Kembali
+
+        </a>
+
+    </form>
+
+</div>
+
+</div>
+
+{% endblock %}

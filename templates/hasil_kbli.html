@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container mt-4">
+  <h3>Hasil Prediksi KBLI</h3>
+
+  <div class="alert alert-info">{{ uraian }}</div>
+
+  <h4>Top 5 KBLI</h4>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Kode</th>
+        <th>Uraian</th>
+        <th>Skor</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for item in hasil_kbli %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ item.kode }}</td>
+        <td>{{ item.uraian }}</td>
+        <td>{{ item.score }}%</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h4 class="mt-4">Top 5 KBJI</h4>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Kode</th>
+        <th>Uraian</th>
+        <th>Skor</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for item in hasil_kbji %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ item.kode }}</td>
+        <td>{{ item.uraian }}</td>
+        <td>{{ item.score }}%</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="mt-3">
+    <a href="{{ url_for('kbli') }}" class="btn btn-primary">
+      <i class="bi bi-search"></i>
+      Prediksi KBLI & KBJI Lagi
+      
+    </a>
+      <a href="{{ url_for('dashboard') }}"
+   class="btn btn-secondary">
+
+    Kembali
+
+</a>
+  </div>
+
+
+  {% endblock %}
+</div>

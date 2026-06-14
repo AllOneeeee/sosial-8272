@@ -1,0 +1,400 @@
+﻿kode_kbji,uraian
+2111,Ahli Fisika Dan Astronomi
+0111,Perwira Markas Besar TNI
+2112,Ahli Meteorologi Dan Klimatologi
+0112,Perwira TNI Angkatan Darat
+2113,Ahli Kimia
+0113,Perwira TNI Angkatan Laut
+2114,Ahli Geologi Dan Geofisika
+0114,Perwira TNI Angkatan Udara
+2120,"Ahli Matematika, Aktuaria Dan Statistika"
+0115,Perwira POLRI
+2131,"Ahli Biologi, Botani, Zoologi Dan YBDI"
+0211,Bintara Markas Besar TNI
+2132,"Penasihat Pertanian, Kehutanan Dan Perikanan"
+0212,Bintara TNI Angkatan Darat
+2133,Ahli Perlindungan Lingkungan
+0213,Bintara TNI Angkatan Laut
+2141,Ahli Teknik Industri Dan Produksi
+0214,Bintara TNI Angkatan Udara
+2142,Ahli Teknik Sipil
+0215,Bintara POLRI
+2143,Ahli Teknik Lingkungan
+0311,Tamtama Markas Besar TNI
+2144,Ahli Teknik Mekanika
+0312,Tamtama TNI Angkatan Darat
+2145,Ahli Teknik Kimia
+0313,Tamtama TNI Angkatan Laut
+2146,"Ahli Teknik Pertambangan, Metalurgi Dan YBDI"
+0314,Tamtama TNI Angkatan Udara
+2149,Ahli Teknik Lain YTDL
+0315,Tamtama POLRI
+2151,Ahli Teknik Listrik
+2152,Ahli Teknik Elektronik
+2153,Ahli Teknik Telekomunikasi
+2161,Arsitek Bangunan
+2162,Arsitek Pertamanan/Lansekap
+2163,Perancang Produk Dan Pakaian Jadi
+1111,Pejabat Pembuat Peraturan Perundang-undangan
+2164,Perencana Tata Kota Dan Lalu Lintas
+1112,Pejabat Tinggi Pemerintah
+2165,Ahli Pemetaan Dan Surveyor
+1113,Ketua Adat Dan Kepala Wilayah
+2166,Perancang Grafis Dan Multimedia
+1114,Pimpinan Organisasi Bidang Khusus
+2211,Praktisi Dokter Umum
+1120,Pimpinan Eksekutif Dan Direktur Pelaksana
+2212,Praktisi Dokter Spesialis
+1211,Manajer Keuangan
+2221,Profesional Keperawatan
+1212,Manajer Sumber Daya Manusia
+2222,Profesional Kebidanan
+1213,Manajer Perencanaan Dan Kebijakan
+2230,Profesional Pengobatan Tradisional Dan Komplementer
+1219,Manajer Pelayanan Bisnis Dan Administrasi Bisnis YTDL
+2240,Praktisi Paramedis
+1221,Manajer Penjualan Dan Pemasaran
+2250,Dokter Hewan
+1222,Manajer Periklanan Dan Hubungan Masyarakat
+2261,Dokter Gigi
+1223,Manajer Penelitian Dan Pengembangan
+2262,Apoteker
+1311,Manajer Produksi Pertanian Dan Kehutanan
+2263,Ahli Kesehatan Dan Kebersihan Lingkungan Kerja
+1312,Manajer Produksi Penangkapan Dan Budidaya Ikan
+2264,Ahli Fisioterapi
+1321,Manajer Manufaktur
+2265,Ahli Diet Dan Gizi
+1322,Manajer Pertambangan Dan Penggalian
+2266,Ahli Terapi Pendengaran Dan Terapi Bicara
+1323,Manajer Konstruksi
+2267,Ahli Optometrik Dan Optik Oftalmik
+1324,"Manajer Pengadaan, Distribusi Dan YBDI"
+2269,Ahli Kesehatan YTDL
+1330,Manajer Layanan Teknologi Informasi Dan Komunikasi
+2310,Dosen Universitas Dan Pendidikan Tinggi
+1341,Manajer Jasa Penitipan Anak
+2320,Pengajar Pendidikan Kejuruan
+1342,Manajer Jasa Kesehatan
+2330,Guru Pendidikan Menengah
+1343,Manajer Jasa Perawatan Lansia
+2341,Guru Sekolah Dasar
+1344,Manajer Kesejahteraan Sosial
+2342,Guru Anak Usia Dini
+1345,Manajer Pendidikan
+2351,Spesialis Metode Pendidikan
+1346,Manajer Jasa Keuangan Dan Asuransi
+2352,Guru Siswa Berkebutuhan Khusus
+1349,Manajer Jasa Profesional Lainnya
+2353,Guru Kursus Bahasa
+1411,Manajer Hotel
+2354,Guru Kursus Musik
+1412,Manajer Penyediaan Makanan Dan Minuman
+2355,Guru Kursus Seni
+1420,Manajer Perdagangan Besar Dan Eceran
+2356,Pengajar Teknologi Informasi
+1431,"Manajer Pusat Olahraga, Rekreasi Dan Budaya"
+2359,Profesional Bidang Pendidikan Lainnya YTDL
+1439,Manajer Jasa Lainnya YTDL
+2411,Akuntan
+2412,Konsultan Keuangan Dan Investasi
+2413,Analis Keuangan
+2421,Analis Manajemen Dan Organisasi 3133 Pengawas Mesin Pengolahan Bahan Kimia
+2422,Profesional Kebijakan Administrasi 3134 Pengawas Mesin Pengilangan Minyak Bumi Dan Gas Alam
+2423,Profesional Personalia Dan Karir 3135 Pengawas Proses Produksi Logam
+2424,Profesional Pelatihan Dan Pengembangan Staf 3139 Teknisi Proses Kontrol YTDL
+2431,Profesional Periklanan Dan Pemasaran 3141 Teknisi Ilmu Hayati (Selain Kedokteran)
+2432,Profesional Hubungan Masyarakat 3142 Teknisi Pertanian
+2433,Profesional Penjualan Produk Teknik Dan Kesehatan 3143 Teknisi Kehutanan
+3151,Teknisi Kapal
+2434,Profesional Penjualan Produk Teknologi Komunikasi Dan
+3152,Nakhoda Dan Perwira Geladak Kapal
+3153,Pilot Dan Profesional YBDI
+2511,Analis Sistem
+3154,Pengawas Lalu Lintas Udara
+2512,Pengembang Perangkat Lunak
+3155,Teknisi Perangkat Elektronik Keselamatan Lalu Lintas
+2513,Pengembang Web Dan Multimedia
+2514,Pemrogram Aplikasi
+3211,Teknisi Peralatan Perekam Medis Dan Terapeutik
+2519,Analis Dan Pengembang Perangkat Lunak Dan Aplikasi
+3212,Teknisi Laboratorium Medis Dan Patologi
+3213,Teknisi Farmasi Dan Asisten Apoteker
+2521,Pengelola Dan Perancang Database
+3214,Teknisi Prostetik Medis Dan Gigi
+2522,Pengelola Sistem
+3221,Asisten Profesional Keperawatan
+2523,Profesional Jaringan Komputer
+3222,Asisten Profesional Kebidanan
+2529,Profesional Database Dan Jaringan YTDL
+3230,Asisten Profesional Pengobatan Tradisional Dan
+2611,Pengacara
+2612,Hakim
+3240,Teknisi Dan Asisten Kedokteran Hewan
+2619,Profesional Hukum YTDL
+3251,Asisten Dan Terapis Gigi
+2621,Arsiparis Dan Kurator
+3252,Teknisi Informasi Kesehatan Dan Rekam Medis
+2622,Pustakawan Dan Profesional Informasi YBDI
+3253,Pekerja Kesehatan Masyarakat
+2631,Ahli Ekonomi
+3254,Optisien
+2632,"Ahli Sosiologi, Antropologi Dan Profesional YBDI"
+3255,Teknisi Dan Asisten Fisioterapi
+2633,"Ahli Filsafat, Sejarawan Dan Ahli Politik"
+3256,Asisten Medis
+2634,Psikolog
+3257,Asisten Dan Pengawas Kesehatan Lingkungan Dan
+2635,Profesional Konseling Dan Pekerja Sosial Pekerjaan
+2636,Profesional Pemimpin Keagamaan 3258 Pekerja Ambulan
+2641,Pengarang Dan Penulis YBDI 3259 Asisten Profesional Kesehatan YTDL
+2642,Wartawan 3311 Dealer Dan Broker Sekuritas Dan Keuangan
+2643,"Penerjemah, Alih Bahasa Dan Profesional Bahasa Lainnya 3312 Petugas Kredit Dan Pinjaman"
+2651,Seniman Visual 3313 Asisten Profesional Akuntansi
+2652,"Musisi, Penyanyi Dan Komposer 3314 Asisten Profesional Statistika, Matematika Dan YBDI"
+2653,Penari Dan Koreografer 3315 Juru Taksir Nilai Dan Kerugian
+2654,"Produser Dan Sutradara Film, Pementasan Dan YBDI 3321 Perwakilan Asuransi"
+2655,Aktor 3322 Perwakilan Penjualan Komersial
+2656,"Penyiar Radio, Televisi Dan Media Lainnya 3323 Juru Pembelian"
+2659,Seniman Kreatif Dan Petunjukan YTDL 3324 Broker/Perantara Perdagangan
+3331,Agen Kliring Dan Pengiriman
+3333,Agen Dan Kontraktor Tenaga Kerja
+3334,Agen Real Estate Dan Manajer Properti
+3339,Agen Jasa Bisnis YTDL
+3111,Teknisi Ilmu Kimia Dan Fisika
+3341,Supervisor Kantor
+3112,Teknisi Teknik Bangunan
+3342,Sekretaris Hukum
+3113,Teknisi Teknik Listrik
+3343,Sekretaris Administrasi Dan Eksekutif
+3114,Teknisi Teknik Elektronik
+3344,Sekretaris Medis
+3115,Teknisi Teknik Mekanis
+3351,Pengawas Bea Cukai Dan Perbatasan
+3116,Teknisi Teknik Kimia
+3352,Petugas Pajak Dan Retribusi Pemerintah
+3117,Teknisi Pertambangan Dan Metalurgi
+3353,Pegawai Pemerintah Bidang Jaminan Sosial
+3118,Juru Gambar Teknik
+3354,Pegawai Pemerintah Bidang Perijinan
+3119,Teknisi Ilmu Fisika Dan Teknik YTDL
+3359,Profesional Pemerintahan YTDL
+3121,Supervisor Pertambangan
+3411,Asisten Profesional Hukum Dan YBDI
+3122,Supervisor Manufaktur
+3412,Asisten Profesional Pekerjaan Sosial
+3123,Supervisor Konstruksi
+3413,Asisten Profesional Keagamaan
+3131,Operator Mesin Produksi Tenaga Listrik
+3421,Atlet Dan Olahragawan
+3132,Operator Mesin Pembakaran Sampah Dan Pengolahan Air
+3422,"Pelatih, Instruktur Dan Kru Olahraga"
+3423,"Instruktur Dan Pelatih Program Kebugaran Dan Rekreasi 5151 Pengawas Kebersihan Dan Kerumahtanggan Di Kantor,"
+3431,"Fotografer Hotel, Dan Bangunan Lainnya"
+3432,Desainer Dan Dekorator Interior 5152 Pengurus Kerumahtanggaan
+3433,"Teknisi Galeri, Museum, Dan Perpustakaan 5153 Pengelola Gedung"
+3434,"Chef 5161 Astrolog, Peramal Dan YBDI"
+3435,Asisten Profesional Kesenian Dan Budaya Lainnya 5162 Ajudan Dan Pelayan Pribadi
+3511,Teknisi Operasi Teknologi Informasi Dan Komunikasi 5163 Pengurus Pembalseman Dan Pemakaman Jenazah
+3512,Teknisi Pendukung Penggunaan Teknologi Informasi Dan 5164 Pelatih Dan Pekerja Perawatan Hewan
+3513,Teknisi Jaringan Dan Sistem Komputer 5169 Tenaga Usaha Jasa Perorangan YTDL
+3514,Teknisi WEB 5211 Pedagang Di Kios Dan Los Pasar
+3521,Teknisi Penyiaran Dan Audio-Visual 5212 Pedagang Makanan Kaki Lima
+3522,Teknisi Rekayasa Telekomunikasi 5221 Pemilik Toko
+5222,Supervisor Toko
+5230,Kasir Dan Petugas Tiket
+5241,Model Fesyen Dan Model Lainnya
+5242,Peraga Penjualan
+4110,Tenaga Perkantoran Umum
+5243,Pedagang Rumah Ke Rumah
+4120,Sekretaris
+5244,Pedagang Melalui Pusat Informasi
+4131,Juru Ketik Dan Operator Mesin Pengolah Kata
+5245,Petugas Stasiun Pengisian Bahan Bakar
+4132,Petugas Entri Data
+5246,Petugas Konter Layanan Makanan
+4211,Teller Bank Dan YBDI
+5249,Pekerja Penjualan YTDL
+4212,"Juru Taruh, Bandar, Dan YBDI"
+5311,Pekerja Perawatan Anak
+4213,Juru Gadai Dan Pemberi Pinjaman Uang
+5312,Asisten Pengajar
+4214,Penagih Hutang Dan YBDI
+5321,Asisten Perawatan Kesehatan
+4221,Tenaga Tata Usaha Perjalanan Dan Konsultan Perjalanan
+5322,Pekerja Perawatan Pribadi Di Rumah
+4222,Tenaga Tata Usaha Informasi Pusat Kontak
+5329,Pekerja Perawatan Pribadi Dalam Jasa Kesehatan YTDL
+4223,Operator Telepon
+5411,Petugas Pemadam Kebakaran
+4224,Resepsionis Hotel
+5413,Penjaga Lembaga Pemasyarakatan
+4225,Tenaga Tata Usaha Penerangan
+5414,Penjaga Keamanan
+4226,Resepsionis
+5419,Tenaga Usaha Jasa Perlindungan YTDL
+4227,Pewawancara Survei Dan Penelitian Pasar
+4229,Tenaga Tata Usaha Informasi Pelanggan YTDL
+4311,Juru Tata Usaha Akuntansi Dan Pembukuan
+4312,"Juru Tata Usaha Statistik, Keuangan Dan Asuransi"
+4313,Juru Tata Usaha Penggajian Perikanan
+4321,Juru Tata Usaha Pergudangan
+4322,Juru Tata Usaha Produksi 6111 Pekerja Pertanian Tanaman Pangan Dan Tanaman
+4323,Juru Tata Usaha Transportasi
+6112,Pekerja Pertanian Tanaman Tahunan Dan Tanaman Semak
+4411,Juru Tata Usaha Perpustakaan
+6113,Pekerja Pertanian Tanaman Kebun Bibit Dan Tanaman
+4412,Juru Tata Usaha Pengiriman Dan Penyortiran Surat
+4413,"Juru Kode, Juru Koreksi, Dan YBDI"
+6114,Pekerja Pertanian Tanaman Campuran (Tumpang Sari)
+4414,Juru Tulis Dan YBDI
+6121,Pekerja Peternakan Hewan Besar Dan Kecil Serta Penghasil
+4415,Juru Tata Usaha Pengarsipan Dan Penggandaan
+4416,Juru Tata Usaha Personalia
+6122,Pekerja Peternakan Unggas
+4419,Juru Tata Usaha YTDL
+6123,Pekerja Peternakan Lebah Dan Ulat Sutera
+6129,Pekerja Peternakan YTDL
+6130,Pekerja Campuran Pertanian Dan Peternakan
+6210,Pekerja Kehutanan Dan YBDI
+6221,Pekerja Budidaya Perikanan
+5111,Tenaga Pelayanan Perjalanan 6222 Pekerja Perikanan Tangkap Di Perairan Umum Dan Pesisir
+5112,Kondektur Transportasi 6223 Pekerja Perikanan Tangkap Di Laut Dalam
+5113,Pramuwisata 6224 Pemburu Dan Penangkapan Satwa Liar
+5120,Juru Masak 6310 Petani Subsisten
+5131,Pramusaji 6320 Peternak Subsisten
+5132,Pramutama Bar/Bartender 6330 Petani Dan Peternak (Campuran) Subsisten
+5141,"Penata Rambut 6340 Nelayan, Pemburu, Penangkap Dan Pengumpul Subsisten"
+5142,Perawat Kecantikan/Beautician Dan YBDI
+7521,Pekerja Pengawetan Kayu
+7523,Penyetel Dan Operator Mesin Perkakas Pengolahan Kayu
+7111,Pekerja Bangunan Rumah
+7531,"Pembuat Pakaian, Pakaian Dari Kulit, Dan Penutup Kepala"
+7112,Tukang Tembok Dan YBDI
+7532,Pembuat Dan Pemotong Pola Garmen Dan YBDI
+7113,"Pembelah, Pemotong, Pemecah, Dan Pemahat Batu"
+7533,"Tukang Jahit, Penyulam, Dan YBDI"
+7114,Tukang Beton Dan YBDI
+7534,Pelapis Furnitur (Upholster) Dan YBDI
+7115,Tukang Kayu Bangunan
+7535,"Pembersih Kulit, Penyamak Kulit Dan Pewarna Kulit"
+7119,Pekerja Kerangka Bangunan YTDL
+7536,Pembuat Sepatu Dan YBDI
+7121,Pekerja Atap Bangunan
+7541,Pekerja Bawah Air
+7122,Pekerja Lantai Dan Ubin
+7542,Peledak Dinamit (Pertambangan Dan Penggalian)
+7123,Pekerja Plester
+7543,Penguji Dan Penilai Kualitas Produk (Selain Produk
+7124,Pekerja Isolasi Makanan Dan Minuman)
+7125,Pekerja Kaca 7544 Pengendali Dan Pembasmi Hama Dan Gulma
+7126,Pekerja Perpipaan 7549 Pekerja Pengolahan Lainnya YTDL
+7127,Mekanik Pendingin Udara Dan Lemari Pendingin
+7131,Pekerja Pengecatan Bangunan Dan YBDI GOLONGAN POKOK 8
+7132,Pekerja Cat Semprot Dan Vernis
+7133,Pembersih Bangunan Operator dan Perakit Mesin
+7211,Pelebur Dan Pencetak Inti Logam
+8111,Pekerja Tambang dan Pekerja Penggalian
+7212,Pekerja Pengelasan
+8112,Operator Mesin Pengolahan Bijih Mineral dan Batu
+7213,Pekerja Logam Lembaran
+8113,Pekerja Pengeboran dan Penggalian YBDI
+7214,Pekerja Penyiapan Dan Pemancangan Struktur Logam
+8114,"Operator Mesin Pengolahan Semen, Batu dan Mineral"
+7215,Pemasang Dan Penyambung Tali Kabel
+7221,"Pandai Besi, Pekerja Tempa Dan Press Logam"
+8121,Operator Mesin Pengolahan Logam
+7222,Pembuat Perkakas Dan YBDI
+8122,"Operator Mesin Penyelesaian, Penyepuhan dan Pelapisan"
+7223,Operator Dan Penyetel Mesin Pengerjaan Logam
+7224,"Pemoles Logam, Pengasah, Dan Penajam Perkakas Logam"
+8131,Operator Mesin Pengolahan Bahan Kimia
+7231,Mekanik Dan Tukang Reparasi Kendaraan Bermotor
+8132,Operator Mesin Pengolahan Produk Fotografi
+7232,Mekanik Dan Tukang Reparasi Mesin Pesawat
+8141,Operator Mesin Pengolahan Karet
+7233,Mekanik Dan Tukang Reparasi Mesin Pertanian Dan
+8142,Operator Mesin Pengolahan Plastik
+8143,Operator Mesin Pengolahan Kertas
+7234,Tukang Reparasi Sepeda Dan YBDI
+8151,"Operator Mesin Penyiapan, Pemintalan, dan Penggulungan"
+7311,Pembuat Dan Tukang Reparasi Peralatan Presisi
+7312,Pembuat Dan Penyetem Alat Musik
+8152,Operator Mesin Tenun dan Rajut
+7313,Pekerja Pembuat Perhiasan Dan Barang Dari Logam Mulia
+8153,Operator Mesin Jahit
+7314,Pembuat Tembikar Dan YBDI
+8154,"Operator Mesin Pemutihan, Pencelupan, dan Pembersihan"
+7315,"Pembuat, Pemotong, Pengasah Dan Penyelesai Kaca Kain"
+7316,"Pembuat Papan Tanda, Pelukis Dekoratif, Pengukir, Dan 8155 Operator Mesin Penyiapan Bulu dan Kulit"
+8156,Operator Mesin Pembuat Sepatu dan YBDI
+7317,"Pembuat Kerajinan Dari Kayu, Keranjang Anyaman, Dan"
+8157,Operator Mesin Binatu
+8159,"Operator Mesin Pengolahan Tekstil, Bulu dan Kulit YTDL"
+7318,"Pembuat Kerajinan Dari Tekstil, Kulit, Dan Bahan YBDI"
+8160,Operator Mesin Pengolahan Makanan dan YBDI
+7319,Pembuat Kerajinan YTDL
+8171,Operator Mesin Pengolahan Bubur Kertas dan Pembuatan
+7321,Pekerja Pracetak
+7322,Pekerja Pencetakan
+8172,Operator Mesin Pengolahan Kayu
+7323,Pekerja Penyelesaian Dan Penjilidan Cetakan
+8181,Operator Mesin Pengolahan Kaca dan Keramik
+7411,Pekerja Kelistrikan Bangunan Dan YBDI
+8182,Operator Mesin Uap dan Ketel Uap
+7412,Mekanik Dan Pemasang Peralatan Listrik
+8183,"Operator Mesin Pengisian Botol, Pelabelan, dan"
+7413,Pekerja Instalasi Dan Reparasi Jaringan Listrik Pengemasan
+7421,Pekerja Mekanik Dan Servis Peralatan Elektronik 8189 Operator Mesin Stasioner YTDL
+7422,Pekerja Instalasi Dan Servis Peralatan Teknologi Informasi 8211 Perakit Mesin Mekanik
+8212,Perakit Peralatan Listrik dan Elektronik
+7511,"Pemotong Hewan, Penjual Ikan Segar, Dan Pengolah"
+8219,Perakit YTDL
+8311,Masinis Mesin Lokomotif
+7512,"Pembuat Roti, Kue, Dan Kembang Gula"
+8312,"Operator Rem, Sinyal, dan Langsir Kereta Api"
+7513,Pembuat Produk Susu
+8321,Pengemudi Sepeda Motor
+7514,"Pengawet Buah, Sayur, Dan YBDI"
+8322,"Pengemudi Mobil, Taksi dan Van"
+7515,Ahli Pencicip Dan Penilai Kualitas Makanan Dan Minuman
+8331,Pengemudi Bus dan Trem
+8332,Pengemudi Truk Berat dan Truk Kontainer
+8341,Operator Mesin Bergerak Pertanian dan Kehutanan
+8342,Operator Mesin Pengeruk Tanah dan YBDI
+8343,"Operator Mesin Derek/Crane, Pengerek/Hoist dan YBDI"
+8344,Operator Forklift
+8350,Awak Geladak Kapal dan YBDI
+9111,Tenaga Kebersihan Dan Juru Bantu Rumahtangga
+9112,"Tenaga Kebersihan Dan Juru Bantu Di Kantor, Hotel, Dan"
+9121,Tenaga Cuci Dan Setrika Dengan Tangan
+9122,Tenaga Cuci Kendaraan
+9123,Tenaga Pembersih Jendela
+9129,Tenaga Kebersihan Lainnya
+9211,Buruh Pertanian
+9212,Buruh Peternakan
+9213,Buruh Campuran Pertanian Dan Peternakan
+9214,Buruh Kebun Bibit Dan Taman
+9215,Buruh Kehutanan
+9216,Buruh Penangkapan Dan Budidaya Perikanan
+9311,Buruh Pertambangan Dan Penggalian
+9312,Buruh Teknik Sipil
+9313,Buruh Bangunan
+9321,Buruh Pengemasan
+9329,Buruh Industri Pengolahan YTDL
+9331,Pengemudi Becak Dan Kendaraan Berpedal
+9332,Pengemudi Kendaraan Dan Peralatan Yang Ditarik Hewan
+9333,Buruh Angkat Barang
+9334,Buruh Penata Barang
+9411,Asisten Juru Masak
+9412,Juru Bantu Dapur
+9510,Pekerja Jasa Jalanan Dan YBDI
+9520,Pedagang Keliling Dan Asongan (Selain Makanan)
+9611,Tukang Sampah
+9612,Penyortir Sampah
+9613,Tukang Sapu Dan YBDI
+9621,"Kurir, Pengantar Paket Dan Kuli Angkut Barang"
+9622,Pekerja Serabutan
+9623,Pembaca Meteran Dan Pengumpul Mesin Vending
+9624,Pengumpul Air Dan Kayu Bakar
+9629,Pekerja Kasar YTDL

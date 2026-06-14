@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>
+{% if user %}
+Edit User
+{% else %}
+Tambah User
+{% endif %}
+</h3>
+
+<form method="post">
+
+    <div class="mb-3">
+        <label>Nama</label>
+        <input type="text"
+               name="nama"
+               class="form-control"
+               required
+               value="{{ user.nama if user else '' }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Username</label>
+        <input type="text"
+               name="username"
+               class="form-control"
+               required
+               value="{{ user.username if user else '' }}">
+    </div>
+<div class="mb-3">
+
+    <label>Password</label>
+
+    <div class="input-group">
+
+        <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control">
+
+        <button
+            type="button"
+            class="btn btn-outline-secondary"
+            onclick="togglePassword()">
+
+            <i
+                class="bi bi-eye"
+                id="eyeIcon"></i>
+
+        </button>
+
+    </div>
+
+    {% if user %}
+    <small class="text-muted">
+        Kosongkan jika tidak ingin mengganti password
+    </small>
+    {% endif %}
+
+</div>
+
+    <div class="mb-3">
+        <label>Role</label>
+
+        <select name="role"
+                class="form-select">
+
+            <option value="admin"
+                {% if user and user.role=='admin' %}
+                selected
+                {% endif %}
+            >
+                Admin
+            </option>
+
+            <option value="pml"
+                {% if user and user.role=='pml' %}
+                selected
+                {% endif %}
+            >
+                PML
+            </option>
+
+            <option value="ppl"
+                {% if user and user.role=='ppl' %}
+                selected
+                {% endif %}
+            >
+                PPL
+            </option>
+
+        </select>
+    </div>
+
+    <button class="btn btn-primary">
+        Simpan
+    </button>
+
+    <a href="{{ url_for('users') }}"
+       class="btn btn-secondary">
+        Kembali
+    </a>
+
+</form>
+
+{% endblock %}

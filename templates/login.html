@@ -1,0 +1,84 @@
+{% extends 'auth_base.html' %} {% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card shadow-lg border-0 mt-5">
+      <div class="card-body p-4">
+        <div class="text-center mb-4">
+<img
+    src="{{ url_for('static', filename='img/logo_bps.png') }}"
+    class="login-logo"
+    width="100"
+/>
+
+          <h3 class="fw-bold mt-2">BPS Kota Tidore Kepulauan</h3>
+
+          <small class="text-muted"> Kegiatan Statistik Sosial </small>
+        </div>
+        <form method="POST">
+          <div class="mb-3">
+            <label>Username</label>
+
+            <input type="text" name="username" class="form-control" />
+          </div>
+
+<div class="mb-3">
+
+    <label>Password</label>
+
+    <div class="input-group">
+
+        <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control">
+
+        <button
+            type="button"
+            class="btn btn-outline-secondary"
+            onclick="togglePassword()">
+
+            <i class="bi bi-eye" id="eyeIcon"></i>
+
+        </button>
+
+    </div>
+
+</div>
+
+          <button class="btn btn-primary w-100">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    const eyeIcon =
+        document.getElementById("eyeIcon");
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        eyeIcon.classList.remove("bi-eye");
+        eyeIcon.classList.add("bi-eye-slash");
+
+    } else {
+
+        password.type = "password";
+
+        eyeIcon.classList.remove("bi-eye-slash");
+        eyeIcon.classList.add("bi-eye");
+
+    }
+}
+
+</script>
+{% endblock %}

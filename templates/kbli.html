@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>Pencarian KBLI & KBJI</h3>
+
+    <form
+        method="POST"
+        action="{{ url_for('prediksi_kbli') }}"
+    >
+
+        <div class="mb-3">
+
+            <label>
+                Cerita Usaha
+            </label>
+
+            <textarea
+                name="uraian"
+                class="form-control"
+                rows="5"
+                required
+            ></textarea>
+
+        </div>
+
+        <button
+            class="btn btn-primary"
+        >
+            Cari KBLI & KBJI
+        </button>
+        <a href="{{ url_for('dashboard') }}"
+   class="btn btn-secondary">
+
+    Kembali
+
+</a>
+
+    </form>
+
+</div>
+
+
+{% endblock %}

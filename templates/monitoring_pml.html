@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Monitoring Pemeriksaan</h3>
+
+<table class="table table-bordered">
+
+<tr>
+    <th>Kegiatan</th>
+    <th>Masuk</th>
+    <th>Diperiksa</th>
+    <th>Progress</th>
+    <th></th>
+</tr>
+
+{% for m in data %}
+
+<tr>
+
+<td>
+{{ m.penugasan.kegiatan.nama }}
+</td>
+
+<td>
+{{ m.dokumen_masuk }}
+</td>
+
+<td>
+{{ m.diperiksa }}
+</td>
+
+<td>
+
+{% if m.dokumen_masuk > 0 %}
+{{ "%.1f"|format(
+(m.diperiksa/m.dokumen_masuk)*100
+) }}%
+{% endif %}
+
+</td>
+
+<td>
+
+<a href="{{ url_for(
+'update_monitoring_pml',
+id=m.id
+) }}"
+class="btn btn-primary btn-sm">
+
+Update
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

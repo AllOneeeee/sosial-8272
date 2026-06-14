@@ -1,0 +1,167 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2>{{ kegiatan.nama }}</h2>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h5>Informasi Kegiatan</h5>
+
+    <p>
+      <b>Periode :</b>
+
+      {% if kegiatan.tanggal_mulai and kegiatan.tanggal_selesai %} {{
+      kegiatan.tanggal_mulai.strftime('%d/%m/%Y') }} - {{
+      kegiatan.tanggal_selesai.strftime('%d/%m/%Y') }} {% else %} Belum diatur
+      {% endif %}
+    </p>
+    <p>
+      <b>Status :</b>
+      {{ kegiatan.status }}
+    </p>
+    <hr />
+
+    <h5>Drive Kegiatan</h5>
+
+{% if kegiatan.drive_link %}
+
+<a href="{{ kegiatan.drive_link }}"
+   target="_blank"
+   class="btn btn-success">
+
+    📁 Buka Drive
+
+</a>
+
+{% endif %}
+
+<a href="{{ url_for(
+    'edit_drive',
+    id=kegiatan.id
+) }}"
+   class="btn btn-primary">
+
+    {% if kegiatan.drive_link %}
+        Ubah Link Drive
+    {% else %}
+        Tambah Link Drive
+    {% endif %}
+
+</a>
+    <hr />
+
+    <h5>Daftar Anomali</h5>
+
+{% for a in kegiatan.link_anomali %}
+
+<div class="card mb-3">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-start">
+
+            <div>
+
+                <a href="{{ a.link }}"
+                   target="_blank"
+                   class="fw-bold">
+
+                    {{ a.judul }}
+
+                </a>
+
+                <br>
+
+                <small class="text-muted">
+                    {{ a.keterangan }}
+                </small>
+
+            </div>
+
+            <a href="{{ url_for('hapus_anomali', id=a.id) }}"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Hapus anomali?')">
+
+                Hapus
+
+            </a>
+
+        </div>
+
+    </div>
+</div>
+
+{% endfor %}
+    <a
+      href="{{ url_for('tambah_anomali',
+                    kegiatan_id=kegiatan.id) }}"
+      class="btn btn-primary"
+    >
+      Tambah Link Anomali
+    </a>
+  </div>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>PPL</th>
+      <th>BS</th>
+      <th>Target</th>
+      <th>Realisasi</th>
+      <th>Diperiksa</th>
+      <th>Progress PPL</th>
+      <th>Progress PML</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for bs in bs_list %} {% set progress_ppl = (bs.realisasi * 100 /
+    bs.target) if bs.target > 0 else 0 %} {% set progress_pml = (bs.diperiksa *
+    100 / bs.target) if bs.target > 0 else 0 %}
+
+    <tr>
+      <td>{{ bs.ppl.nama }}</td>
+
+      <td>{{ bs.kode_bs }}</td>
+
+      <td>{{ bs.target }}</td>
+
+      <td>{{ bs.realisasi }}</td>
+
+      <td>{{ bs.diperiksa }}</td>
+
+      <!-- Progress PPL -->
+
+      <td width="250">
+        <div class="progress">
+          <div
+            class="progress-bar bg-success"
+            role="progressbar"
+            style="width: {{ progress_ppl }}%;"
+          >
+            {{ "%.1f"|format(progress_ppl) }}%
+          </div>
+        </div>
+      </td>
+
+      <!-- Progress PML -->
+
+      <td width="250">
+        <div class="progress">
+          <div
+            class="progress-bar bg-warning"
+            role="progressbar"
+            style="width: {{ progress_pml }}%;"
+          >
+            {{ "%.1f"|format(progress_pml) }}%
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary"> Kembali </a>
+
+{% endblock %}

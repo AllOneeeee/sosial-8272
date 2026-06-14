@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Dashboard PPL</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+
+        <h5>{{ current_user.nama }}</h5>
+
+        <p>
+            Jumlah BS :
+            {{ bs_list|length }}
+        </p>
+
+    </div>
+</div>
+
+<table class="table table-bordered">
+
+<tr>
+    <th>BS</th>
+    <th>Kegiatan</th>
+    <th>Target</th>
+    <th>Realisasi</th>
+    <th>Progress</th>
+    <th>Status</th>
+    <th>Aksi</th>
+</tr>
+
+{% for bs in bs_list %}
+
+{% set persen =
+(bs.realisasi / bs.target * 100)
+if bs.target > 0 else 0
+%}
+
+<tr>
+
+<td>
+{{ bs.kode_bs }}
+</td>
+
+<td>
+{{ bs.kegiatan.nama }}
+</td>
+
+<td>
+{{ bs.target }}
+</td>
+
+<td>
+{{ bs.realisasi }}
+</td>
+
+<td>
+
+<div class="progress">
+
+<div class="progress-bar"
+     style="width: {{ persen }}%;">
+
+{{ "%.1f"|format(persen) }}%
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+{% if bs.status == "Selesai" %}
+
+<span class="badge bg-success">
+Selesai
+</span>
+
+{% elif bs.status == "Berjalan" %}
+
+<span class="badge bg-warning">
+Berjalan
+</span>
+
+{% else %}
+
+<span class="badge bg-secondary">
+Belum
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+<a href="{{ url_for(
+'update_bs',
+id=bs.id
+) }}"
+class="btn btn-primary btn-sm">
+
+Update
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

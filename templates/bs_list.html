@@ -1,0 +1,63 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2>Blok Sensus</h2>
+
+<a href="{{ url_for('tambah_bs') }}" class="btn btn-success mb-3">
+  Tambah BS
+</a>
+
+<table class="table table-bordered">
+  <tr>
+    <th>Kegiatan</th>
+    <th>Kode BS</th>
+    <th>PPL</th>
+    <th>Target</th>
+    <th>Realisasi</th>
+    <th>Status</th>
+    <th>Aksi</th>
+  </tr>
+
+  {% for bs in data %}
+
+  <tr>
+    <td>{{ bs.kegiatan.nama }}</td>
+
+    <td>{{ bs.kode_bs }}</td>
+
+    <td>{{ bs.ppl.nama }}</td>
+
+    <td>{{ bs.target }}</td>
+
+    <td>{{ bs.realisasi }}</td>
+
+    <td>{{ bs.status }}</td>
+
+    <td>
+      <a
+        href="{{ url_for(
+'edit_bs',
+id=bs.id
+) }}"
+        class="btn btn-warning btn-sm"
+      >
+        Edit
+      </a>
+
+      <a
+        href="{{ url_for(
+'hapus_bs',
+id=bs.id
+) }}"
+        class="btn btn-danger btn-sm"
+      >
+        Hapus
+      </a>
+    </td>
+  </tr>
+
+  {% endfor %}
+</table>
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary"> Kembali </a>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Tambah Penugasan</h3>
+
+<form method="post">
+
+    <div class="mb-3">
+
+        <label>Kegiatan</label>
+
+        <select name="kegiatan_id"
+                class="form-select"
+                required>
+
+            <option value="">
+                Pilih Kegiatan
+            </option>
+
+            {% for k in kegiatan %}
+            <option value="{{ k.id }}">
+                {{ k.nama }}
+            </option>
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>PML</label>
+
+        <select name="pml_id"
+                class="form-select"
+                required>
+
+            <option value="">
+                Pilih PML
+            </option>
+
+            {% for pml in pml_list %}
+            <option value="{{ pml.id }}">
+                {{ pml.nama }}
+            </option>
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>PPL</label>
+
+        <select name="ppl_id"
+                class="form-select"
+                required>
+
+            <option value="">
+                Pilih PPL
+            </option>
+
+            {% for ppl in ppl_list %}
+            <option value="{{ ppl.id }}">
+                {{ ppl.nama }}
+            </option>
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <button class="btn btn-primary">
+        Simpan
+    </button>
+
+    <a href="{{ url_for('penugasan') }}"
+       class="btn btn-secondary">
+        Kembali
+    </a>
+
+</form>
+
+
+
+{% endblock %}

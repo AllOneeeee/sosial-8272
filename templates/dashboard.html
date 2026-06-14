@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Dashboard Admin
+</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5>Total Kegiatan</h5>
+                <h2>{{ total_kegiatan }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5>Total PPL</h5>
+                <h2>{{ total_ppl }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5>Total PML</h5>
+                <h2>{{ total_pml }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Menu Cepat
+    </div>
+
+    <div class="card-body">
+
+        <a href="{{ url_for('kegiatan') }}"
+           class="btn btn-primary">
+            Kegiatan
+        </a>
+
+        <a href="{{ url_for('users') }}"
+           class="btn btn-success">
+            User
+        </a>
+
+        <a href="{{ url_for('penugasan') }}"
+           class="btn btn-warning">
+            Penugasan
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}
