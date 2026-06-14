@@ -269,9 +269,15 @@ def dashboard():
     # PPL
     elif current_user.role == "ppl":
 
-        bs_list = BlokSensus.query.filter_by(
-            ppl_id=current_user.id
-        ).all()
+        bs_list = (
+            BlokSensus.query
+            .join(Kegiatan)
+            .filter(
+                BlokSensus.ppl_id == current_user.id,
+                Kegiatan.status != "Selesai"
+            )
+            .all()
+        )
 
         return render_template(
             "dashboard_ppl.html",
@@ -281,16 +287,19 @@ def dashboard():
     # PML
     elif current_user.role == "pml":
 
-        bs_list = BlokSensus.query.all()
+        bs_list = (
+            BlokSensus.query
+            .join(Kegiatan)
+            .filter(
+                Kegiatan.status != "Selesai"
+            )
+            .all()
+        )
 
         return render_template(
             "dashboard_pml.html",
             bs_list=bs_list
         )
-
-    return redirect(
-        url_for("logout")
-    )
 
 
 # ==========================
@@ -1028,6 +1037,60 @@ def prediksi_kbli():
         uraian=uraian,
         hasil_kbli=hasil_kbli,
         hasil_kbji=hasil_kbji
+    )
+
+@app.route(
+    "/kegiatan/<int:kegiatan_id>/link-lainnya/tambah",
+    methods=["GET", "POST"]
+)
+@login_required
+def tambah_link_lainnya(kegiatan_id):
+
+    kegiatan = Kegiatan.query.get_or_404(
+        kegiatan_id
+    )
+
+    if request.method == "POST":
+
+        data = LinkLainnya(
+            kegiatan_id=kegiatan.id,
+            judul=request.form["judul"],
+            link=request.form["link"],
+            keterangan=request.form["keterangan"]
+        )
+
+        db.session.add(data)
+        db.session.commit()
+
+        return redirect(
+            url_for(
+                "detail_kegiatan",
+                id=kegiatan.id
+            )
+        )
+
+    return render_template(
+        "anomali_form.html",
+        kegiatan=kegiatan
+    )
+@app.route(
+    "/link-lainnya/hapus/<int:id>"
+)
+@login_required
+def hapus_link_lainnya(id):
+
+    data = LinkLainnya.query.get_or_404(id)
+
+    kegiatan_id = data.kegiatan_id
+
+    db.session.delete(data)
+    db.session.commit()
+
+    return redirect(
+        url_for(
+            "detail_kegiatan",
+            id=kegiatan_id
+        )
     )
 
 if __name__ == "__main__":

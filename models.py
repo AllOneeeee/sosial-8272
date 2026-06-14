@@ -88,6 +88,12 @@ class Kegiatan(db.Model):
         lazy=True,
         cascade="all, delete-orphan"
     )
+    link_lainnya = db.relationship(
+    "LinkLainnya",
+    backref="kegiatan",
+    lazy=True,
+    cascade="all, delete-orphan"
+    )
 
 
 # ==========================
@@ -248,3 +254,29 @@ def create_admin():
 
         db.session.add(admin)
         db.session.commit()
+
+class LinkLainnya(db.Model):
+    __tablename__ = "link_lainnya"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    kegiatan_id = db.Column(
+        db.Integer,
+        db.ForeignKey("kegiatan.id"),
+        nullable=False
+    )
+
+    judul = db.Column(
+        db.String(200)
+    )
+
+    link = db.Column(
+        db.Text
+    )
+
+    keterangan = db.Column(
+        db.Text
+    )
