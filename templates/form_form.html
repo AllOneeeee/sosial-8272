@@ -1,94 +1,140 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 
-<h3>Pertanyaan</h3>
+{% block content %}
+
+<h3>Tambah Form</h3>
 
 <form method="POST">
-  <label> Pertanyaan </label>
 
-  <input
-    name="pertanyaan"
-    value="{{field.pertanyaan if field else ''}}"
-    class="form-control"
-    required
-  />
+<div class="mb-3">
 
-  <br />
+<label class="form-label">
 
-  <label> Tipe </label>
+Nama Form
 
-  <select name="tipe" class="form-select">
-    <option
-      value="text"
-      {%
-      if
-      field
-      and
-      field.tipe=""
-      ="text"
-      %}
-      selected
-      {%
-      endif
-      %}
-    >
-      Text
-    </option>
+</label>
 
-    <option
-      value="number"
-      {%
-      if
-      field
-      and
-      field.tipe=""
-      ="number"
-      %}
-      selected
-      {%
-      endif
-      %}
-    >
-      Number
-    </option>
+<input
 
-    <option
-      value="date"
-      {%
-      if
-      field
-      and
-      field.tipe=""
-      ="date"
-      %}
-      selected
-      {%
-      endif
-      %}
-    >
-      Date
-    </option>
+type="text"
 
-    <option
-      value="textarea"
-      {%
-      if
-      field
-      and
-      field.tipe=""
-      ="textarea"
-      %}
-      selected
-      {%
-      endif
-      %}
-    >
-      Textarea
-    </option>
-  </select>
+name="nama"
 
-  <br />
+value="{{ form.nama if form else '' }}"
 
-  <button class="btn btn-primary">Simpan</button>
+class="form-control"
+
+required
+
+>
+
+</div>
+
+
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Role
+
+</label>
+
+<select
+
+name="role"
+
+class="form-select"
+
+>
+
+
+<option value="ppl"
+
+{% if form and form.role == 'ppl' %}
+
+selected
+
+{% endif %}
+
+>
+
+PPL
+
+</option>
+
+
+
+<option value="pml"
+
+{% if form and form.role == 'pml' %}
+
+selected
+
+{% endif %}
+
+>
+
+PML
+
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Deadline
+
+</label>
+
+<input
+
+type="date"
+
+name="deadline"
+
+value="{{ form.deadline if form else '' }}"
+
+class="form-control"
+
+>
+
+</div>
+
+
+
+
+<button class="btn btn-primary">
+
+Simpan
+
+</button>
+
+
+
+<a
+
+href="{{ url_for('forms') }}"
+
+class="btn btn-secondary"
+
+>
+
+Kembali
+
+</a>
+
+
 </form>
+
 
 {% endblock %}
