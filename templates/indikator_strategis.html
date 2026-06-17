@@ -1,0 +1,88 @@
+{% extends 'base.html' %} {% block content %}
+
+<h3>{{kategori.nama}}</h3>
+
+<a href="{{url_for('tambah_indikator')}}" class="btn btn-primary mb-3">
+  Tambah Indikator
+</a>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Indikator</th>
+
+      <th>Satuan</th>
+
+      <th>Aksi</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for x in indikator %}
+
+    <tr>
+      <td>{{x.nama}}</td>
+
+      <td>{{x.satuan}}</td>
+
+      <td>
+        <a
+          href="{{url_for(
+
+'input_data_strategis',
+
+id=x.id
+
+)}}"
+          class="btn btn-success btn-sm"
+        >
+          Input Data
+        </a>
+      </td>
+      <td>
+        <a
+          href="{{url_for(
+
+'grafik_indikator',
+
+id=x.id
+
+)}}"
+          class="btn btn-info btn-sm"
+        >
+          Grafik
+        </a>
+        <a
+
+href="{{url_for(
+
+'dashboard_sheet',
+
+id=x.id
+
+)}}"
+
+
+class="btn btn-warning btn-sm"
+
+>
+
+
+Spreadsheet
+
+
+</a>
+      </td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{{ url_for('dashboard') }}"
+   class="btn btn-secondary">
+<i class="bi bi-arrow-left"></i>
+    Kembali
+
+</a>
+
+{% endblock %}

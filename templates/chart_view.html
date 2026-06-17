@@ -1,0 +1,166 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="d-flex justify-content-between mb-4">
+  <h3>{{indikator.nama}}</h3>
+
+  <form method="GET">
+    <select name="tahun" class="form-select" onchange="this.form.submit()">
+      {% for t in tahun_list %}
+
+      <option value="{{ t }}"
+    {% if t == tahun %}
+        selected
+    {% endif %}
+>
+    {{ t }}
+</option>
+        {{t}}
+      </option>
+
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <canvas id="grafik" height="120"> </canvas>
+  </div>
+</div>
+<div class="mb-3">
+  <a
+    href="{{url_for(
+
+'dashboard_sheet',
+
+id=indikator.id
+
+)}}"
+    class="btn btn-secondary"
+  >
+    <i class="bi bi-arrow-left"></i>
+
+    Kembali ke Spreadsheet
+  </a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+
+  const ctx = document.getElementById(
+
+  'grafik'
+
+  );
+
+
+  new Chart(
+
+  ctx,
+
+  {
+
+
+  type:'bar',
+
+
+
+  data:{
+
+
+
+  labels:
+
+
+  {{labels|tojson}},
+
+
+
+
+  datasets:[{
+
+
+  label:
+
+  '{{indikator.nama}}',
+
+
+
+  data:
+
+  {{values|tojson}},
+
+
+
+
+  borderWidth:1
+
+
+
+  }]
+
+
+
+  },
+
+
+
+
+  options:{
+
+
+
+  responsive:true,
+
+
+
+  plugins:{
+
+
+
+  legend:{
+
+
+  display:false
+
+
+  }
+
+
+
+  },
+
+
+
+  scales:{
+
+
+
+  y:{
+
+
+
+  beginAtZero:true
+
+
+
+  }
+
+
+
+  }
+
+
+
+  }
+
+
+
+  }
+
+  );
+</script>
+
+{% endblock %}

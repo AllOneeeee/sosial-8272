@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h3>Tambah Kategori Data Strategis</h3>
+
+    <hr />
+
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label"> Nama Kategori </label>
+
+        <input type="text" name="nama" class="form-control" required />
+      </div>
+
+      <button class="btn btn-primary">Simpan</button>
+
+      <a href="{{url_for('dashboard_strategis')}}" class="btn btn-secondary">
+        Kembali
+      </a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

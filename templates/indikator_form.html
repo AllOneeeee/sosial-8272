@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Tambah Indikator</h3>
+
+<form method="POST">
+
+<div class="mb-3">
+
+<label>Kategori</label>
+
+<select name="kategori_id"
+
+class="form-select">
+
+
+{% for k in kategori %}
+
+<option value="{{k.id}}">
+
+{{k.nama}}
+
+</option>
+
+{% endfor %}
+
+
+</select>
+
+</div>
+
+
+<div class="mb-3">
+
+<label>Nama Indikator</label>
+
+<input
+
+name="nama"
+
+class="form-control"
+
+required>
+
+</div>
+
+
+<div class="mb-3">
+
+<label>Satuan</label>
+
+<input
+
+name="satuan"
+
+class="form-control"
+
+>
+
+</div>
+
+
+
+<button class="btn btn-primary">
+
+Simpan
+
+</button>
+
+
+</form>
+
+{% endblock %}

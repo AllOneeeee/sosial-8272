@@ -1,145 +1,94 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-
-<h3>
-
-Pertanyaan
-
-</h3>
-
+<h3>Pertanyaan</h3>
 
 <form method="POST">
-
-
-
-<label>
-
-Pertanyaan
-
-</label>
-
-
-<input
-
-name="pertanyaan"
-
-
-value="{{field.pertanyaan if field else ''}}"
-
-
-class="form-control"
-
-
-
-required
-
->
-
-
-
-<br>
-
-
-
-<label>
-
-Tipe
-
-</label>
-
-
-
-<select
-
-name="tipe"
-
-class="form-select"
-
->
-
-
-<option value="text"
-
-{% if field and field.tipe=='text' %}
-
-selected
-
-{% endif %}
-
->
-
-Text
-
-</option>
-
-
-
-<option value="number"
-
-{% if field and field.tipe=='number' %}
-
-selected
-
-{% endif %}
-
->
-
-Number
-
-</option>
-
-
-
-<option value="date"
-
-{% if field and field.tipe=='date' %}
-
-selected
-
-{% endif %}
-
->
-
-Date
-
-</option>
-
-
-
-<option value="textarea"
-
-{% if field and field.tipe=='textarea' %}
-
-selected
-
-{% endif %}
-
->
-
-Textarea
-
-</option>
-
-
-
-</select>
-
-
-
-<br>
-
-
-
-<button class="btn btn-primary">
-
-Simpan
-
-</button>
-
-
-
+  <label> Pertanyaan </label>
+
+  <input
+    name="pertanyaan"
+    value="{{field.pertanyaan if field else ''}}"
+    class="form-control"
+    required
+  />
+
+  <br />
+
+  <label> Tipe </label>
+
+  <select name="tipe" class="form-select">
+    <option
+      value="text"
+      {%
+      if
+      field
+      and
+      field.tipe=""
+      ="text"
+      %}
+      selected
+      {%
+      endif
+      %}
+    >
+      Text
+    </option>
+
+    <option
+      value="number"
+      {%
+      if
+      field
+      and
+      field.tipe=""
+      ="number"
+      %}
+      selected
+      {%
+      endif
+      %}
+    >
+      Number
+    </option>
+
+    <option
+      value="date"
+      {%
+      if
+      field
+      and
+      field.tipe=""
+      ="date"
+      %}
+      selected
+      {%
+      endif
+      %}
+    >
+      Date
+    </option>
+
+    <option
+      value="textarea"
+      {%
+      if
+      field
+      and
+      field.tipe=""
+      ="textarea"
+      %}
+      selected
+      {%
+      endif
+      %}
+    >
+      Textarea
+    </option>
+  </select>
+
+  <br />
+
+  <button class="btn btn-primary">Simpan</button>
 </form>
-
 
 {% endblock %}

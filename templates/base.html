@@ -47,6 +47,7 @@
       href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
@@ -134,6 +135,12 @@
             <a href="{{url_for('forms')}}">
               📝
               <span>Form Dinamis </span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('dashboard_strategis') }}">
+              <i class="bi bi-bar-chart"></i>
+              <span>Data Strategis</span>
             </a>
           </li>
         </ul>

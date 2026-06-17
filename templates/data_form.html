@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>
+
+{{indikator.nama}}
+
+</h3>
+
+
+
+<form method="POST">
+
+
+<div class="mb-3">
+
+<label>
+
+Tahun
+
+</label>
+
+
+<input
+
+type="number"
+
+name="tahun"
+
+class="form-control"
+
+required
+
+>
+
+
+</div>
+
+
+
+<div class="mb-3">
+
+<label>
+
+Nilai
+
+</label>
+
+
+<input
+
+step="0.01"
+
+name="nilai"
+
+class="form-control"
+
+required
+
+>
+
+
+</div>
+
+
+
+<button class="btn btn-primary">
+
+Simpan
+
+</button>
+
+
+</form>
+
+
+
+{% endblock %}

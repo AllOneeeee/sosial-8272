@@ -1,0 +1,91 @@
+{% extends 'base.html' %} {% block content %}
+
+<h3>{{indikator.nama}}</h3>
+
+<form method="POST">
+  <div class="table-responsive">
+    <div class="d-flex justify-content-between mb-4">
+
+      <div>
+        <a
+          href="{{url_for(
+
+'export_dashboard',
+
+id=indikator.id
+
+)}}"
+          class="btn btn-success"
+        >
+          <i class="bi bi-file-earmark-excel"></i>
+
+          Export Excel
+        </a>
+      </div>
+    </div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Kecamatan</th>
+
+          {% for t in tahun %}
+
+          <th>{{t}}</th>
+
+          {% endfor %}
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for k in kecamatan %}
+
+        <tr>
+          <td>
+            <b> {{k}} </b>
+          </td>
+
+          {% for t in tahun %}
+
+          <td>
+            <input
+              type="number"
+              step="0.01"
+              name="{{k}}_{{t}}"
+              value="{{data.get(
+
+(k,t),
+
+''
+
+)}}"
+              class="form-control"
+            />
+          </td>
+
+          {% endfor %}
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <button class="btn btn-primary">💾 Simpan Semua</button>
+          <a href="{{url_for(
+
+            'indikator_strategis',
+
+            id=indikator.kategori_id
+
+        )}}"
+
+        class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Kembali
+
+        </a>
+</form>
+
+{% endblock %}

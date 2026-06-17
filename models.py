@@ -380,3 +380,140 @@ class FormAnswer(db.Model):
     jawaban=db.Column(
         db.Text
     )
+class DashboardKategori(db.Model):
+    __tablename__ = "dashboard_kategori"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    nama = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
+
+class DashboardIndikator(db.Model):
+    __tablename__ = "dashboard_indikator"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    kategori_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            "dashboard_kategori.id"
+        )
+    )
+
+    nama = db.Column(
+        db.String(200)
+    )
+
+    satuan = db.Column(
+        db.String(50)
+    )
+
+    kategori = db.relationship(
+        "DashboardKategori"
+    )
+
+
+class DashboardData(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+
+    indikator_id = db.Column(
+
+        db.Integer,
+
+        db.ForeignKey(
+
+            'dashboard_indikator.id'
+
+        )
+
+    )
+
+
+    wilayah = db.Column(
+
+        db.String(100)
+
+    )
+
+
+    tahun = db.Column(
+
+        db.Integer
+
+    )
+
+
+    nilai = db.Column(
+
+        db.Float
+
+    )
+def create_dashboard():
+
+
+
+    daftar=[
+
+
+"PDRB",
+
+"IPM",
+
+"Kemiskinan",
+
+"Inflasi",
+
+"TPT",
+
+"Gini Ratio",
+
+"Pariwisata",
+
+"Pertanian"
+
+]
+
+
+    for x in daftar:
+
+
+
+        ada = DashboardKategori.query.filter_by(
+
+            nama=x
+
+        ).first()
+
+
+
+        if not ada:
+
+
+
+            db.session.add(
+
+                DashboardKategori(
+
+                    nama=x
+
+                )
+
+            )
+
+
+
+    db.session.commit()

@@ -1939,6 +1939,642 @@ def hapus_form(id):
     return redirect(
         url_for("forms")
     )
+@app.route("/dashboard-strategis")
+@login_required
+def dashboard_strategis():
 
+    kategori = DashboardKategori.query.order_by(
+        DashboardKategori.nama
+    ).all()
+
+    return render_template(
+        "dashboard_strategis.html",
+        kategori=kategori
+    )
+@app.route("/dashboard-strategis/<int:id>")
+@login_required
+def indikator_strategis(id):
+
+    kategori = DashboardKategori.query.get_or_404(id)
+
+    indikator = DashboardIndikator.query.filter_by(
+        kategori_id=id
+    ).all()
+
+    return render_template(
+        "indikator_strategis.html",
+        kategori=kategori,
+        indikator=indikator
+    )
+@app.route(
+    "/dashboard-strategis/kategori/tambah",
+    methods=["GET","POST"]
+)
+@login_required
+def tambah_kategori():
+
+    if request.method == "POST":
+
+        data = DashboardKategori(
+            nama=request.form["nama"]
+        )
+
+        db.session.add(data)
+        db.session.commit()
+
+        return redirect(
+            url_for(
+                "dashboard_strategis"
+            )
+        )
+
+    return render_template(
+        "kategori_form.html"
+    )
+@app.route(
+    "/dashboard-strategis/indikator/tambah",
+    methods=["GET","POST"]
+)
+@login_required
+def tambah_indikator():
+
+    kategori = DashboardKategori.query.all()
+
+    if request.method == "POST":
+
+        data = DashboardIndikator(
+
+            kategori_id=int(
+                request.form["kategori_id"]
+            ),
+
+            nama=request.form["nama"],
+
+            satuan=request.form["satuan"]
+
+        )
+
+        db.session.add(data)
+        db.session.commit()
+
+        return redirect(
+            url_for(
+                "dashboard_strategis"
+            )
+        )
+
+    return render_template(
+        "indikator_form.html",
+        kategori=kategori
+    )
+@app.route(
+    "/dashboard-strategis/data/<int:id>",
+    methods=["GET","POST"]
+)
+@login_required
+def input_data_strategis(id):
+
+    indikator = DashboardIndikator.query.get_or_404(id)
+
+    if request.method == "POST":
+
+        data = DashboardData(
+
+            indikator_id=id,
+
+            tahun=int(
+                request.form["tahun"]
+            ),
+
+            nilai=float(
+                request.form["nilai"]
+            )
+        )
+
+        db.session.add(data)
+        db.session.commit()
+
+        return redirect(
+            url_for(
+                "indikator_strategis",
+                id=indikator.kategori_id
+            )
+        )
+
+    return render_template(
+        "data_form.html",
+        indikator=indikator
+    )
+
+@app.route(
+"/dashboard-strategis/grafik/<int:id>"
+)
+@login_required
+def grafik_indikator(id):
+
+    indikator = DashboardIndikator.query.get_or_404(id)
+
+
+    tahun_list = db.session.query(
+
+        DashboardData.tahun
+
+    ).filter_by(
+
+        indikator_id=id
+
+    ).distinct().all()
+
+
+    tahun_list = sorted(
+
+        [x[0] for x in tahun_list]
+
+    )
+
+
+    tahun = request.args.get(
+
+        'tahun',
+
+        type=int
+
+    )
+
+
+    if not tahun:
+
+        tahun = tahun_list[-1]
+
+
+    data = DashboardData.query.filter_by(
+
+        indikator_id=id,
+
+        tahun=tahun
+
+    ).all()
+
+
+
+    labels = [
+
+        x.wilayah
+
+        for x in data
+
+    ]
+
+
+    values = [
+
+        x.nilai
+
+        for x in data
+
+    ]
+
+
+
+    return render_template(
+
+        'chart_view.html',
+
+        indikator=indikator,
+
+        tahun=tahun,
+
+        tahun_list=tahun_list,
+
+        labels=labels,
+
+        values=values
+
+    )
+@app.route(
+
+"/dashboard/upload/<int:id>",
+
+methods=[
+
+"POST"
+
+]
+
+)
+
+def upload_dashboard(id):
+
+
+    file=request.files['file']
+
+
+    df=pd.read_excel(
+
+        file
+
+    )
+
+
+    for _,r in df.iterrows():
+
+
+
+        x=DashboardData(
+
+            indikator_id=id,
+
+
+            tahun=int(
+
+                r['tahun']
+
+            ),
+
+
+            nilai=float(
+
+                r['nilai']
+
+            )
+
+        )
+
+
+        db.session.add(
+
+            x
+
+        )
+
+
+
+    db.session.commit()
+
+
+
+    return redirect(
+
+        url_for(
+
+            'grafik_indikator',
+
+            id=id
+
+        )
+
+    )
+@app.route(
+'/dashboard-sheet/<int:id>',
+methods=['GET','POST']
+)
+
+@login_required
+def dashboard_sheet(id):
+
+
+    indikator=DashboardIndikator.query.get_or_404(id)
+
+
+
+    kecamatan=[
+
+'Tidore',
+
+'Tidore Selatan',
+
+"Tidore Timur",
+"Tidore Utara",
+
+'Oba',
+
+'Oba Utara',
+
+'Oba Tengah',
+
+'Oba Selatan'
+
+]
+
+
+    tahun=list(
+
+        range(
+
+            2021,
+
+            2031
+
+        )
+
+    )
+
+
+
+    if request.method=='POST':
+
+
+
+        for k in kecamatan:
+
+
+
+            for t in tahun:
+
+
+
+                nama=f"{k}_{t}"
+
+
+
+                nilai=request.form.get(
+
+                    nama
+
+                )
+
+
+
+                if nilai:
+
+
+
+                    ada=DashboardData.query.filter_by(
+
+                        indikator_id=id,
+
+                        wilayah=k,
+
+                        tahun=t
+
+                    ).first()
+
+
+
+                    if ada:
+
+
+                        ada.nilai=float(
+
+                            nilai
+
+                        )
+
+
+                    else:
+
+
+
+                        x=DashboardData(
+
+                            indikator_id=id,
+
+                            wilayah=k,
+
+                            tahun=t,
+
+                            nilai=float(
+
+                                nilai
+
+                            )
+
+                        )
+
+
+
+                        db.session.add(
+
+                            x
+
+                        )
+
+
+
+        db.session.commit()
+
+
+
+    data={}
+
+
+
+    semua=DashboardData.query.filter_by(
+
+        indikator_id=id
+
+    ).all()
+
+
+
+    for d in semua:
+
+
+        data[
+
+            (
+
+                d.wilayah,
+
+                d.tahun
+
+            )
+
+        ]=d.nilai
+
+
+
+    return render_template(
+
+        'sheet_dashboard.html',
+
+
+        indikator=indikator,
+
+
+        kecamatan=kecamatan,
+
+
+        tahun=tahun,
+
+
+        data=data
+
+    )
+    
+@app.route(
+'/dashboard/export/<int:id>'
+)
+@login_required
+def export_dashboard(id):
+
+
+    indikator = DashboardIndikator.query.get_or_404(id)
+
+
+
+    data = DashboardData.query.filter_by(
+
+        indikator_id=id
+
+    ).all()
+
+
+
+    wilayah = sorted(
+
+        list(
+
+            set(
+
+                x.wilayah
+
+                for x in data
+
+            )
+
+        )
+
+    )
+
+
+
+    tahun = sorted(
+
+        list(
+
+            set(
+
+                x.tahun
+
+                for x in data
+
+            )
+
+        )
+
+    )
+
+
+
+    wb = Workbook()
+
+    ws = wb.active
+
+
+    ws.title = indikator.nama
+
+
+
+    header = [
+
+        'Kecamatan'
+
+    ] + tahun
+
+
+    ws.append(
+
+        header
+
+    )
+
+
+
+    for k in wilayah:
+
+
+
+        row=[
+
+            k
+
+        ]
+
+
+
+        for t in tahun:
+
+
+
+            d = DashboardData.query.filter_by(
+
+
+                indikator_id=id,
+
+
+                wilayah=k,
+
+
+                tahun=t
+
+
+            ).first()
+
+
+
+            if d:
+
+
+                row.append(
+
+                    d.nilai
+
+                )
+
+
+            else:
+
+
+                row.append(
+
+                    ''
+
+                )
+
+
+
+        ws.append(
+
+            row
+
+        )
+
+
+
+
+    output = BytesIO()
+
+
+    wb.save(
+
+        output
+
+    )
+
+
+    output.seek(
+
+        0
+
+    )
+
+
+
+    return send_file(
+
+
+        output,
+
+
+        download_name=f'{indikator.nama}.xlsx',
+
+
+        as_attachment=True,
+
+
+        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    )
 if __name__ == "__main__":
     app.run(debug=True)
