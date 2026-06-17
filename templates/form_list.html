@@ -1,244 +1,94 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <div class="d-flex justify-content-between align-items-center mb-4">
+  <h3>📝 Form Dinamis</h3>
 
-    <h3>
-        📝 Form Dinamis
-    </h3>
+  <a href="{{ url_for('tambah_form') }}" class="btn btn-primary">
+    <i class="bi bi-plus-circle"></i>
 
-
-    <a href="{{ url_for('tambah_form') }}"
-       class="btn btn-primary">
-
-        <i class="bi bi-plus-circle"></i>
-
-        Tambah Form
-
-    </a>
-
+    Tambah Form
+  </a>
 </div>
-
-
 
 <div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th width="40">No</th>
 
-<div class="card-body">
+          <th>Nama Form</th>
 
+          <th width="120">Role</th>
 
-<table class="table table-hover align-middle">
+          <th width="300">Aksi</th>
+        </tr>
+      </thead>
 
+      <tbody>
+        {% for x in data %}
 
-<thead class="table-dark">
+        <tr>
+          <td>{{ loop.index }}</td>
 
+          <td>
+            <b> {{ x.nama }} </b>
+          </td>
 
-<tr>
+          <td>
+            {% if x.role=="ppl" %}
 
-<th width="40">
+            <span class="badge bg-success"> PPL </span>
 
-No
+            {% else %}
 
-</th>
+            <span class="badge bg-warning text-dark"> PML </span>
 
+            {% endif %}
+          </td>
 
-<th>
-
-Nama Form
-
-</th>
-
-
-
-<th width="120">
-
-Role
-
-</th>
-
-
-
-<th width="300">
-
-Aksi
-
-</th>
-
-
-</tr>
-
-
-</thead>
-
-
-
-<tbody>
-
-
-{% for x in data %}
-
-
-<tr>
-
-
-<td>
-
-{{ loop.index }}
-
-</td>
-
-
-
-<td>
-
-
-<b>
-
-{{ x.nama }}
-
-</b>
-
-
-</td>
-
-
-
-<td>
-
-
-{% if x.role=="ppl" %}
-
-<span class="badge bg-success">
-
-PPL
-
-</span>
-
-
-{% else %}
-
-
-<span class="badge bg-warning text-dark">
-
-PML
-
-</span>
-
-
-{% endif %}
-
-
-
-</td>
-
-
-
-<td>
-
-
-<a
-
-href="{{url_for(
-
+          <td>
+            <a
+              href="{{url_for(
 'field',
-
 id=x.id
-
 )}}"
+              class="btn btn-success btn-sm"
+            >
+              Pertanyaan
+            </a>
 
-
-class="btn btn-success btn-sm"
-
->
-
-
-<i class="bi bi-ui-checks-grid"></i>
-
-
-Pertanyaan
-
-
-</a>
-
-
-
-
-<a
-
-href="{{url_for(
-
+            <a
+              href="{{url_for(
 'hasil_form',
-
 id=x.id
-
 )}}"
+              class="btn btn-primary btn-sm"
+            >
+              Hasil
+            </a>
 
-
-class="btn btn-primary btn-sm"
-
->
-
-
-<i class="bi bi-list-check"></i>
-
-
-Hasil
-
-
-</a>
-
-
-
-
-
-<a
-
-href="{{url_for(
-
-'export_excel',
-
+            <a
+              href="{{url_for(
+'hapus_form',
 id=x.id
-
 )}}"
+              class="btn btn-danger btn-sm"
+              onclick="
+                return confirm(
+                  'Yakin ingin menghapus form ini beserta seluruh jawaban?',
+                );
+              "
+            >
+              Hapus
+            </a>
+          </td>
+        </tr>
 
-
-class="btn btn-success btn-sm"
-
->
-
-
-<i class="bi bi-file-earmark-excel"></i>
-
-
-Excel
-
-
-</a>
-
-
-
-</td>
-
-
-</tr>
-
-
-{% endfor %}
-
-
-
-</tbody>
-
-
-
-</table>
-
-
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
-
-
-</div>
-
-
 
 {% endblock %}

@@ -1,6 +1,16 @@
 {% extends 'base.html' %} {% block content %}
 
 <h2>Dashboard PPL</h2>
+<a href="{{ url_for('my_form') }}">
+  <div class="card">
+    <div class="card-body">
+      <h3>📝</h3>
+      <h5>Form Saya</h5>
+    </div>
+  </div>
+</a>
+
+<hr>
 
 <div class="card mb-3">
   <div class="card-body">
@@ -9,17 +19,7 @@
     <p>Jumlah BS : {{ bs_list|length }}</p>
   </div>
 </div>
-<a href="{{ url_for('my_form') }}">
-  <div class="card">
-    <div class="card-body">
-      <h3>📝</h3>
 
-      <h5>Form Saya</h5>
-
-      <p>{{ total_form }} belum diisi</p>
-    </div>
-  </div>
-</a>
 
 <table class="table table-bordered">
   <tr>

@@ -1897,6 +1897,48 @@ def export_excel(id):
 
     )
 
+@app.route(
+    "/forms/hapus/<int:id>"
+)
+@login_required
+def hapus_form(id):
+
+    form = FormTemplate.query.get_or_404(id)
+
+    fields = FormField.query.filter_by(
+        form_id=id
+    ).all()
+
+    responses = FormResponse.query.filter_by(
+        form_id=id
+    ).all()
+
+    for r in responses:
+
+        FormAnswer.query.filter_by(
+            response_id=r.id
+        ).delete()
+
+    FormResponse.query.filter_by(
+        form_id=id
+    ).delete()
+
+    FormField.query.filter_by(
+        form_id=id
+    ).delete()
+
+    db.session.delete(form)
+
+    db.session.commit()
+
+    flash(
+        "Form berhasil dihapus",
+        "success"
+    )
+
+    return redirect(
+        url_for("forms")
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
