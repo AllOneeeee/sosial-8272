@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<form method="post">
+
+
+<input
+
+name="pertanyaan"
+
+class="form-control"
+
+>
+
+
+<select
+
+name="tipe"
+
+class="form-select mt-2"
+
+>
+
+
+<option>
+
+text
+
+</option>
+
+
+<option>
+
+number
+
+</option>
+
+
+
+<option>
+
+date
+
+</option>
+
+
+
+<option>
+
+textarea
+
+</option>
+
+
+
+</select>
+
+
+
+<button
+
+class="btn btn-primary mt-3"
+
+>
+
+Simpan
+
+</button>
+
+
+
+</form>
+
+{% endblock %}

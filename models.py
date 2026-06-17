@@ -288,3 +288,95 @@ class LinkLainnya(db.Model):
     keterangan = db.Column(
         db.Text
     )
+    
+class FormTemplate(db.Model):
+    __tablename__ = "form_template"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nama = db.Column(db.String(200))
+
+    kegiatan_id = db.Column(
+        db.Integer,
+        db.ForeignKey('kegiatan.id')
+    )
+
+    role = db.Column(db.String(10))
+
+    deadline = db.Column(db.Date)
+
+    aktif = db.Column(
+        db.Boolean,
+        default=True
+    )
+
+
+
+class FormField(db.Model):
+
+    __tablename__ = "form_field"
+
+    id = db.Column(db.Integer,
+                   primary_key=True)
+
+    form_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            'form_template.id'
+        )
+    )
+
+    pertanyaan = db.Column(
+        db.String(300)
+    )
+
+    tipe = db.Column(
+        db.String(30)
+    )
+
+    wajib = db.Column(
+        db.Boolean,
+        default=True
+    )
+
+
+
+class FormResponse(db.Model):
+
+    __tablename__="form_response"
+
+    id=db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    form_id=db.Column(
+        db.Integer
+    )
+
+    user_id=db.Column(
+        db.Integer
+    )
+
+
+
+class FormAnswer(db.Model):
+
+    __tablename__="form_answer"
+
+    id=db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    response_id=db.Column(
+        db.Integer
+    )
+
+    field_id=db.Column(
+        db.Integer
+    )
+
+    jawaban=db.Column(
+        db.Text
+    )

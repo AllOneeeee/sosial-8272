@@ -4,19 +4,16 @@
 
 <h3>Tambah Penugasan</h3>
 
-<form method="post">
+<form method="POST">
 
     <div class="mb-3">
-
         <label>Kegiatan</label>
 
         <select name="kegiatan_id"
                 class="form-select searchable"
                 required>
 
-            <option value="">
-                Pilih Kegiatan
-            </option>
+            <option value="">Pilih Kegiatan</option>
 
             {% for k in kegiatan %}
             <option value="{{ k.id }}">
@@ -25,20 +22,17 @@
             {% endfor %}
 
         </select>
-
     </div>
 
-    <div class="mb-3">
 
+    <div class="mb-3">
         <label>PML</label>
 
         <select name="pml_id"
                 class="form-select searchable"
                 required>
 
-            <option value="">
-                Pilih PML
-            </option>
+            <option value="">Pilih PML</option>
 
             {% for pml in pml_list %}
             <option value="{{ pml.id }}">
@@ -47,42 +41,167 @@
             {% endfor %}
 
         </select>
-
     </div>
+
+
 
     <div class="mb-3">
 
-        <label>PPL</label>
+        <label class="form-label">
+            PPL
+        </label>
 
-        <select name="ppl_id"
-                class="form-select searchable"
-                required>
 
-            <option value="">
-                Pilih PPL
-            </option>
+        <div id="ppl-container">
 
-            {% for ppl in ppl_list %}
-            <option value="{{ ppl.id }}">
-                {{ ppl.nama }}
-            </option>
-            {% endfor %}
+            <div class="input-group mb-2">
 
-        </select>
+                <select name="ppl_ids[]"
+                        class="form-select"
+                        required>
+
+                    <option value="">
+                        Pilih PPL
+                    </option>
+
+                    {% for p in ppl_list %}
+                    <option value="{{ p.id }}">
+                        {{ p.nama }}
+                    </option>
+                    {% endfor %}
+
+                </select>
+
+                <button type="button"
+                        class="btn btn-danger remove-ppl">
+                    Hapus
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <button type="button"
+                class="btn btn-success btn-sm"
+                id="add-ppl">
+
+            + Tambah PPL
+
+        </button>
 
     </div>
+
+
 
     <button class="btn btn-primary">
         Simpan
     </button>
 
+
     <a href="{{ url_for('penugasan') }}"
        class="btn btn-secondary">
+
         Kembali
+
     </a>
+
 
 </form>
 
+
+
+<script>
+
+const template = `
+<div class="input-group mb-2">
+
+<select name="ppl_ids[]"
+        class="form-select"
+        required>
+
+<option value="">
+Pilih PPL
+</option>
+
+{% for p in ppl_list %}
+<option value="{{ p.id }}">
+{{ p.nama }}
+</option>
+{% endfor %}
+
+</select>
+
+<button type="button"
+        class="btn btn-danger remove-ppl">
+
+Hapus
+
+</button>
+
+</div>
+`;
+
+
+
+document.getElementById('add-ppl').addEventListener(
+
+'click',
+
+function(){
+
+document.getElementById('ppl-container')
+.insertAdjacentHTML(
+
+'beforeend',
+
+template
+
+);
+
+}
+
+);
+
+
+
+
+document.addEventListener(
+
+'click',
+
+function(e){
+
+if(
+
+e.target.classList.contains(
+
+'remove-ppl'
+
+)
+
+){
+
+const rows = document.querySelectorAll(
+
+'#ppl-container .input-group'
+
+);
+
+if(rows.length > 1){
+
+e.target.parentElement.remove();
+
+}
+
+}
+
+}
+
+);
+
+</script>
 
 
 {% endblock %}

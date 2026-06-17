@@ -1,359 +1,221 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <div class="dashboard-header mb-4">
-    <div>
-        <h2>Selamat Datang Admin 👋</h2>
-        <p>Monitoring kegiatan statistik sosial</p>
-    </div>
+  <div>
+    <h2>Selamat Datang Admin 👋</h2>
+    <p>Monitoring kegiatan statistik sosial</p>
+  </div>
 </div>
 <form method="GET" class="mb-3">
+  <select name="tahun" class="form-select" onchange="this.form.submit()">
+    <option value="">Semua Tahun</option>
 
-    <select
-        name="tahun"
-        class="form-select"
-        onchange="this.form.submit()">
-
-        <option value="">
-            Semua Tahun
-        </option>
-
-        {% for th in tahun_list %}
-        <option
-            value="{{ th }}"
-            {% if tahun_filter == th %}
-            selected
-            {% endif %}
-        >
-            {{ th }}
-        </option>
-        {% endfor %}
-
-    </select>
-
+    {% for th in tahun_list %}
+<option value="{{ th }}"
+        {% if tahun_filter == th %}
+        selected
+        {% endif %}>
+    {{ th }}
+</option>
+    {% endfor %}
+  </select>
 </form>
 
 <div class="card stat-card">
-    <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <small class="text-uppercase">Kegiatan Berjalan</small>
-                <h1 class="mb-0">{{ kegiatan_berjalan }}</h1>
-            </div>
-        </div>
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <small class="text-uppercase">Kegiatan Berjalan</small>
+        <h1 class="mb-0">{{ kegiatan_berjalan }}</h1>
+      </div>
     </div>
+  </div>
 </div>
 
-<br>
+<br />
 
 <div class="card shadow-sm mb-4">
+  <div class="card-header schedule-header">
+    <i class="bi bi-calendar-event"></i>
+    Jadwal Kegiatan
+  </div>
 
-    <div class="card-header schedule-header">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Periode</th>
+          <th>Kegiatan</th>
+          <th>Status</th>
+        </tr>
+      </thead>
 
-        <i class="bi bi-calendar-event"></i>
-        Jadwal Kegiatan 
+      <tbody>
+        {% for k in kegiatan_list %}
 
-    </div>
+        <tr>
+          <td width="250">
+            {% if k.tanggal_mulai and k.tanggal_selesai %} {{
+            k.tanggal_mulai.strftime('%d/%m/%Y') }} - {{
+            k.tanggal_selesai.strftime('%d/%m/%Y') }} {% else %}
 
-    <div class="card-body p-0">
+            <span class="text-muted"> Belum diatur </span>
 
-        <table class="table table-hover mb-0">
+            {% endif %}
+          </td>
 
-            <thead>
+          <td>{{ k.nama }}</td>
 
-                <tr>
+          <td>
+            {% if k.status == 'Berjalan' %}
 
-                    <th>Periode</th>
-                    <th>Kegiatan</th>
-                    <th>Status</th>
+            <span class="badge bg-success"> Berjalan </span>
 
-                </tr>
+            {% elif k.status == 'Persiapan' %}
 
-            </thead>
+            <span class="badge bg-warning text-dark"> Persiapan </span>
 
-            <tbody>
+            {% else %}
 
-            {% for k in kegiatan_list %}
+            <span class="badge bg-secondary"> Selesai </span>
 
-            <tr>
+            {% endif %}
+          </td>
+        </tr>
 
-                <td width="250">
-
-                    {% if k.tanggal_mulai and k.tanggal_selesai %}
-
-                        {{ k.tanggal_mulai.strftime('%d/%m/%Y') }}
-                        -
-                        {{ k.tanggal_selesai.strftime('%d/%m/%Y') }}
-
-                    {% else %}
-
-                        <span class="text-muted">
-                            Belum diatur
-                        </span>
-
-                    {% endif %}
-
-                </td>
-
-                <td>
-
-                    {{ k.nama }}
-
-                </td>
-
-                <td>
-
-                    {% if k.status == 'Berjalan' %}
-
-                    <span class="badge bg-success">
-                        Berjalan
-                    </span>
-
-                    {% elif k.status == 'Persiapan' %}
-
-                    <span class="badge bg-warning text-dark">
-                        Persiapan
-                    </span>
-
-                    {% else %}
-
-                    <span class="badge bg-secondary">
-                        Selesai
-                    </span>
-
-                    {% endif %}
-
-                </td>
-
-            </tr>
-
-            {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
-<hr>
+<hr />
 
 <!-- MENU -->
 
 <div class="row mb-4">
+  <div class="col-md-3">
+    <a href="{{ url_for('kegiatan') }}" class="text-decoration-none">
+      <div class="card menu-card">
+        <div class="card-body text-center">
+          <h3 class="menu-icon">📋</h3>
 
-    <div class="col-md-3">
-
-    <a href="{{ url_for('kegiatan') }}"
-       class="text-decoration-none">
-
-        <div class="card menu-card">
-
-            <div class="card-body text-center">
-
-                <h3 class="menu-icon">📋</h3>
-
-                <h4 class="menu-title">
-                    Kelola Kegiatan
-                </h4>
-
-            </div>
-
+          <h4 class="menu-title">Kelola Kegiatan</h4>
         </div>
-
+      </div>
     </a>
+  </div>
 
-</div>
+  <div class="col-md-3">
+    <a href="{{ url_for('users') }}" class="text-decoration-none">
+      <div class="card menu-card">
+        <div class="card-body text-center">
+          <h3 class="menu-icon">👥</h3>
 
-<div class="col-md-3">
-
-    <a href="{{ url_for('users') }}"
-       class="text-decoration-none">
-
-        <div class="card menu-card">
-
-            <div class="card-body text-center">
-
-                <h3 class="menu-icon">👥</h3>
-
-                <h4 class="menu-title">
-                    Kelola Petugas
-                </h4>
-
-            </div>
-
+          <h4 class="menu-title">Kelola Petugas</h4>
         </div>
-
+      </div>
     </a>
+  </div>
+  <div class="col-md-3">
+    <a href="{{ url_for('penugasan') }}" class="text-decoration-none">
+      <div class="card menu-card">
+        <div class="card-body text-center">
+          <h3 class="menu-icon">📝</h3>
 
-</div>
-<div class="col-md-3">
-
-    <a href="{{ url_for('penugasan') }}"
-       class="text-decoration-none">
-
-        <div class="card menu-card">
-
-            <div class="card-body text-center">
-
-                <h3 class="menu-icon">📝</h3>
-
-                <h4 class="menu-title">
-                    Penugasan
-                </h4>
-
-            </div>
-
+          <h4 class="menu-title">Penugasan</h4>
         </div>
-
+      </div>
     </a>
+  </div>
+  <div class="col-md-3">
+    <a href="{{ url_for('bs') }}" class="text-decoration-none">
+      <div class="card menu-card">
+        <div class="card-body text-center">
+          <h3 class="menu-icon">📍</h3>
 
-</div>
-<div class="col-md-3">
-
-    <a href="{{ url_for('bs') }}"
-       class="text-decoration-none">
-
-        <div class="card menu-card">
-
-            <div class="card-body text-center">
-
-                <h3 class="menu-icon">📍</h3>
-
-                <h4 class="menu-title">
-                    Blok Sensus
-                </h4>
-
-            </div>
-
+          <h4 class="menu-title">Blok Sensus</h4>
         </div>
-
+      </div>
     </a>
-
-</div>
-
-
-
+  </div>
 </div>
 
 <!-- PROGRESS TOTAL -->
 
-<div class="card shadow-sm mb-4">
-
-
-</div>
+<div class="card shadow-sm mb-4"></div>
 
 <!-- MONITORING -->
 
 <div class="card shadow-sm">
+  <div class="card-header schedule-header">Monitoring Progress Kegiatan</div>
 
-    <div class="card-header schedule-header">
+  <div class="card-body">
+    <table class="table table-hover table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Kegiatan</th>
 
-        Monitoring Progress Kegiatan
+          <th>Target</th>
 
-    </div>
+          <th>Realisasi PPL</th>
 
-    <div class="card-body">
+          <th>Diperiksa PML</th>
 
-        <table class="table table-hover table-bordered">
+          <th>Progress PPL</th>
 
-            <thead class="table-dark">
+          <th>Progress PML</th>
 
-                <tr>
+          <th>Aksi</th>
+        </tr>
+      </thead>
 
-                    <th>Kegiatan</th>
+      <tbody>
+        {% for k in kegiatan_progress %}
+        <tr class="{% if k.status == 'Berjalan' %}table-success{% endif %}">
+          <td>{{ k.nama }}</td>
 
-                    <th>Target</th>
+          <td>{{ k.target }}</td>
 
-                    <th>Realisasi PPL</th>
+          <td>{{ k.realisasi }}</td>
 
-                    <th>Diperiksa PML</th>
+          <td>{{ k.diperiksa }}</td>
 
-                    <th>Progress PPL</th>
+          <td width="250">
+            <div class="progress">
+              <div
+                class="progress-bar bg-success"
+                style="width: {{ k.progress_ppl }}%;"
+              >
+                {{ k.progress_ppl }}%
+              </div>
+            </div>
+          </td>
 
-                    <th>Progress PML</th>
+          <td width="250">
+            <div class="progress">
+              <div
+                class="progress-bar bg-warning"
+                style="width: {{ k.progress_pml }}%;"
+              >
+                {{ k.progress_pml }}%
+              </div>
+            </div>
+          </td>
 
-                    <th>Aksi</th>
+          <td>
+            <a
+              href="{{ url_for('detail_kegiatan', id=k.id) }}"
+              class="btn btn-primary btn-sm"
+            >
+              Rinci
+            </a>
+          </td>
+        </tr>
 
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-{% for k in kegiatan_progress %}
-<tr class="{% if k.status == 'Berjalan' %}table-success{% endif %}">
-
-                <td>
-                    {{ k.nama }}
-                </td>
-
-                <td>
-                    {{ k.target }}
-                </td>
-
-                <td>
-                    {{ k.realisasi }}
-                </td>
-
-                <td>
-                    {{ k.diperiksa }}
-                </td>
-
-                <td width="250">
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar bg-success"
-                            style="width: {{ k.progress_ppl }}%;">
-
-                            {{ k.progress_ppl }}%
-
-                        </div>
-
-                    </div>
-
-                </td>
-
-                <td width="250">
-
-                    <div class="progress">
-
-                        <div
-                            class="progress-bar bg-warning"
-                            style="width: {{ k.progress_pml }}%;">
-
-                            {{ k.progress_pml }}%
-
-                        </div>
-
-                    </div>
-
-                </td>
-
-                <td>
-
-                    <a href="{{ url_for('detail_kegiatan', id=k.id) }}"
-                       class="btn btn-primary btn-sm">
-
-                        Rinci
-
-                    </a>
-
-                </td>
-
-            </tr>
-
-            {% endfor %}
-
-            </tbody>
-
-        </table>
-
-    </div>
-
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
 {% endblock %}

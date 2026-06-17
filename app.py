@@ -6,8 +6,11 @@ from flask import (
     redirect,
     url_for,
     request,
-    flash
+    flash,
+    send_file
 )
+
+from io import BytesIO
 
 from flask_login import (
     LoginManager,
@@ -25,6 +28,8 @@ from werkzeug.security import (
 from config import Config
 from models import *
 from datetime import datetime
+
+from openpyxl import Workbook
 # ==========================
 # APP
 # ==========================
@@ -617,6 +622,13 @@ def tambah_penugasan():
 
     kegiatan = Kegiatan.query.all()
 
+    # ambil semua user dulu
+    semua_user = User.query.all()
+
+    print("\n===== USER =====")
+    for u in semua_user:
+        print(u.id, u.nama, repr(u.role))
+
     ppl_list = User.query.filter_by(
         role="ppl"
     ).all()
@@ -625,21 +637,40 @@ def tambah_penugasan():
         role="pml"
     ).all()
 
+    print("Jumlah PPL :", len(ppl_list))
+    print("Jumlah PML :", len(pml_list))
+
+
     if request.method == "POST":
 
-        data = Penugasan(
-            kegiatan_id=int(
-                request.form["kegiatan_id"]
-            ),
-            ppl_id=int(
-                request.form["ppl_id"]
-            ),
-            pml_id=int(
-                request.form["pml_id"]
-            )
+        kegiatan_id = int(
+            request.form["kegiatan_id"]
         )
 
-        db.session.add(data)
+        pml_id = int(
+            request.form["pml_id"]
+        )
+
+        ppl_ids = request.form.getlist(
+            "ppl_ids[]"
+        )
+
+        for ppl_id in ppl_ids:
+
+            if ppl_id:
+
+                data = Penugasan(
+
+                    kegiatan_id=kegiatan_id,
+
+                    pml_id=pml_id,
+
+                    ppl_id=int(ppl_id)
+
+                )
+
+                db.session.add(data)
+
         db.session.commit()
 
         flash(
@@ -651,11 +682,17 @@ def tambah_penugasan():
             url_for("penugasan")
         )
 
+
     return render_template(
+
         "penugasan_form.html",
+
         kegiatan=kegiatan,
+
         ppl_list=ppl_list,
+
         pml_list=pml_list
+
     )
 
 
@@ -1154,6 +1191,712 @@ def hapus_link_lainnya(id):
             id=kegiatan_id
         )
     )
+    
+@app.route("/forms")
+@login_required
+def forms():
+
+    data = FormTemplate.query.all()
+
+    return render_template(
+
+        "form_list.html",
+
+        data=data
+
+    )
+@app.route(
+
+"/forms/tambah",
+
+methods=["GET","POST"]
+
+)
+
+@login_required
+def tambah_form():
+
+    kegiatan = Kegiatan.query.all()
+
+
+
+    if request.method=="POST":
+
+
+        data = FormTemplate(
+
+            nama=request.form["nama"],
+
+            kegiatan_id=int(
+
+                request.form["kegiatan_id"]
+
+            ),
+
+            role=request.form["role"]
+
+        )
+
+
+        db.session.add(data)
+
+        db.session.commit()
+
+
+        return redirect(
+
+            url_for(
+
+                "forms"
+
+            )
+
+        )
+
+
+
+    return render_template(
+
+        "form_form.html",
+
+        kegiatan=kegiatan
+
+    )
+@app.route(
+
+"/forms/<int:id>/field"
+
+)
+
+@login_required
+def field(id):
+
+
+    data = FormField.query.filter_by(
+
+        form_id=id
+
+    ).all()
+
+
+    form = FormTemplate.query.get_or_404(
+
+        id
+
+    )
+
+
+    return render_template(
+
+        "field_list.html",
+
+        data=data,
+
+        form=form
+
+    )
+@app.route(
+
+"/forms/<int:id>/field/tambah",
+
+methods=["GET","POST"]
+
+)
+
+@login_required
+def tambah_field(id):
+
+
+    if request.method=="POST":
+
+
+
+        data = FormField(
+
+
+            form_id=id,
+
+
+            pertanyaan=request.form[
+
+                "pertanyaan"
+
+            ],
+
+
+            tipe=request.form[
+
+                "tipe"
+
+            ]
+
+        )
+
+
+        db.session.add(
+
+            data
+
+        )
+
+
+        db.session.commit()
+
+
+
+        return redirect(
+
+            url_for(
+
+                "field",
+
+                id=id
+
+            )
+
+        )
+
+
+
+    return render_template(
+
+        "field_form.html"
+
+    )
+@app.route(
+
+"/my-form"
+
+)
+
+@login_required
+def my_form():
+
+
+
+    data = FormTemplate.query.filter_by(
+
+        role=current_user.role
+
+    ).all()
+
+
+
+    return render_template(
+
+        "my_forms.html",
+
+        data=data
+
+    )
+
+@app.route(
+
+"/isi-form/<int:id>",
+
+methods=["GET","POST"]
+
+)
+
+@login_required
+def isi_form(id):
+
+
+
+    form = FormTemplate.query.get_or_404(
+
+        id
+
+    )
+
+
+
+    fields = FormField.query.filter_by(
+
+        form_id=id
+
+    ).all()
+
+
+
+    if request.method=="POST":
+
+
+        response = FormResponse(
+
+            form_id=id,
+
+            user_id=current_user.id
+
+        )
+
+
+        db.session.add(
+
+            response
+
+        )
+
+
+
+        db.session.commit()
+
+
+
+        for f in fields:
+
+
+            ans = FormAnswer(
+
+
+                response_id=response.id,
+
+
+                field_id=f.id,
+
+
+                jawaban=request.form.get(
+
+                    str(f.id)
+
+                )
+
+            )
+
+
+            db.session.add(
+
+                ans
+
+            )
+
+
+
+        db.session.commit()
+
+
+
+        return redirect(
+
+            url_for(
+
+                "dashboard"
+
+            )
+
+        )
+
+
+
+    return render_template(
+
+        "isi_form.html",
+
+        form=form,
+
+        fields=fields
+
+    )
+    
+@app.route("/forms/<int:id>/hasil")
+@login_required
+def hasil_form(id):
+
+    form = FormTemplate.query.get_or_404(id)
+
+    users = User.query.filter_by(
+        role=form.role
+    ).order_by(
+        User.nama
+    ).all()
+
+
+    responses = FormResponse.query.filter_by(
+        form_id=id
+    ).all()
+
+
+    sudah = {
+        r.user_id:r
+        for r in responses
+    }
+
+
+    return render_template(
+
+        "hasil_form.html",
+
+        form=form,
+
+        users=users,
+
+        sudah=sudah
+
+    )
+
+
+
+@app.route(
+"/forms/<int:id>/detail/<int:user_id>"
+)
+
+@login_required
+def detail_respon(
+
+id,
+
+user_id
+
+):
+
+
+    form = FormTemplate.query.get_or_404(
+
+        id
+
+    )
+
+
+    user = User.query.get_or_404(
+
+        user_id
+
+    )
+
+
+    response = FormResponse.query.filter_by(
+
+        form_id=id,
+
+        user_id=user_id
+
+    ).first()
+
+
+
+    if not response:
+
+        flash(
+
+            "Belum ada jawaban",
+
+            "warning"
+
+        )
+
+        return redirect(
+
+            url_for(
+
+                "hasil_form",
+
+                id=id
+
+            )
+
+        )
+
+
+
+    answers = FormAnswer.query.filter_by(
+
+        response_id=response.id
+
+    ).all()
+
+
+
+    mapping = {}
+
+
+    for a in answers:
+
+
+        field = FormField.query.get(
+
+            a.field_id
+
+        )
+
+
+        mapping[
+
+            field.pertanyaan
+
+        ] = a.jawaban
+
+
+
+    return render_template(
+
+        "detail_respon.html",
+
+        form=form,
+
+        user=user,
+
+        mapping=mapping
+
+    )
+@app.route(
+"/forms/field/edit/<int:id>",
+methods=["GET","POST"]
+)
+@login_required
+def edit_field(id):
+
+    field = FormField.query.get_or_404(id)
+
+    if request.method=="POST":
+
+        field.pertanyaan = request.form[
+            "pertanyaan"
+        ]
+
+        field.tipe = request.form[
+            "tipe"
+        ]
+
+        db.session.commit()
+
+        flash(
+
+            "Pertanyaan berhasil diubah",
+
+            "success"
+
+        )
+
+        return redirect(
+
+            url_for(
+
+                "field",
+
+                id=field.form_id
+
+            )
+
+        )
+
+
+    return render_template(
+
+        "field_form.html",
+
+        field=field
+
+    )
+@app.route(
+"/forms/field/hapus/<int:id>"
+)
+@login_required
+def hapus_field(id):
+
+
+    field = FormField.query.get_or_404(id)
+
+    form_id = field.form_id
+
+
+    db.session.delete(
+
+        field
+
+    )
+
+
+    db.session.commit()
+
+
+    flash(
+
+        "Pertanyaan dihapus",
+
+        "success"
+
+    )
+
+
+    return redirect(
+
+        url_for(
+
+            "field",
+
+            id=form_id
+
+        )
+
+    )
+
+@app.route("/forms/<int:id>/excel")
+@login_required
+def export_excel(id):
+
+
+    form = FormTemplate.query.get_or_404(id)
+
+
+    fields = FormField.query.filter_by(
+
+        form_id=id
+
+    ).order_by(
+
+        FormField.id
+
+    ).all()
+
+
+
+    wb = Workbook()
+
+    ws = wb.active
+
+
+
+    ws.title = form.nama
+
+
+
+    header = ["Nama"]
+
+
+
+    for f in fields:
+
+        header.append(
+
+            f.pertanyaan
+
+        )
+
+
+
+    ws.append(
+
+        header
+
+    )
+
+
+
+    responses = FormResponse.query.filter_by(
+
+        form_id=id
+
+    ).all()
+
+
+
+
+    for r in responses:
+
+
+
+        user = User.query.get(
+
+            r.user_id
+
+        )
+
+
+
+        row = [
+
+            user.nama
+
+            if user
+
+            else
+
+            "User Dihapus"
+
+        ]
+
+
+
+
+        for f in fields:
+
+
+
+            ans = FormAnswer.query.filter_by(
+
+
+                response_id=r.id,
+
+
+                field_id=f.id
+
+
+            ).first()
+
+
+
+
+            if ans:
+
+
+                row.append(
+
+                    ans.jawaban
+
+                )
+
+
+
+            else:
+
+
+                row.append("")
+
+
+
+        ws.append(
+
+            row
+
+        )
+
+
+
+    output = BytesIO()
+
+
+    wb.save(
+
+        output
+
+    )
+
+
+    output.seek(
+
+        0
+
+    )
+
+
+
+    return send_file(
+
+
+        output,
+
+
+        download_name=f"{form.nama}.xlsx",
+
+
+        as_attachment=True,
+
+
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)

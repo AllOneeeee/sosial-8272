@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h3>
+        📝 Form Dinamis
+    </h3>
+
+
+    <a href="{{ url_for('tambah_form') }}"
+       class="btn btn-primary">
+
+        <i class="bi bi-plus-circle"></i>
+
+        Tambah Form
+
+    </a>
+
+</div>
+
+
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+
+<table class="table table-hover align-middle">
+
+
+<thead class="table-dark">
+
+
+<tr>
+
+<th width="40">
+
+No
+
+</th>
+
+
+<th>
+
+Nama Form
+
+</th>
+
+
+
+<th width="120">
+
+Role
+
+</th>
+
+
+
+<th width="300">
+
+Aksi
+
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody>
+
+
+{% for x in data %}
+
+
+<tr>
+
+
+<td>
+
+{{ loop.index }}
+
+</td>
+
+
+
+<td>
+
+
+<b>
+
+{{ x.nama }}
+
+</b>
+
+
+</td>
+
+
+
+<td>
+
+
+{% if x.role=="ppl" %}
+
+<span class="badge bg-success">
+
+PPL
+
+</span>
+
+
+{% else %}
+
+
+<span class="badge bg-warning text-dark">
+
+PML
+
+</span>
+
+
+{% endif %}
+
+
+
+</td>
+
+
+
+<td>
+
+
+<a
+
+href="{{url_for(
+
+'field',
+
+id=x.id
+
+)}}"
+
+
+class="btn btn-success btn-sm"
+
+>
+
+
+<i class="bi bi-ui-checks-grid"></i>
+
+
+Pertanyaan
+
+
+</a>
+
+
+
+
+<a
+
+href="{{url_for(
+
+'hasil_form',
+
+id=x.id
+
+)}}"
+
+
+class="btn btn-primary btn-sm"
+
+>
+
+
+<i class="bi bi-list-check"></i>
+
+
+Hasil
+
+
+</a>
+
+
+
+
+
+<a
+
+href="{{url_for(
+
+'export_excel',
+
+id=x.id
+
+)}}"
+
+
+class="btn btn-success btn-sm"
+
+>
+
+
+<i class="bi bi-file-earmark-excel"></i>
+
+
+Excel
+
+
+</a>
+
+
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+
+{% endblock %}

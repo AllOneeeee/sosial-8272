@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<h3>
+
+{{form.nama}}
+
+</h3>
+
+
+
+<div class="card">
+
+
+<div class="card-body">
+
+
+<h5>
+
+{{user.nama}}
+
+</h5>
+
+
+
+<hr>
+
+
+
+{% for k,v in mapping.items() %}
+
+
+
+<div class="mb-3">
+
+
+<label>
+
+
+<b>
+
+{{k}}
+
+</b>
+
+
+</label>
+
+
+
+<p>
+
+{{v}}
+
+</p>
+
+
+
+</div>
+
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+</div>
+
+
+
+{% endblock %}

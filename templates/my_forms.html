@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3 class="mb-4">
+
+📋 Form Dinamis
+
+</h3>
+
+
+{% if data %}
+
+
+<div class="row">
+
+
+{% for f in data %}
+
+<div class="col-md-4 mb-3">
+
+
+<div class="card shadow-sm">
+
+
+<div class="card-body">
+
+
+<h5>
+
+{{ f.nama }}
+
+</h5>
+
+
+<p>
+
+Role :
+{{ f.role }}
+
+</p>
+
+
+
+<a href="{{ url_for('isi_form',id=f.id) }}"
+
+class="btn btn-primary">
+
+Isi Form
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+{% endfor %}
+
+
+</div>
+
+
+{% else %}
+
+
+<div class="alert alert-warning">
+
+Belum ada form untuk role
+
+<b>
+
+{{ current_user.role }}
+
+</b>
+
+</div>
+
+
+{% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+
+<h3>
+
+{{ form.nama }}
+
+</h3>
+
+
+
+<a
+
+href="{{url_for(
+
+'export_excel',
+
+id=form.id
+
+)}}"
+
+class="btn btn-success"
+
+>
+
+
+<i class="bi bi-file-earmark-excel"></i>
+
+
+Export Excel
+
+
+</a>
+
+
+</div>
+
+
+
+
+<div class="row mb-4">
+
+
+
+<div class="col-md-3">
+
+
+<div class="card shadow-sm">
+
+
+<div class="card-body text-center">
+
+
+<h2>
+
+{{ sudah|length }}
+
+</h2>
+
+
+Sudah Isi
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="col-md-3">
+
+
+<div class="card shadow-sm">
+
+
+<div class="card-body text-center">
+
+
+<h2>
+
+{{ users|length - sudah|length }}
+
+</h2>
+
+
+Belum Isi
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="col-md-3">
+
+
+<div class="card shadow-sm">
+
+
+<div class="card-body text-center">
+
+
+<h2>
+
+
+{{
+
+(
+
+sudah|length
+
+/
+
+users|length
+
+*100
+
+)
+
+|round(1)
+
+if users|length>0
+
+else 0
+
+}}
+
+%
+
+</h2>
+
+
+Progress
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+<div class="card shadow-sm">
+
+
+<div class="card-body">
+
+
+<table class="table table-bordered align-middle">
+
+
+
+<thead class="table-dark">
+
+
+<tr>
+
+
+<th>
+
+Nama
+
+</th>
+
+
+<th width="150">
+
+Status
+
+</th>
+
+
+
+<th width="150">
+
+Aksi
+
+</th>
+
+
+</tr>
+
+
+
+</thead>
+
+
+
+
+<tbody>
+
+
+
+{% for u in users %}
+
+
+
+<tr>
+
+
+
+<td>
+
+{{u.nama}}
+
+</td>
+
+
+
+
+<td>
+
+
+{% if u.id in sudah %}
+
+
+<span class="badge bg-success">
+
+Sudah Isi
+
+</span>
+
+
+
+{% else %}
+
+
+
+<span class="badge bg-danger">
+
+Belum Isi
+
+</span>
+
+
+
+{% endif %}
+
+
+
+</td>
+
+
+
+<td>
+
+
+{% if u.id in sudah %}
+
+
+
+<a
+
+
+href="{{url_for(
+
+'detail_respon',
+
+id=form.id,
+
+user_id=u.id
+
+)}}"
+
+
+
+class="btn btn-primary btn-sm"
+
+
+>
+
+
+<i class="bi bi-eye"></i>
+
+
+
+Lihat
+
+
+</a>
+
+
+
+{% endif %}
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+{% endfor %}
+
+
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+{% endblock %}

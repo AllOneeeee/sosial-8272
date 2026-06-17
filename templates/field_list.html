@@ -1,0 +1,72 @@
+{% extends 'base.html' %} {% block content %}
+
+<h3>{{ form.nama }}</h3>
+
+<a
+  href="{{ url_for('tambah_field', id=form.id) }}"
+  class="btn btn-primary mb-3"
+>
+  Tambah Pertanyaan
+</a>
+
+<table class="table table-bordered">
+  <
+  <thead>
+    <tr>
+      <th>No</th>
+
+      <th>Pertanyaan</th>
+
+      <th>Tipe</th>
+
+      <th width="180">Aksi</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for x in data %}
+
+    <tr>
+      <td>{{loop.index}}</td>
+
+      <td>{{x.pertanyaan}}</td>
+
+      <td>{{x.tipe}}</td>
+
+      <td>
+        <a
+          href="{{url_for(
+
+'edit_field',
+
+id=x.id
+
+)}}"
+          class="btn btn-warning btn-sm"
+        >
+          Edit
+        </a>
+
+        <a
+          href="{{url_for(
+
+'hapus_field',
+
+id=x.id
+
+)}}"
+          onclick="return confirm('Hapus pertanyaan?');"
+          class="btn btn-danger btn-sm"
+        >
+          Hapus
+        </a>
+      </td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{{ url_for('forms') }}" class="btn btn-secondary"> Kembali </a>
+
+{% endblock %}

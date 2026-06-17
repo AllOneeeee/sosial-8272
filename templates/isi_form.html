@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>
+
+{{ form.nama }}
+
+</h3>
+
+
+<form method="POST">
+
+
+{% for f in fields %}
+
+
+<div class="mb-3">
+
+<label>
+
+{{ f.pertanyaan }}
+
+</label>
+
+
+
+{% if f.tipe=="text" %}
+
+<input
+type="text"
+name="{{f.id}}"
+class="form-control">
+
+
+{% elif f.tipe=="number" %}
+
+<input
+type="number"
+name="{{f.id}}"
+class="form-control">
+
+
+{% elif f.tipe=="date" %}
+
+<input
+type="date"
+name="{{f.id}}"
+class="form-control">
+
+
+{% elif f.tipe=="textarea" %}
+
+<textarea
+name="{{f.id}}"
+class="form-control">
+</textarea>
+
+
+{% endif %}
+
+
+</div>
+
+
+{% endfor %}
+
+
+
+<button class="btn btn-primary">
+
+Simpan
+
+</button>
+
+
+</form>
+
+
+{% endblock %}
