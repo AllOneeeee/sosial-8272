@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>{{form.nama}}</h3>
+
+<a href="{{url_for('isi_form',id=form.id)}}"
+class="btn btn-success mb-3">
+
++ Tambah Isian
+
+</a>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>No</th>
+
+{% for f in fields %}
+<th>{{f.pertanyaan}}</th>
+{% endfor %}
+
+<th>Aksi</th>
+
+</tr>
+
+
+
+{% for r in rows %}
+
+<tr>
+
+<td>{{loop.index}}</td>
+
+{% for f in fields %}
+
+<td>
+
+{{r.get(f.id,'')}}
+
+</td>
+
+{% endfor %}
+
+
+<td>
+
+<a href="#"
+
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+
+<a href="#"
+
+class="btn btn-danger btn-sm">
+
+Hapus
+
+</a>
+
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+
+</table>
+
+{% endblock %}

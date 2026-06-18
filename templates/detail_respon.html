@@ -1,77 +1,25 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-
-
-
-<h3>
-
-{{form.nama}}
-
-</h3>
-
-
+<h3>{{form.nama}}</h3>
 
 <div class="card">
+  <div class="card-body">
+    <h5>{{user.nama}}</h5>
 
+    <hr />
 
-<div class="card-body">
+    {% for k,v in mapping.items() %}
 
+    <div class="mb-3">
+      <label>
+        <b> {{k}} </b>
+      </label>
 
-<h5>
+      <p>{{v}}</p>
+    </div>
 
-{{user.nama}}
-
-</h5>
-
-
-
-<hr>
-
-
-
-{% for k,v in mapping.items() %}
-
-
-
-<div class="mb-3">
-
-
-<label>
-
-
-<b>
-
-{{k}}
-
-</b>
-
-
-</label>
-
-
-
-<p>
-
-{{v}}
-
-</p>
-
-
-
+    {% endfor %}
+  </div>
 </div>
-
-
-
-{% endfor %}
-
-
-
-</div>
-
-
-</div>
-
-
 
 {% endblock %}

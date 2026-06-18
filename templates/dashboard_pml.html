@@ -1,13 +1,22 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Dashboard PML</h1>
-<a href="{{ url_for('my_form') }}">
-  <div class="card">
-    <div class="card-body">
-      <h3>📝</h3>
-      <h5>Form Saya</h5>
-    </div>
-  </div>
+<h2>Dashboard PML</h2>
+
+<a href="{{ url_for('my_forms') }}"
+class="text-decoration-none">
+
+<div class="card mb-3">
+
+<div class="card-body text-center">
+
+<h3>📝</h3>
+
+<h5>Form Saya</h5>
+
+</div>
+
+</div>
+
 </a>
 
 <hr>

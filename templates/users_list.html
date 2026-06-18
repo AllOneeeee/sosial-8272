@@ -3,62 +3,107 @@
 {% block content %}
 
 <div class="d-flex justify-content-between mb-3">
+
     <h3>Data User</h3>
 
     <a href="{{ url_for('tambah_user') }}"
        class="btn btn-success">
-       <i class="bi bi-plus-circle"></i>
+
+        <i class="bi bi-plus-circle"></i>
+
         Tambah User
+
     </a>
+
 </div>
+
+
 
 <table class="table table-bordered table-striped">
 
     <thead>
+
         <tr>
-            <th width="60">No</th>
+
+            <th>No</th>
+
             <th>Nama</th>
+
             <th>Username</th>
+
+            <th>No HP</th>
+
+            <th>Desa</th>
+
+            <th>Kecamatan</th>
+
             <th>Role</th>
-            <th width="180">Aksi</th>
+
+            <th>Aksi</th>
+
         </tr>
+
     </thead>
+
+
 
     <tbody>
 
-    {% for user in data %}
+        {% for u in users %}
+
         <tr>
+
             <td>{{ loop.index }}</td>
-            <td>{{ user.nama }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.role|upper }}</td>
+
+            <td>{{ u.nama }}</td>
+
+            <td>{{ u.username }}</td>
+
+            <td>{{ u.no_hp or '-' }}</td>
+
+            <td>{{ u.desa or '-' }}</td>
+
+            <td>{{ u.kecamatan or '-' }}</td>
+
+            <td>{{ u.role.upper() }}</td>
 
             <td>
 
-                <a href="{{ url_for('edit_user', id=user.id) }}"
+                <a href="{{ url_for('edit_user', id=u.id) }}"
                    class="btn btn-warning btn-sm">
+
                     Edit
+
                 </a>
 
-                <a href="{{ url_for('hapus_user', id=user.id) }}"
+
+                <a href="{{ url_for('hapus_user', id=u.id) }}"
                    class="btn btn-danger btn-sm"
                    onclick="return confirm('Hapus user ini?')">
+
                     Hapus
+
                 </a>
 
             </td>
+
         </tr>
-    {% endfor %}
+
+        {% endfor %}
 
     </tbody>
 
 </table>
 
+
+
 <a href="{{ url_for('dashboard') }}"
    class="btn btn-secondary">
-   <i class="bi bi-arrow-left"></i>
+
+    <i class="bi bi-arrow-left"></i>
 
     Kembali
 
 </a>
+
 {% endblock %}

@@ -439,3 +439,53 @@ body{
     font-weight:600;
     box-shadow:0 5px 15px rgba(13,110,253,.25);
 }
+
+
+/* Header atas */
+.header-tahun{
+    background:#198754 !important;
+    color:white !important;
+    text-align:center;
+    font-weight:700;
+}
+
+/* Pojok kiri atas */
+.header-kecamatan{
+    background:#0d6efd !important;
+    color:white !important;
+    font-weight:700;
+}
+
+/* Header samping */
+.header-samping{
+    background:#0d6efd !important;
+    color:white !important;
+    font-weight:700;
+    width:180px;
+    vertical-align:middle;
+}
+
+.header-tahun input,
+.header-samping input{
+
+background:white;
+
+font-weight:700;
+
+text-align:center;
+
+}
+
+
+.header-tahun{
+
+min-width:140px;
+
+}
+
+
+.header-samping{
+
+min-width:220px;
+
+}

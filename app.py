@@ -30,6 +30,7 @@ from models import *
 from datetime import datetime
 
 from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment
 # ==========================
 # APP
 # ==========================
@@ -311,24 +312,19 @@ def dashboard():
 # USERS
 # ==========================
 
-@app.route("/users")
+@app.route('/users')
 @login_required
 def users():
 
-    if current_user.role != "admin":
-        return redirect(
-            url_for("dashboard")
-        )
+    users = User.query.all()
 
-    data = User.query.order_by(
-        User.nama
-    ).all()
+    print(users)
+    print(len(users))
 
     return render_template(
-        "users_list.html",
-        data=data
+        'users_list.html',
+        users=users
     )
-
 
 # ==========================
 # TAMBAH USER
@@ -349,12 +345,25 @@ def tambah_user():
     if request.method == "POST":
 
         user = User(
+
             nama=request.form["nama"],
+
             username=request.form["username"],
+
             password=generate_password_hash(
+
                 request.form["password"]
+
             ),
-            role=request.form["role"]
+
+            role=request.form["role"],
+
+            no_hp=request.form["no_hp"],
+
+            desa=request.form["desa"],
+
+            kecamatan=request.form["kecamatan"]
+
         )
 
         db.session.add(user)
@@ -398,6 +407,11 @@ def edit_user(id):
         user.nama = request.form["nama"]
         user.username = request.form["username"]
         user.role = request.form["role"]
+        user.no_hp = request.form["no_hp"]
+
+        user.desa = request.form["desa"]
+
+        user.kecamatan = request.form["kecamatan"]
 
         if request.form["password"]:
 
@@ -1206,61 +1220,50 @@ def forms():
 
     )
 @app.route(
-
-"/forms/tambah",
-
-methods=["GET","POST"]
-
+    "/forms/tambah",
+    methods=["GET", "POST"]
 )
-
 @login_required
 def tambah_form():
 
-    kegiatan = Kegiatan.query.all()
+    if request.method == "POST":
 
+        deadline = None
 
-
-    if request.method=="POST":
+        if request.form.get("deadline"):
+            deadline = datetime.strptime(
+                request.form["deadline"],
+                "%Y-%m-%d"
+            ).date()
 
 
         data = FormTemplate(
 
             nama=request.form["nama"],
 
-            kegiatan_id=int(
+            role=request.form["role"],
 
-                request.form["kegiatan_id"]
-
-            ),
-
-            role=request.form["role"]
+            deadline=deadline
 
         )
 
 
         db.session.add(data)
-
         db.session.commit()
 
+        flash(
+            "Form berhasil ditambahkan",
+            "success"
+        )
 
         return redirect(
-
-            url_for(
-
-                "forms"
-
-            )
-
+            url_for("forms")
         )
 
 
-
     return render_template(
-
         "form_form.html",
-
-        kegiatan=kegiatan
-
+        form=None
     )
 @app.route(
 
@@ -1363,30 +1366,65 @@ def tambah_field(id):
         "field_form.html"
 
     )
-@app.route(
-
-"/my-form"
-
-)
-
+@app.route('/my-form/<int:id>')
 @login_required
-def my_form():
+def lihat_isian(id):
+
+    form = FormTemplate.query.get_or_404(id)
+
+    fields = FormField.query.filter_by(
+        form_id=id
+    ).all()
 
 
+    responses = FormResponse.query.filter_by(
 
-    data = FormTemplate.query.filter_by(
+        form_id=id,
 
-        role=current_user.role
+        user_id=current_user.id
 
     ).all()
 
 
+    rows = []
+
+    for r in responses:
+
+        row = {
+
+            'id': r.id
+
+        }
+
+
+        answers = FormAnswer.query.filter_by(
+
+            response_id=r.id
+
+        ).all()
+
+
+        for a in answers:
+
+            row[a.field_id] = a.jawaban
+
+
+        rows.append(
+
+            row
+
+        )
+
 
     return render_template(
 
-        "my_forms.html",
+        'lihat_isian.html',
 
-        data=data
+        form=form,
+
+        fields=fields,
+
+        rows=rows
 
     )
 
@@ -1421,7 +1459,6 @@ def isi_form(id):
 
     if request.method=="POST":
 
-
         response = FormResponse(
 
             form_id=id,
@@ -1430,30 +1467,17 @@ def isi_form(id):
 
         )
 
-
-        db.session.add(
-
-            response
-
-        )
-
-
-
+        db.session.add(response)
         db.session.commit()
-
 
 
         for f in fields:
 
-
             ans = FormAnswer(
-
 
                 response_id=response.id,
 
-
                 field_id=f.id,
-
 
                 jawaban=request.form.get(
 
@@ -1463,24 +1487,28 @@ def isi_form(id):
 
             )
 
-
-            db.session.add(
-
-                ans
-
-            )
-
+            db.session.add(ans)
 
 
         db.session.commit()
 
+
+        flash(
+
+            "Data berhasil ditambahkan",
+
+            "success"
+
+        )
 
 
         return redirect(
 
             url_for(
 
-                "dashboard"
+                "isi_form",
+
+                id=id
 
             )
 
@@ -1497,7 +1525,7 @@ def isi_form(id):
         fields=fields
 
     )
-    
+        
 @app.route("/forms/<int:id>/hasil")
 @login_required
 def hasil_form(id):
@@ -2072,7 +2100,12 @@ def input_data_strategis(id):
 @login_required
 def grafik_indikator(id):
 
-    indikator = DashboardIndikator.query.get_or_404(id)
+
+    indikator = DashboardIndikator.query.get_or_404(
+
+        id
+
+    )
 
 
     tahun_list = db.session.query(
@@ -2086,6 +2119,7 @@ def grafik_indikator(id):
     ).distinct().all()
 
 
+
     tahun_list = sorted(
 
         [x[0] for x in tahun_list]
@@ -2093,60 +2127,90 @@ def grafik_indikator(id):
     )
 
 
+
     tahun = request.args.get(
 
-        'tahun',
+        "tahun",
 
         type=int
 
     )
 
 
-    if not tahun:
 
-        tahun = tahun_list[-1]
-
-
-    data = DashboardData.query.filter_by(
-
-        indikator_id=id,
-
-        tahun=tahun
-
-    ).all()
+    if tahun_list:
 
 
-
-    labels = [
-
-        x.wilayah
-
-        for x in data
-
-    ]
+        if not tahun:
 
 
-    values = [
+            tahun = tahun_list[-1]
 
-        x.nilai
 
-        for x in data
+    else:
 
-    ]
+
+        tahun = None
+
+
+
+    data=[]
+
+    labels=[]
+
+    values=[]
+
+
+
+    if tahun:
+
+
+        data = DashboardData.query.filter_by(
+
+            indikator_id=id,
+
+            tahun=tahun
+
+        ).all()
+
+
+
+        labels = [
+
+            x.wilayah
+
+            for x in data
+
+        ]
+
+
+
+        values = [
+
+            x.nilai
+
+            for x in data
+
+        ]
 
 
 
     return render_template(
 
-        'chart_view.html',
+        "chart_view.html",
+
 
         indikator=indikator,
 
+
         tahun=tahun,
+
 
         tahun_list=tahun_list,
 
+
         labels=labels,
+
 
         values=values
 
@@ -2228,135 +2292,104 @@ def upload_dashboard(id):
 '/dashboard-sheet/<int:id>',
 methods=['GET','POST']
 )
-
 @login_required
 def dashboard_sheet(id):
 
+    indikator = DashboardIndikator.query.get_or_404(id)
 
-    indikator=DashboardIndikator.query.get_or_404(id)
+    baris = DashboardBaris.query.filter_by(
+        indikator_id=id
+    ).all()
 
-
-
-    kecamatan=[
-
-'Tidore',
-
-'Tidore Selatan',
-
-"Tidore Timur",
-"Tidore Utara",
-
-'Oba',
-
-'Oba Utara',
-
-'Oba Tengah',
-
-'Oba Selatan'
-
-]
+    kolom = DashboardKolom.query.filter_by(
+        indikator_id=id
+    ).all()
 
 
-    tahun=list(
+    if request.method == 'POST':
 
-        range(
+        for b in baris:
 
-            2021,
-
-            2031
-
-        )
-
-    )
+            b.nama = request.form.get(
+                f'baris_{b.id}'
+            )
 
 
+        for k in kolom:
 
-    if request.method=='POST':
-
-
-
-        for k in kecamatan:
-
+            k.nama = request.form.get(
+                f'kolom_{k.id}'
+            )
 
 
-            for t in tahun:
+        for b in baris:
 
+            for k in kolom:
 
+                nilai = request.form.get(
 
-                nama=f"{k}_{t}"
-
-
-
-                nilai=request.form.get(
-
-                    nama
+                    f'{b.id}_{k.id}'
 
                 )
 
+
+                ada = DashboardData.query.filter_by(
+
+                    indikator_id=id,
+
+                    wilayah=b.nama,
+
+                    tahun=int(k.nama)
+
+                ).first()
 
 
                 if nilai:
 
 
-
-                    ada=DashboardData.query.filter_by(
-
-                        indikator_id=id,
-
-                        wilayah=k,
-
-                        tahun=t
-
-                    ).first()
-
-
-
                     if ada:
 
-
-                        ada.nilai=float(
-
-                            nilai
-
-                        )
-
+                        ada.nilai=float(nilai)
 
                     else:
 
 
+                        db.session.add(
 
-                        x=DashboardData(
+                            DashboardData(
 
-                            indikator_id=id,
+                                indikator_id=id,
 
-                            wilayah=k,
+                                wilayah=b.nama,
 
-                            tahun=t,
+                                tahun=int(k.nama),
 
-                            nilai=float(
-
-                                nilai
+                                nilai=float(nilai)
 
                             )
 
                         )
 
 
-
-                        db.session.add(
-
-                            x
-
-                        )
-
-
-
         db.session.commit()
 
 
 
-    data={}
+        return redirect(
 
+        url_for(
+
+        'grafik_indikator',
+
+        id=id
+
+        )
+
+        )
+
+
+
+    data={}
 
 
     semua=DashboardData.query.filter_by(
@@ -2366,42 +2399,33 @@ def dashboard_sheet(id):
     ).all()
 
 
-
     for d in semua:
 
-
-        data[
-
-            (
-
-                d.wilayah,
-
-                d.tahun
-
-            )
-
-        ]=d.nilai
+        data[(d.wilayah,d.tahun)] = d.nilai
 
 
 
     return render_template(
 
-        'sheet_dashboard.html',
+    'sheet_dashboard.html',
 
+    indikator=indikator,
 
-        indikator=indikator,
+    baris=baris,
 
+    kolom=kolom,
 
-        kecamatan=kecamatan,
-
-
-        tahun=tahun,
-
-
-        data=data
+    data=data
 
     )
-    
+
+
+
+
+
+
+
+
 @app.route(
 '/dashboard/export/<int:id>'
 )
@@ -2412,13 +2436,11 @@ def export_dashboard(id):
     indikator = DashboardIndikator.query.get_or_404(id)
 
 
-
     data = DashboardData.query.filter_by(
 
         indikator_id=id
 
     ).all()
-
 
 
     wilayah = sorted(
@@ -2438,7 +2460,6 @@ def export_dashboard(id):
     )
 
 
-
     tahun = sorted(
 
         list(
@@ -2456,7 +2477,6 @@ def export_dashboard(id):
     )
 
 
-
     wb = Workbook()
 
     ws = wb.active
@@ -2466,23 +2486,88 @@ def export_dashboard(id):
 
 
 
-    header = [
-
-        'Kecamatan'
-
-    ] + tahun
+    judul = f"{indikator.nama} ({indikator.satuan})"
 
 
-    ws.append(
+    ws["A1"] = judul
 
-        header
+
+    ws["A1"].font = Font(
+
+        bold=True,
+
+        size=14
+
+    )
+
+
+    ws["A1"].alignment = Alignment(
+
+        horizontal="center"
 
     )
 
 
 
-    for k in wilayah:
+    ws.merge_cells(
 
+        start_row=1,
+
+        start_column=1,
+
+        end_row=1,
+
+        end_column=len(tahun)+1
+
+    )
+
+
+
+    header = [
+
+        "Kecamatan"
+
+    ] + tahun
+
+
+
+    for i,v in enumerate(
+
+        header,
+
+        1
+
+    ):
+
+
+        ws.cell(
+
+            row=3,
+
+            column=i
+
+        ).value = v
+
+
+
+        ws.cell(
+
+            row=3,
+
+            column=i
+
+        ).font = Font(
+
+            bold=True
+
+        )
+
+
+
+    row_excel = 4
+
+
+    for k in wilayah:
 
 
         row=[
@@ -2490,7 +2575,6 @@ def export_dashboard(id):
             k
 
         ]
-
 
 
         for t in tahun:
@@ -2513,33 +2597,38 @@ def export_dashboard(id):
 
 
 
-            if d:
+            row.append(
 
+                d.nilai
 
-                row.append(
+                if d
 
-                    d.nilai
+                else ''
 
-                )
-
-
-            else:
-
-
-                row.append(
-
-                    ''
-
-                )
+            )
 
 
 
-        ws.append(
+        for i,v in enumerate(
 
-            row
+            row,
 
-        )
+            1
 
+        ):
+
+
+            ws.cell(
+
+                row=row_excel,
+
+                column=i
+
+            ).value = v
+
+
+
+        row_excel += 1
 
 
 
@@ -2560,9 +2649,7 @@ def export_dashboard(id):
     )
 
 
-
     return send_file(
-
 
         output,
 
@@ -2574,6 +2661,263 @@ def export_dashboard(id):
 
 
         mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    )
+@app.route('/dashboard-sheet/<int:id>/baris/<int:jumlah>')
+@login_required
+def tambah_baris(id, jumlah):
+
+    for i in range(jumlah):
+
+        db.session.add(
+
+            DashboardBaris(
+
+                indikator_id=id,
+
+                nama=f'Baris {i+1}'
+
+            )
+
+        )
+
+    db.session.commit()
+
+    return redirect(
+
+        url_for(
+
+            'dashboard_sheet',
+
+            id=id
+
+        )
+
+    )
+
+
+@app.route('/dashboard-sheet/<int:id>/kolom/<int:jumlah>')
+@login_required
+def tambah_kolom(id, jumlah):
+
+    awal = DashboardKolom.query.filter_by(
+
+        indikator_id=id
+
+    ).count()
+
+
+    for i in range(jumlah):
+
+        db.session.add(
+
+            DashboardKolom(
+
+                indikator_id=id,
+
+                nama=str(
+
+                    2026 +
+
+                    awal +
+
+                    i
+
+                )
+
+            )
+
+        )
+
+
+
+    db.session.commit()
+
+
+    return redirect(
+
+        url_for(
+
+            'dashboard_sheet',
+
+            id=id
+
+        )
+
+    )
+
+
+@app.route('/hapus-baris/<int:id>')
+@login_required
+def hapus_baris(id):
+
+    x = DashboardBaris.query.get_or_404(id)
+
+    db.session.delete(x)
+
+    db.session.commit()
+
+    return redirect(request.referrer)
+
+
+@app.route('/hapus-kolom/<int:id>')
+@login_required
+def hapus_kolom(id):
+
+    x = DashboardKolom.query.get_or_404(id)
+
+    db.session.delete(x)
+
+    db.session.commit()
+
+    return redirect(request.referrer)
+
+@app.route(
+'/dashboard/indikator/hapus/<int:id>'
+)
+
+@login_required
+def hapus_indikator(id):
+
+
+    indikator = DashboardIndikator.query.get_or_404(id)
+
+
+
+    DashboardData.query.filter_by(
+
+        indikator_id=id
+
+    ).delete()
+
+
+
+    DashboardBaris.query.filter_by(
+
+        indikator_id=id
+
+    ).delete()
+
+
+
+    DashboardKolom.query.filter_by(
+
+        indikator_id=id
+
+    ).delete()
+
+
+
+    kategori_id = indikator.kategori_id
+
+
+
+    db.session.delete(
+
+        indikator
+
+    )
+
+
+
+    db.session.commit()
+
+
+
+    return redirect(
+
+        url_for(
+
+            'indikator_strategis',
+
+            id=kategori_id
+
+        )
+
+    )
+
+@login_required
+def riwayat_form(id):
+
+
+    responses = FormResponse.query.filter_by(
+
+        form_id=id,
+
+        user_id=current_user.id
+
+    ).all()
+
+
+
+    return render_template(
+
+        'riwayat_form.html',
+
+        responses=responses,
+
+        form_id=id
+
+    )
+@login_required
+def detail_isian(id):
+
+
+    response = FormResponse.query.get_or_404(id)
+
+
+
+    answers = FormAnswer.query.filter_by(
+
+        response_id=id
+
+    ).all()
+
+
+
+    return render_template(
+
+        'detail_isian.html',
+
+        answers=answers
+
+    )
+@login_manager.user_loader
+def load_user(user_id):
+
+    try:
+
+        return db.session.get(
+
+            User,
+
+            int(user_id)
+
+        )
+
+    except Exception:
+
+        db.session.rollback()
+
+        db.session.remove()
+
+        return None
+
+@app.route("/my-forms")
+@login_required
+def my_forms():
+
+    data = FormTemplate.query.filter_by(
+
+        role=current_user.role
+
+    ).all()
+
+    return render_template(
+
+        "my_forms.html",
+
+        data=data
 
     )
 if __name__ == "__main__":

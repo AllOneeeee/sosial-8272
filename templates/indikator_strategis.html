@@ -13,76 +13,52 @@
 
       <th>Satuan</th>
 
-      <th>Aksi</th>
+      <th>Menu</th>
     </tr>
   </thead>
 
   <tbody>
-    {% for x in indikator %}
+    {% for i in indikator %}
 
     <tr>
-      <td>{{x.nama}}</td>
+      <td>{{i.nama}}</td>
 
-      <td>{{x.satuan}}</td>
+      <td>{{i.satuan}}</td>
 
       <td>
         <a
-          href="{{url_for(
-
-'input_data_strategis',
-
-id=x.id
-
-)}}"
-          class="btn btn-success btn-sm"
-        >
-          Input Data
-        </a>
-      </td>
-      <td>
-        <a
-          href="{{url_for(
-
-'grafik_indikator',
-
-id=x.id
-
-)}}"
           class="btn btn-info btn-sm"
+          href="{{url_for('grafik_indikator',
+id=i.id)}}"
         >
           Grafik
         </a>
+
         <a
+          class="btn btn-warning btn-sm"
+          href="{{url_for('dashboard_sheet',
+id=i.id)}}"
+        >
+          Spreadsheet
+        </a>
 
-href="{{url_for(
-
-'dashboard_sheet',
-
-id=x.id
-
-)}}"
-
-
-class="btn btn-warning btn-sm"
-
->
-
-
-Spreadsheet
-
-
-</a>
+        <a
+          class="btn btn-danger btn-sm"
+          href="{{url_for('hapus_indikator',
+id=i.id)}}"
+          onclick="return confirm('Hapus indikator?');"
+        >
+          Hapus
+        </a>
       </td>
     </tr>
 
     {% endfor %}
   </tbody>
 </table>
-<a href="{{ url_for('dashboard') }}"
-   class="btn btn-secondary">
-<i class="bi bi-arrow-left"></i>
-    Kembali
-
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+  <i class="bi bi-arrow-left"></i>
+  Kembali
 </a>
 
 {% endblock %}

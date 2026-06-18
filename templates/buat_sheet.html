@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% block content %}
+
+<h3>Buat Sheet</h3>
+
+<form method="POST">
+  <h5>Kolom</h5>
+
+  <div id="kolom">
+    <input name="kolom" class="form-control mb-2" placeholder="Nama Kolom" />
+  </div>
+
+  <button type="button" class="btn btn-success" onclick="tambahKolom()">
+    Tambah Kolom
+  </button>
+
+  <hr />
+
+  <h5>Baris</h5>
+
+  <div id="baris">
+    <input name="baris" class="form-control mb-2" placeholder="Nama Baris" />
+  </div>
+
+  <button type="button" class="btn btn-info" onclick="tambahBaris()">
+    Tambah Baris
+  </button>
+
+  <hr />
+
+  <button class="btn btn-primary">Simpan</button>
+</form>
+
+<script>
+  function tambahKolom() {
+    document.getElementById("kolom").innerHTML += `
+
+
+
+<input
+
+name="kolom"
+
+class="form-control mb-2"
+
+placeholder="Nama Kolom"
+
+>
+
+
+
+`;
+  }
+
+  function tambahBaris() {
+    document.getElementById("baris").innerHTML += `
+
+
+
+<input
+
+name="baris"
+
+class="form-control mb-2"
+
+placeholder="Nama Baris"
+
+>
+
+
+
+`;
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+
+<h3>Riwayat Isian</h3>
+
+<table class="table table-bordered">
+  <tr>
+    <th>No</th>
+
+    <th>Tanggal</th>
+
+    <th>Aksi</th>
+  </tr>
+
+  {% for r in responses %}
+
+  <tr>
+    <td>{{loop.index}}</td>
+
+    <td>{{r.created_at}}</td>
+
+    <td>
+      <a
+        href="{{url_for(
+
+'detail_isian',
+
+id=r.id
+
+)}}"
+        class="btn btn-primary btn-sm"
+      >
+        Lihat
+      </a>
+    </td>
+  </tr>
+
+  {% endfor %}
+</table>
+
+{% endblock %}

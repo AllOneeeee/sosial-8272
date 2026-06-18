@@ -1,59 +1,119 @@
 {% extends 'base.html' %} {% block content %}
 
-<h3>{{indikator.nama}}</h3>
+<h3 class="mb-3">
+
+{{indikator.nama}}
+
+{% if indikator.satuan %}
+
+<small class="text-secondary">
+
+({{indikator.satuan}})
+
+</small>
+
+{% endif %}
+
+</h3>
 
 <form method="POST">
-  <div class="table-responsive">
-    <div class="d-flex justify-content-between mb-4">
+  <div class="mb-3 d-flex gap-2 flex-wrap">
+    <button class="btn btn-primary">💾 Simpan Semua</button>
 
-      <div>
-        <a
-          href="{{url_for(
+    <a
+      href="{{url_for(
 
 'export_dashboard',
 
 id=indikator.id
 
 )}}"
-          class="btn btn-success"
-        >
-          <i class="bi bi-file-earmark-excel"></i>
+      class="btn btn-success"
+    >
+      📥 Export Excel
+    </a>
 
-          Export Excel
-        </a>
-      </div>
-    </div>
-    <table class="table table-bordered">
+    <button type="button" class="btn btn-success" onclick="tambahBaris()">
+      ➕ Baris
+    </button>
+
+    <button type="button" class="btn btn-info" onclick="tambahKolom()">
+      ➕ Kolom
+    </button>
+
+   
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
       <thead>
         <tr>
-          <th>Kecamatan</th>
+          <th class="header-kecamatan">Kecamatan</th>
 
-          {% for t in tahun %}
+          {% for k in kolom %}
 
-          <th>{{t}}</th>
+          <th class="header-tahun">
+            <input
+              type="text"
+              name="kolom_{{k.id}}"
+              value="{{k.nama}}"
+              class="form-control mb-1 text-center fw-bold"
+            />
+
+            <a
+              href="{{url_for(
+
+'hapus_kolom',
+
+id=k.id
+
+)}}"
+              class="btn btn-danger btn-sm"
+            >
+              ×
+            </a>
+          </th>
 
           {% endfor %}
         </tr>
       </thead>
 
       <tbody>
-        {% for k in kecamatan %}
+        {% for b in baris %}
 
         <tr>
-          <td>
-            <b> {{k}} </b>
-          </td>
+          <th class="header-samping">
+            <input
+              type="text"
+              name="baris_{{b.id}}"
+              value="{{b.nama}}"
+              class="form-control mb-1 fw-bold"
+            />
 
-          {% for t in tahun %}
+            <a
+              href="{{url_for(
+
+'hapus_baris',
+
+id=b.id
+
+)}}"
+              class="btn btn-danger btn-sm"
+            >
+              ×
+            </a>
+          </th>
+
+          {% for k in kolom %}
 
           <td>
             <input
               type="number"
               step="0.01"
-              name="{{k}}_{{t}}"
+              name="{{b.id}}_{{k.id}}"
               value="{{data.get(
 
-(k,t),
+(b.nama,k.nama|int),
 
 ''
 
@@ -68,24 +128,35 @@ id=indikator.id
         {% endfor %}
       </tbody>
     </table>
+     <a
+      href="{{url_for(
+
+'indikator_strategis',
+
+id=indikator.kategori_id
+
+)}}"
+      class="btn btn-secondary"
+    >
+      ← Kembali
+    </a>
   </div>
-
-  <button class="btn btn-primary">💾 Simpan Semua</button>
-          <a href="{{url_for(
-
-            'indikator_strategis',
-
-            id=indikator.kategori_id
-
-        )}}"
-
-        class="btn btn-secondary">
-
-            <i class="bi bi-arrow-left"></i>
-
-            Kembali
-
-        </a>
 </form>
+<script>
+  function tambahBaris() {
+    let j = prompt("Tambah berapa baris?");
 
+    if (!j) return;
+
+    window.location = "/dashboard-sheet/{{indikator.id}}/baris/" + j;
+  }
+
+  function tambahKolom() {
+    let j = prompt("Tambah berapa kolom?");
+
+    if (!j) return;
+
+    window.location = "/dashboard-sheet/{{indikator.id}}/kolom/" + j;
+  }
+</script>
 {% endblock %}

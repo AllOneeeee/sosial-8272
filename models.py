@@ -9,32 +9,19 @@ db = SQLAlchemy()
 # USER
 # ==========================
 
-class User(UserMixin, db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
 
-    nama = db.Column(
-        db.String(100),
-        nullable=False
-    )
+    nama = db.Column(db.String(100))
+    username = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(255))
+    role = db.Column(db.String(20))
 
-    username = db.Column(
-        db.String(50),
-        unique=True,
-        nullable=False
-    )
-
-    password = db.Column(
-        db.String(255),
-        nullable=False
-    )
-
-    role = db.Column(
-        db.String(20),
-        nullable=False
-    )
-
+    no_hp = db.Column(db.String(20))
+    desa = db.Column(db.String(100))
+    kecamatan = db.Column(db.String(100))
 
 # ==========================
 # KEGIATAN
@@ -362,23 +349,33 @@ class FormResponse(db.Model):
 
 class FormAnswer(db.Model):
 
-    __tablename__="form_answer"
-
-    id=db.Column(
+    id = db.Column(
         db.Integer,
         primary_key=True
     )
 
-    response_id=db.Column(
-        db.Integer
+    response_id = db.Column(
+        db.Integer,
+        db.ForeignKey('form_response.id')
     )
 
-    field_id=db.Column(
-        db.Integer
+    field_id = db.Column(
+        db.Integer,
+        db.ForeignKey('form_field.id')
     )
 
-    jawaban=db.Column(
+    jawaban = db.Column(
         db.Text
+    )
+
+
+    response = db.relationship(
+        'FormResponse'
+    )
+
+
+    field = db.relationship(
+        'FormField'
     )
 class DashboardKategori(db.Model):
     __tablename__ = "dashboard_kategori"
@@ -517,3 +514,24 @@ def create_dashboard():
 
 
     db.session.commit()
+
+class DashboardBaris(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    indikator_id = db.Column(
+        db.Integer,
+        db.ForeignKey('dashboard_indikator.id')
+    )
+
+    nama = db.Column(db.String(100))
+
+
+class DashboardKolom(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    indikator_id = db.Column(
+        db.Integer,
+        db.ForeignKey('dashboard_indikator.id')
+    )
+
+    nama = db.Column(db.String(50))

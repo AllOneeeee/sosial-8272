@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Detail Isian</h3>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Pertanyaan</th>
+            <th>Jawaban</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for a in answers %}
+
+        <tr>
+
+            <td>{{ loop.index }}</td>
+
+            <td>{{ a.field.nama }}</td>
+
+            <td>{{ a.jawaban }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+<a href="javascript:history.back()"
+   class="btn btn-secondary">
+
+    ← Kembali
+
+</a>
+
+{% endblock %}
