@@ -817,54 +817,30 @@ def tambah_bs():
     )
 
 
-@app.route(
-    "/bs/edit/<int:id>",
-    methods=["GET", "POST"]
-)
+@app.route('/bs/edit/<int:id>', methods=['GET','POST'])
 @login_required
 def edit_bs(id):
 
-    data = BlokSensus.query.get_or_404(id)
+    bs = BlokSensus.query.get_or_404(id)
 
-    kegiatan = Kegiatan.query.all()
+    if request.method == 'POST':
 
-    ppl_list = User.query.filter_by(
-        role="ppl"
-    ).all()
-
-    if request.method == "POST":
-
-        data.kegiatan_id = int(
-            request.form["kegiatan_id"]
-        )
-
-        data.ppl_id = int(
-            request.form["ppl_id"]
-        )
-        data.kecamatan = request.form["kecamatan"]
-
-        data.kode_bs = request.form["kode_bs"]
-
-        data.target = int(
-            request.form["target"]
-        )
+        bs.kode_bs = request.form['kode_bs']
+        bs.ppl_id = request.form['ppl_id']
+        bs.target = request.form['target']
 
         db.session.commit()
 
-        flash(
-            "BS berhasil diubah",
-            "success"
-        )
+        flash('BS berhasil diperbarui')
 
-        return redirect(
-            url_for("bs")
-        )
+        return redirect(url_for('bs'))
+
+    ppls = User.query.filter_by(role='ppl').all()
 
     return render_template(
-        "bs_form.html",
-        kegiatan=kegiatan,
-        ppl_list=ppl_list,
-        data=data
+        'edit_bs.html',
+        bs=bs,
+        ppls=ppls
     )
 
 
@@ -2920,5 +2896,7 @@ def my_forms():
         data=data
 
     )
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,109 +1,333 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
-<div class="d-flex justify-content-between mb-3">
+<div class="container-fluid">
 
-    <h3>Data User</h3>
 
-    <a href="{{ url_for('tambah_user') }}"
-       class="btn btn-success">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-        <i class="bi bi-plus-circle"></i>
+<div>
 
-        Tambah User
+<h1 class="fw-bold mb-1">
 
-    </a>
+👥 Data User
+
+</h1>
+
+<p class="text-muted">
+
+Pengelolaan akun Admin, PML dan PPL
+
+</p>
 
 </div>
 
 
 
-<table class="table table-bordered table-striped">
+<a href="{{ url_for('tambah_user') }}"
+class="btn btn-success">
 
-    <thead>
+<i class="bi bi-plus-circle"></i>
 
-        <tr>
+Tambah User
 
-            <th>No</th>
+</a>
 
-            <th>Nama</th>
 
-            <th>Username</th>
-
-            <th>No HP</th>
-
-            <th>Desa</th>
-
-            <th>Kecamatan</th>
-
-            <th>Role</th>
-
-            <th>Aksi</th>
-
-        </tr>
-
-    </thead>
+</div>
 
 
 
-    <tbody>
-
-        {% for u in users %}
-
-        <tr>
-
-            <td>{{ loop.index }}</td>
-
-            <td>{{ u.nama }}</td>
-
-            <td>{{ u.username }}</td>
-
-            <td>{{ u.no_hp or '-' }}</td>
-
-            <td>{{ u.desa or '-' }}</td>
-
-            <td>{{ u.kecamatan or '-' }}</td>
-
-            <td>{{ u.role.upper() }}</td>
-
-            <td>
-
-                <a href="{{ url_for('edit_user', id=u.id) }}"
-                   class="btn btn-warning btn-sm">
-
-                    Edit
-
-                </a>
 
 
-                <a href="{{ url_for('hapus_user', id=u.id) }}"
-                   class="btn btn-danger btn-sm"
-                   onclick="return confirm('Hapus user ini?')">
+<div class="row mb-4">
 
-                    Hapus
 
-                </a>
+<div class="col-md-4">
 
-            </td>
+<div class="card stat-card">
 
-        </tr>
+<div class="card-body">
 
-        {% endfor %}
+<h6>Total User</h6>
 
-    </tbody>
+<h2>
+
+{{ users|length }}
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+<div class="col-md-4">
+
+<div class="card stat-card">
+
+<div class="card-body">
+
+<h6>Total PML</h6>
+
+<h2>
+
+{{ users|selectattr('role','equalto','pml')|list|length }}
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+<div class="col-md-4">
+
+<div class="card stat-card">
+
+<div class="card-body">
+
+<h6>Total PPL</h6>
+
+<h2>
+
+{{ users|selectattr('role','equalto','ppl')|list|length }}
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="card shadow-sm">
+
+<div class="card-header bg-primary text-white">
+
+<h5 class="mb-0">
+
+👥 Daftar User
+
+</h5>
+
+</div>
+
+
+
+<div class="card-body">
+
+
+<div class="table-responsive">
+
+
+<table class="table table-hover align-middle">
+
+
+<thead class="table-dark">
+
+<tr>
+
+<th>No</th>
+
+<th>Nama</th>
+
+<th>Username</th>
+
+<th>No HP</th>
+
+<th>Desa</th>
+
+<th>Kecamatan</th>
+
+<th>Role</th>
+
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+{% for u in users %}
+
+<tr>
+
+<td>
+
+{{ loop.index }}
+
+</td>
+
+
+<td>
+
+<b>
+
+{{ u.nama }}
+
+</b>
+
+</td>
+
+
+<td>
+
+{{ u.username }}
+
+</td>
+
+
+
+<td>
+
+{{ u.no_hp or '-' }}
+
+</td>
+
+
+<td>
+
+{{ u.desa or '-' }}
+
+</td>
+
+
+
+<td>
+
+{{ u.kecamatan or '-' }}
+
+</td>
+
+
+
+
+<td>
+
+
+{% if u.role=='admin' %}
+
+<span class="badge bg-danger">
+
+ADMIN
+
+</span>
+
+{% elif u.role=='pml' %}
+
+<span class="badge bg-primary">
+
+PML
+
+</span>
+
+{% else %}
+
+<span class="badge bg-success">
+
+PPL
+
+</span>
+
+{% endif %}
+
+
+</td>
+
+
+
+
+<td>
+
+
+<a href="{{ url_for('edit_user',id=u.id) }}"
+
+class="btn btn-warning btn-sm">
+
+
+<i class="bi bi-pencil"></i>
+
+
+</a>
+
+
+
+<a href="{{ url_for('hapus_user',id=u.id) }}"
+
+class="btn btn-danger btn-sm"
+
+onclick="return confirm('Hapus user ini ?')">
+
+
+<i class="bi bi-trash"></i>
+
+
+</a>
+
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</tbody>
+
 
 </table>
 
 
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="mt-3">
 
 <a href="{{ url_for('dashboard') }}"
-   class="btn btn-secondary">
 
-    <i class="bi bi-arrow-left"></i>
+class="btn btn-secondary">
 
-    Kembali
+
+<i class="bi bi-arrow-left"></i>
+
+Kembali
+
 
 </a>
+
+</div>
+
+
+</div>
+
 
 {% endblock %}

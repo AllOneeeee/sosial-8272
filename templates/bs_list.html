@@ -1,73 +1,425 @@
-{% extends 'base.html' %} {% block content %}
-<div class="d-flex justify-content-between mb-3">
+{% extends 'base.html' %}
+{% block content %}
 
-    <h2>Blok Sensus</h2>
+<div class="container-fluid">
 
-    <a href="{{ url_for('tambah_bs') }}" class="btn btn-success">
-      <i class="bi bi-plus-circle"></i>
-      Tambah BS
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h1 class="fw-bold mb-1">
+            📍 Blok Sensus
+        </h1>
+
+        <p class="text-muted mb-0">
+            Monitoring Blok Sensus
+        </p>
+
+    </div>
+
+
+    <a href="{{ url_for('tambah_bs') }}"
+       class="btn btn-success">
+
+        <i class="bi bi-plus-circle"></i>
+
+        Tambah BS
+
     </a>
 
 </div>
 
 
 
-<table class="table table-bordered">
-  <tr>
-    <th width="60">No</th>
-    <th>Kegiatan</th>
-    <th>Kode BS</th>
-    <th>Kecamatan</th>
-    <th>PPL</th>
-    <th>Target</th>
-    <th>Realisasi</th>
-    <th>Status</th>
-    <th>Aksi</th>
-  </tr>
+<div class="row mb-4">
 
-  {% for bs in data %}
 
-  <tr>
-    <td>{{ loop.index }}</td>
-    <td>{{ bs.kegiatan.nama }}</td>
+<div class="col-md-4">
 
-    <td>{{ bs.kode_bs }}</td>
-    <td>{{ bs.kecamatan }}</td>
+<div class="card stat-card">
 
-    <td>{{ bs.ppl.nama }}</td>
+<div class="card-body">
 
-    <td>{{ bs.target }}</td>
+<div class="d-flex justify-content-between">
 
-    <td>{{ bs.realisasi }}</td>
+<div>
 
-    <td>{{ bs.status }}</td>
+<h6>Total BS</h6>
 
-    <td>
-      <a
-        href="{{ url_for(
-'edit_bs',
-id=bs.id
-) }}"
-        class="btn btn-warning btn-sm"
-      >
-        Edit
-      </a>
+<h2>
 
-      <a
-        href="{{ url_for(
-'hapus_bs',
-id=bs.id
-) }}"
-        class="btn btn-danger btn-sm"
-      >
-        Hapus
-      </a>
-    </td>
-  </tr>
+{{ data|length }}
 
-  {% endfor %}
+</h2>
+
+</div>
+
+<div class="stat-icon">
+
+📍
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-md-4">
+
+<div class="card stat-card">
+
+<div class="card-body">
+
+<div class="d-flex justify-content-between">
+
+<div>
+
+<h6>Total Target</h6>
+
+<h2>
+
+{{ data|sum(attribute='target') }}
+
+</h2>
+
+</div>
+
+<div class="stat-icon">
+
+🎯
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="col-md-4">
+
+<div class="card stat-card">
+
+<div class="card-body">
+
+<div class="d-flex justify-content-between">
+
+<div>
+
+<h6>Total Realisasi</h6>
+
+<h2>
+
+{{ data|sum(attribute='realisasi') }}
+
+</h2>
+
+</div>
+
+<div class="stat-icon">
+
+📊
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="card shadow-sm">
+
+<div class="card-header bg-primary text-white">
+
+<h5 class="mb-0">
+
+📍 Daftar Blok Sensus
+
+</h5>
+
+</div>
+
+
+
+<div class="card-body">
+
+
+<div class="table-responsive">
+
+
+<table class="table table-hover align-middle">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>No</th>
+
+<th>Kegiatan</th>
+
+<th>Kode BS</th>
+
+<th>Kecamatan</th>
+
+<th>PPL</th>
+
+<th>Target</th>
+
+<th>Realisasi</th>
+
+<th width="170">
+
+Progress
+
+</th>
+
+<th>Status</th>
+
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+{% for bs in data %}
+
+{% set persen =
+(bs.realisasi/bs.target*100)|int
+if bs.target>0 else 0 %}
+
+
+
+<tr>
+
+
+<td>
+
+{{ loop.index }}
+
+</td>
+
+
+
+<td>
+
+{{ bs.kegiatan.nama }}
+
+</td>
+
+
+<td>
+
+<b>
+
+{{ bs.kode_bs }}
+
+</b>
+
+</td>
+
+
+
+<td>
+
+{{ bs.kecamatan }}
+
+</td>
+
+
+
+<td>
+
+{{ bs.ppl.nama }}
+
+</td>
+
+
+
+<td>
+
+{{ bs.target }}
+
+</td>
+
+
+
+<td>
+
+{{ bs.realisasi }}
+
+</td>
+
+
+
+<td>
+
+<div class="progress">
+
+
+<div class="progress-bar
+
+{% if persen == 100 %}
+
+bg-success
+
+{% elif persen > 0 %}
+
+bg-info
+
+{% else %}
+
+bg-secondary
+
+{% endif %}
+
+"
+
+style="width:{{ persen }}%">
+
+
+{{ persen }}%
+
+</div>
+
+</div>
+
+</td>
+
+
+
+<td>
+
+{% if bs.realisasi == 0 %}
+
+
+<span class="badge bg-secondary">
+
+Belum
+
+</span>
+
+
+{% elif bs.realisasi < bs.target %}
+
+
+<span class="badge bg-info">
+
+Berjalan
+
+</span>
+
+
+{% else %}
+
+
+<span class="badge bg-success">
+
+Selesai
+
+</span>
+
+
+{% endif %}
+
+</td>
+
+
+
+
+<td>
+
+
+
+<a href="{{ url_for('edit_bs',
+id=bs.id) }}"
+
+class="btn btn-warning btn-sm">
+
+<i class="bi bi-pencil"></i>
+
+</a>
+
+
+
+<a href="{{ url_for('hapus_bs',
+id=bs.id) }}"
+
+class="btn btn-danger btn-sm"
+
+onclick="return confirm('Hapus BS ini ?')">
+
+
+<i class="bi bi-trash"></i>
+
+</a>
+
+
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+</tbody>
+
 </table>
 
-<a href="{{ url_for('dashboard') }}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali </a>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="mt-3">
+
+<a href="{{ url_for('dashboard') }}"
+
+class="btn btn-secondary">
+
+
+<i class="bi bi-arrow-left"></i>
+
+
+Kembali
+
+
+</a>
+
+</div>
+
+</div>
+
 
 {% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow-sm">
+<div class="card-header bg-primary text-white">
+    <h4 class="mb-0">✏️ Edit Blok Sensus</h4>
+</div>
+
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+<label class="form-label">Kegiatan</label>
+<input class="form-control"
+       value="{{ bs.kegiatan.nama }}"
+       readonly>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Kode BS</label>
+<input type="text"
+       name="kode_bs"
+       class="form-control"
+       value="{{ bs.kode_bs }}">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Kecamatan</label>
+<input class="form-control"
+       value="{{ bs.kecamatan }}"
+       readonly>
+</div>
+
+<div class="mb-3">
+<label class="form-label">PPL</label>
+
+<select name="ppl_id" class="form-select">
+
+{% for p in ppls %}
+<option value="{{ p.id }}"
+{% if p.id == bs.ppl_id %}selected{% endif %}>
+{{ p.nama }}
+</option>
+{% endfor %}
+
+</select>
+
+</div>
+
+<div class="mb-3">
+<label class="form-label">Target</label>
+
+<input type="number"
+       name="target"
+       class="form-control"
+       value="{{ bs.target }}">
+</div>
+
+
+<div class="mb-3">
+<label class="form-label">Realisasi</label>
+<input class="form-control"
+       value="{{ bs.realisasi }}"
+       readonly>
+</div>
+
+<button class="btn btn-primary">
+💾 Simpan
+</button>
+
+<a href="{{ url_for('bs') }}"
+class="btn btn-secondary">
+← Kembali
+</a>
+
+</form>
+
+</div>
+</div>
+
+</div>
+
+{% endblock %}

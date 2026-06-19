@@ -1,120 +1,94 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
+<div class="container-fluid">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">➕ Tambah Penugasan</h4>
+    </div>
 
-<h3>Tambah Penugasan</h3>
+    <div class="card-body">
+      <form method="POST">
+        <div class="mb-3">
+          <label class="form-label"> Kegiatan </label>
 
-<form method="POST">
-
-    <div class="mb-3">
-        <label>Kegiatan</label>
-
-        <select name="kegiatan_id"
-                class="form-select searchable"
-                required>
-
+          <select name="kegiatan_id" class="form-select searchable" required>
             <option value="">Pilih Kegiatan</option>
 
             {% for k in kegiatan %}
-            <option value="{{ k.id }}">
-                {{ k.nama }}
-            </option>
+
+            <option value="{{ k.id }}">{{ k.nama }}</option>
+
             {% endfor %}
+          </select>
+        </div>
 
-        </select>
-    </div>
+        <div class="mb-3">
+          <label class="form-label"> PML </label>
 
-
-    <div class="mb-3">
-        <label>PML</label>
-
-        <select name="pml_id"
-                class="form-select searchable"
-                required>
-
+          <select name="pml_id" class="form-select searchable" required>
             <option value="">Pilih PML</option>
 
             {% for pml in pml_list %}
-            <option value="{{ pml.id }}">
-                {{ pml.nama }}
-            </option>
+
+            <option value="{{ pml.id }}">{{ pml.nama }}</option>
+
             {% endfor %}
-
-        </select>
-    </div>
-
-
-
-    <div class="mb-3">
-
-        <label class="form-label">
-            PPL
-        </label>
-
-
-        <div id="ppl-container">
-
-            <div class="input-group mb-2">
-
-                <select name="ppl_ids[]"
-                        class="form-select"
-                        required>
-
-                    <option value="">
-                        Pilih PPL
-                    </option>
-
-                    {% for p in ppl_list %}
-                    <option value="{{ p.id }}">
-                        {{ p.nama }}
-                    </option>
-                    {% endfor %}
-
-                </select>
-
-                <button type="button"
-                        class="btn btn-danger remove-ppl">
-                    Hapus
-                </button>
-
-            </div>
-
+          </select>
         </div>
 
+        <div class="mb-3">
+          <label class="form-label"> PPL </label>
 
+          <div id="ppl-container">
+            <div class="input-group mb-2">
+              <select name="ppl_ids[]" class="form-select searchable" required>
+                <option value="">Pilih PPL</option>
 
-        <button type="button"
-                class="btn btn-success btn-sm"
-                id="add-ppl">
+                {% for p in ppl_list %}
 
-            + Tambah PPL
+                <option value="{{ p.id }}">{{ p.nama }}</option>
 
+                {% endfor %}
+              </select>
+
+              <button type="button" class="btn btn-danger remove-ppl d-none">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            id="add-ppl"
+            class="btn btn-success btn-sm mt-2"
+          >
+            <i class="bi bi-plus-circle"></i>
+
+            Tambah PPL
+          </button>
+        </div>
+
+        <hr />
+
+        <button class="btn btn-primary">
+          <i class="bi bi-save"></i>
+
+          Simpan
         </button>
 
+        <a href="{{ url_for('penugasan') }}" class="btn btn-secondary">
+          <i class="bi bi-arrow-left"></i>
+
+          Kembali
+        </a>
+      </form>
     </div>
-
-
-
-    <button class="btn btn-primary">
-        Simpan
-    </button>
-
-
-    <a href="{{ url_for('penugasan') }}"
-       class="btn btn-secondary">
-<i class="bi bi-arrow-left"></i>
-        Kembali
-
-    </a>
-
-
-</form>
-
-
+  </div>
+</div>
 
 <script>
+  const template = `
 
-const template = `
 <div class="input-group mb-2">
 
 <select name="ppl_ids[]"
@@ -126,9 +100,13 @@ Pilih PPL
 </option>
 
 {% for p in ppl_list %}
+
 <option value="{{ p.id }}">
+
 {{ p.nama }}
+
 </option>
+
 {% endfor %}
 
 </select>
@@ -136,72 +114,42 @@ Pilih PPL
 <button type="button"
         class="btn btn-danger remove-ppl">
 
-Hapus
+<i class="bi bi-trash"></i>
 
 </button>
 
 </div>
+
 `;
 
+  document.getElementById("add-ppl").addEventListener(
+    "click",
 
+    function () {
+      document
+        .getElementById("ppl-container")
 
-document.getElementById('add-ppl').addEventListener(
+        .insertAdjacentHTML(
+          "beforeend",
 
-'click',
+          template,
+        );
+    },
+  );
 
-function(){
+  document.addEventListener(
+    "click",
 
-document.getElementById('ppl-container')
-.insertAdjacentHTML(
+    function (e) {
+      if (e.target.closest(".remove-ppl")) {
+        const rows = document.querySelectorAll("#ppl-container .input-group");
 
-'beforeend',
-
-template
-
-);
-
-}
-
-);
-
-
-
-
-document.addEventListener(
-
-'click',
-
-function(e){
-
-if(
-
-e.target.classList.contains(
-
-'remove-ppl'
-
-)
-
-){
-
-const rows = document.querySelectorAll(
-
-'#ppl-container .input-group'
-
-);
-
-if(rows.length > 1){
-
-e.target.parentElement.remove();
-
-}
-
-}
-
-}
-
-);
-
+        if (rows.length > 1) {
+          e.target.closest(".input-group").remove();
+        }
+      }
+    },
+  );
 </script>
-
 
 {% endblock %}
