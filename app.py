@@ -1951,9 +1951,25 @@ def dashboard_strategis():
         DashboardKategori.nama
     ).all()
 
+    jumlah = {}
+
+    for k in kategori:
+
+        jumlah[k.id] = DashboardIndikator.query.filter_by(
+
+            kategori_id=k.id
+
+        ).count()
+
+
     return render_template(
+
         "dashboard_strategis.html",
-        kategori=kategori
+
+        kategori=kategori,
+
+        jumlah=jumlah
+
     )
 @app.route("/dashboard-strategis/<int:id>")
 @login_required
@@ -1996,8 +2012,8 @@ def tambah_kategori():
         "kategori_form.html"
     )
 @app.route(
-    "/dashboard-strategis/indikator/tambah",
-    methods=["GET","POST"]
+"/dashboard-strategis/indikator/tambah",
+methods=["GET","POST"]
 )
 @login_required
 def tambah_indikator():
@@ -2014,22 +2030,36 @@ def tambah_indikator():
 
             nama=request.form["nama"],
 
-            satuan=request.form["satuan"]
+            satuan=request.form["satuan"],
+
+            header_baris=request.form.get(
+                "header_baris",
+                "Kecamatan"
+            )
 
         )
 
         db.session.add(data)
+
         db.session.commit()
 
         return redirect(
+
             url_for(
+
                 "dashboard_strategis"
+
             )
+
         )
 
+
     return render_template(
+
         "indikator_form.html",
+
         kategori=kategori
+
     )
 @app.route(
     "/dashboard-strategis/data/<int:id>",
@@ -2408,9 +2438,7 @@ def dashboard_sheet(id):
 @login_required
 def export_dashboard(id):
 
-
     indikator = DashboardIndikator.query.get_or_404(id)
-
 
     data = DashboardData.query.filter_by(
 
@@ -2461,7 +2489,6 @@ def export_dashboard(id):
     ws.title = indikator.nama
 
 
-
     judul = f"{indikator.nama} ({indikator.satuan})"
 
 
@@ -2484,7 +2511,6 @@ def export_dashboard(id):
     )
 
 
-
     ws.merge_cells(
 
         start_row=1,
@@ -2498,23 +2524,23 @@ def export_dashboard(id):
     )
 
 
-
+    # HEADER DINAMIS
     header = [
 
-        "Kecamatan"
+        indikator.header_baris
+        if indikator.header_baris
+        else "Kecamatan"
 
     ] + tahun
 
 
-
-    for i,v in enumerate(
+    for i, v in enumerate(
 
         header,
 
         1
 
     ):
-
 
         ws.cell(
 
@@ -2523,7 +2549,6 @@ def export_dashboard(id):
             column=i
 
         ).value = v
-
 
 
         ws.cell(
@@ -2539,6 +2564,18 @@ def export_dashboard(id):
         )
 
 
+        ws.cell(
+
+            row=3,
+
+            column=i
+
+        ).alignment = Alignment(
+
+            horizontal="center"
+
+        )
+
 
     row_excel = 4
 
@@ -2546,7 +2583,7 @@ def export_dashboard(id):
     for k in wilayah:
 
 
-        row=[
+        row = [
 
             k
 
@@ -2556,21 +2593,15 @@ def export_dashboard(id):
         for t in tahun:
 
 
-
             d = DashboardData.query.filter_by(
-
 
                 indikator_id=id,
 
-
                 wilayah=k,
-
 
                 tahun=t
 
-
             ).first()
-
 
 
             row.append(
@@ -2584,8 +2615,7 @@ def export_dashboard(id):
             )
 
 
-
-        for i,v in enumerate(
+        for i, v in enumerate(
 
             row,
 
@@ -2603,9 +2633,7 @@ def export_dashboard(id):
             ).value = v
 
 
-
         row_excel += 1
-
 
 
     output = BytesIO()
@@ -2898,5 +2926,79 @@ def my_forms():
     )
 
 
+
+@app.route(
+'/dashboard-strategis/kategori/edit/<int:id>',
+methods=['GET','POST']
+)
+@login_required
+def edit_kategori(id):
+
+    kategori = DashboardKategori.query.get_or_404(id)
+
+    if request.method == 'POST':
+
+        kategori.nama = request.form['nama']
+
+        db.session.commit()
+
+        flash(
+            'Kategori berhasil diubah',
+            'success'
+        )
+
+        return redirect(
+            url_for(
+                'dashboard_strategis'
+            )
+        )
+
+    return render_template(
+
+        'kategori_form.html',
+
+        kategori=kategori
+
+    )
+
+@app.route(
+'/dashboard-strategis/kategori/hapus/<int:id>'
+)
+@login_required
+def hapus_kategori(id):
+
+    kategori = DashboardKategori.query.get_or_404(id)
+
+    jml = DashboardIndikator.query.filter_by(
+        kategori_id=id
+    ).count()
+
+    if jml > 0:
+
+        flash(
+            'Kategori masih memiliki indikator',
+            'warning'
+        )
+
+        return redirect(
+            url_for(
+                'dashboard_strategis'
+            )
+        )
+
+    db.session.delete(kategori)
+
+    db.session.commit()
+
+    flash(
+        'Kategori berhasil dihapus',
+        'success'
+    )
+
+    return redirect(
+        url_for(
+            'dashboard_strategis'
+        )
+    )
 if __name__ == "__main__":
     app.run(debug=True)

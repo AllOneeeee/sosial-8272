@@ -390,28 +390,31 @@ class DashboardKategori(db.Model):
         nullable=False
     )
 
+    indikator = db.relationship(
+        "DashboardIndikator",
+        backref="kategori_rel",
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
+
 
 class DashboardIndikator(db.Model):
     __tablename__ = "dashboard_indikator"
 
-    id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
+    id = db.Column(db.Integer, primary_key=True)
 
     kategori_id = db.Column(
         db.Integer,
-        db.ForeignKey(
-            "dashboard_kategori.id"
-        )
+        db.ForeignKey("dashboard_kategori.id")
     )
 
-    nama = db.Column(
-        db.String(200)
-    )
+    nama = db.Column(db.String(200))
 
-    satuan = db.Column(
-        db.String(50)
+    satuan = db.Column(db.String(50))
+
+    header_baris = db.Column(
+        db.String(100),
+        default="Kecamatan"
     )
 
     kategori = db.relationship(

@@ -6,68 +6,71 @@
 
 <form method="POST">
 
-<div class="mb-3">
+    <div class="mb-3">
+        <label>Kategori</label>
 
-<label>Kategori</label>
+        <select name="kategori_id" class="form-select">
 
-<select name="kategori_id"
+            {% for k in kategori %}
 
-class="form-select">
+            <option value="{{ k.id }}">
+                {{ k.nama }}
+            </option>
 
+            {% endfor %}
 
-{% for k in kategori %}
-
-<option value="{{k.id}}">
-
-{{k.nama}}
-
-</option>
-
-{% endfor %}
+        </select>
+    </div>
 
 
-</select>
+    <div class="mb-3">
 
-</div>
+        <label>Nama Indikator</label>
 
+        <input
+            name="nama"
+            class="form-control"
+            required>
 
-<div class="mb-3">
-
-<label>Nama Indikator</label>
-
-<input
-
-name="nama"
-
-class="form-control"
-
-required>
-
-</div>
+    </div>
 
 
-<div class="mb-3">
+    <div class="mb-3">
 
-<label>Satuan</label>
+        <label>Satuan</label>
 
-<input
+        <input
+            name="satuan"
+            class="form-control">
 
-name="satuan"
-
-class="form-control"
-
->
-
-</div>
+    </div>
 
 
+    <div class="mb-3">
 
-<button class="btn btn-primary">
+        <label>Nama Header Baris</label>
 
-Simpan
+        <input
+            name="header_baris"
+            class="form-control"
+            value="Kecamatan"
+            placeholder="Contoh : Kecamatan, Komponen, Lapangan Usaha">
 
-</button>
+    </div>
 
+
+    <button class="btn btn-primary">
+
+        Simpan
+
+    </button>
+
+    <a href="{{ url_for('dashboard_strategis') }}"
+       class="btn btn-secondary">
+
+        Kembali
+
+    </a>
 
 </form>
 

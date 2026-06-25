@@ -48,7 +48,15 @@ id=indikator.id
     <table class="table table-bordered align-middle">
       <thead>
         <tr>
-          <th class="header-kecamatan">Kecamatan</th>
+<th class="header-kecamatan">
+
+<input
+    type="text"
+    name="header_baris"
+    value="{{ indikator.header_baris }}"
+    class="form-control fw-bold text-center">
+
+</th>
 
           {% for k in kolom %}
 
