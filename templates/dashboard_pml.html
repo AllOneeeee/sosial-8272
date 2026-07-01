@@ -1,101 +1,432 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 
-<h2>Dashboard PML</h2>
+{% block content %}
 
-<a href="{{ url_for('my_forms') }}"
-class="text-decoration-none">
+<div class="dashboard-header mb-4">
 
-<div class="card mb-3">
+    <div class="row align-items-center">
 
-<div class="card-body text-center">
+        <div class="col-md-8">
 
-<h3>📝</h3>
+            <h2 class="fw-bold mb-1 text-muted">
+                Halo, {{ current_user.nama }} 👋
+            </h2>
 
-<h5>Form Saya</h5>
+            <p class="text-muted mb-0">
+                Selamat datang kembali di Dashboard Pemeriksaan.
+            </p>
 
-</div>
+        </div>
 
-</div>
+        <div class="col-md-4 text-end">
 
-</a>
+            <a href="{{ url_for('my_forms') }}"
+               class="btn btn-primary btn-lg">
 
-<hr>
+                <i class="bi bi-file-earmark-text"></i>
 
-<div class="card mb-3">
-  <div class="card-body">
-    <h5>{{ current_user.nama }}</h5>
+                Form Saya
 
-    <p>Jumlah BS : {{ bs_list|length }}</p>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-body p-0">
-    <table class="table table-bordered mb-0">
-      <thead>
-        <tr>
-          <th>Kegiatan</th>
-          <th>BS</th>
-          <th>PPL</th>
-          <th>Target</th>
-          <th>Realisasi</th>
-          <th>Diperiksa</th>
-          <th width="250">Progress</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {% for bs in bs_list %} {% set progress = 0 %} {% if bs.realisasi > 0 %}
-        {% set progress = ((bs.diperiksa / bs.target) * 100)|round(1) %} {%
-        endif %}
-
-        <tr>
-          <td>{% if bs.kegiatan %} {{ bs.kegiatan.nama }} {% endif %}</td>
-
-          <td>{{ bs.kode_bs }}</td>
-
-          <td>{% if bs.ppl %} {{ bs.ppl.nama }} {% endif %}</td>
-
-          <td>{{ bs.target }}</td>
-
-          <td>{{ bs.realisasi }}</td>
-
-          <td>{{ bs.diperiksa }}</td>
-
-          <td>
-            <div class="progress" style="height: 28px">
-              <div
-                class="progress-bar bg-warning"
-                role="progressbar"
-                style="width: {{ progress }}%;"
-              >
-                {{ progress }}%
-              </div>
-            </div>
-          </td>
-
-          <td>
-            <a
-              href="{{ url_for('periksa_bs',
-                                            id=bs.id) }}"
-              class="btn btn-success"
-            >
-              Periksa
             </a>
-          </td>
-        </tr>
 
-        {% else %}
+        </div>
 
-        <tr>
-          <td colspan="8" class="text-center">Belum ada data</td>
-        </tr>
+    </div>
 
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
 </div>
+
+{% set total_target = bs_list|sum(attribute='target') %}
+{% set total_realisasi = bs_list|sum(attribute='realisasi') %}
+{% set total_diperiksa = bs_list|sum(attribute='diperiksa') %}
+
+<div class="row mb-4">
+
+    <div class="col-lg-3 col-md-6 mb-3">
+
+        <div class="summary-card p-4">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <small class="text-muted">Blok Sensus</small>
+
+                    <h2 class="fw-bold mb-0">
+                        {{ bs_list|length }}
+                    </h2>
+
+                </div>
+
+                <div class="summary-icon">
+
+                    <i class="bi bi-pin-map-fill"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+
+        <div class="summary-card p-4">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <small class="text-muted">Realisasi</small>
+
+                    <h2 class="fw-bold mb-0">
+
+                        {{ total_realisasi }}
+
+                    </h2>
+
+                </div>
+
+                <div class="summary-icon">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+
+        <div class="summary-card p-4">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <small class="text-muted">Diperiksa</small>
+
+                    <h2 class="fw-bold mb-0">
+
+                        {{ total_diperiksa }}
+
+                    </h2>
+
+                </div>
+
+                <div class="summary-icon">
+
+                    <i class="bi bi-clipboard2-check-fill"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-3">
+
+        <div class="summary-card p-4">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <small class="text-muted">Progress</small>
+
+                    <h2 class="fw-bold text-primary mb-0">
+
+                        {% if total_target > 0 %}
+                            {{ ((total_diperiksa/total_target)*100)|round(1) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+
+                    </h2>
+
+                </div>
+
+                <div class="summary-icon">
+
+                    <i class="bi bi-graph-up-arrow"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-sm border-0 rounded-4">
+
+    <div class="card-header bg-white border-0 py-3">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <h5 class="fw-bold mb-0">
+
+                <i class="bi bi-table me-2 text-primary"></i>
+
+                Monitoring Pemeriksaan
+
+            </h5>
+
+            <input
+                type="text"
+                class="form-control"
+                id="searchTable"
+                placeholder="Cari kegiatan / BS..."
+                style="max-width:250px;">
+
+        </div>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead class="table-primary">
+
+                <tr>
+
+                    <th>Kegiatan</th>
+
+                    <th>BS</th>
+
+                    <th>PPL</th>
+
+                    <th class="text-center">Target</th>
+
+                    <th class="text-center">Realisasi</th>
+
+                    <th class="text-center">Diperiksa</th>
+
+                    <th width="220">Progress</th>
+
+                    <th class="text-center">Aksi</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+              {% for bs in bs_list %}
+
+{% set progress = 0 %}
+
+{% if bs.target > 0 %}
+    {% set progress = ((bs.diperiksa / bs.target) * 100)|round(1) %}
+{% endif %}
+
+<tr>
+
+    <td>
+
+        <div class="fw-semibold">
+            {{ bs.kegiatan.nama }}
+        </div>
+
+        <small class="text-muted">
+
+            {% if bs.kegiatan.status=="Berjalan" %}
+
+                <span class="badge bg-success rounded-pill">
+
+                    Berjalan
+
+                </span>
+
+            {% elif bs.kegiatan.status=="Persiapan" %}
+
+                <span class="badge bg-warning rounded-pill text-dark">
+
+                    Persiapan
+
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-secondary rounded-pill">
+
+                    {{ bs.kegiatan.status }}
+
+                </span>
+
+            {% endif %}
+
+        </small>
+
+    </td>
+
+    <td>
+
+        <span class="fw-bold">
+
+            {{ bs.kode_bs }}
+
+        </span>
+
+    </td>
+
+    <td>
+
+        {{ bs.ppl.nama }}
+
+    </td>
+
+    <td class="text-center">
+
+        {{ bs.target }}
+
+    </td>
+
+    <td class="text-center">
+
+        {{ bs.realisasi }}
+
+    </td>
+
+    <td class="text-center">
+
+        <span class="badge bg-primary rounded-pill px-3">
+
+            {{ bs.diperiksa }}
+
+        </span>
+
+    </td>
+
+    <td>
+
+        <div class="d-flex align-items-center">
+
+            <div class="progress flex-grow-1 me-2"
+                 style="height:10px;">
+
+                <div class="progress-bar bg-success"
+
+                     style="width:{{ progress }}%">
+
+                </div>
+
+            </div>
+
+            <small class="fw-bold">
+
+                {{ progress }}%
+
+            </small>
+
+        </div>
+
+    </td>
+
+    <td class="text-center">
+
+        <a
+
+        href="{{ url_for('periksa_bs',id=bs.id) }}"
+
+        class="btn btn-success rounded-pill px-3">
+
+            <i class="bi bi-check2-circle"></i>
+
+            Periksa
+
+        </a>
+
+    </td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+    <td colspan="8"
+        class="text-center py-5">
+
+        <i class="bi bi-inbox display-6 text-secondary"></i>
+
+        <br><br>
+
+        <h5>Belum ada data pemeriksaan</h5>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="card-footer bg-white">
+
+<div class="row">
+
+<div class="col">
+
+<small class="text-muted">
+
+Total Blok Sensus :
+
+<b>{{ bs_list|length }}</b>
+
+</small>
+
+</div>
+
+<div class="col text-end">
+
+<small class="text-muted">
+
+Total Diperiksa :
+
+<b>{{ total_diperiksa }}</b>
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+document
+.getElementById("searchTable")
+.addEventListener("keyup",function(){
+
+let value=this.value.toLowerCase();
+
+document.querySelectorAll("tbody tr")
+.forEach(function(row){
+
+row.style.display=
+row.innerText.toLowerCase().includes(value)
+? ""
+: "none";
+
+});
+
+});
+
+</script>
 
 {% endblock %}
